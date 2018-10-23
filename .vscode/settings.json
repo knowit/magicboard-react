@@ -1,6 +1,18 @@
 {
-    "javascript.validate.enable": false,
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": false
+  "javascript.validate.enable": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true
+  }
 }
-  

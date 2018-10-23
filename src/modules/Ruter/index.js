@@ -1,25 +1,25 @@
-//@flow
-import React from "react";
-import { Grid, Cell } from "../../containers";
-import { generateAllStops } from "./services";
-import type { Stop, ParsedStops } from "./types";
-import uuidv4 from "uuid/v4";
+// @flow
+import React from 'react';
+import uuidv4 from 'uuid/v4';
+import { Grid, Cell } from '../../containers';
+import { generateAllStops } from './services';
+import type { Stop, ParsedStops } from './types';
 
 const stopItem: Stop = {
-  stopId: "3010531",
-  platforms: ["2", "5", "6", "11"],
-  timeToThere: 5
+  stopId: '3010531',
+  platforms: ['2', '5', '6', '11'],
+  timeToThere: 5,
 };
 
 type State = {
-  stops: ?Array<ParsedStops>
+  stops: ?Array<ParsedStops>,
 };
 
 class Ruter extends React.Component<{}, State> {
   constructor() {
     super();
     this.state = {
-      stops: undefined
+      stops: undefined,
     };
   }
 
@@ -37,26 +37,23 @@ class Ruter extends React.Component<{}, State> {
             <OverridedCell>Destination</OverridedCell>
             <OverridedCell>Platform</OverridedCell>
             <OverridedCell>Time</OverridedCell>
-            {this.state.stops.map(stop => {
-              return [
-                <OverridedCell key={uuidv4()}>{stop.lineName}</OverridedCell>,
-                <OverridedCell key={uuidv4()}>
-                  {stop.destinationName}
-                </OverridedCell>,
-                <OverridedCell
-                  key={uuidv4()}
-                  style={{
-                    padding: 0,
-                    margin: 0,
-                    textAlign: "center",
-                    backgroundColor: "transparent"
-                  }}
-                >
-                  {stop.platform}
-                </OverridedCell>,
-                <OverridedCell key={uuidv4()}>{stop.time}</OverridedCell>
-              ];
-            })}
+            {this.state.stops.map(stop => [
+              <OverridedCell key={uuidv4()}>{stop.lineName}</OverridedCell>,
+              <OverridedCell key={uuidv4()}>
+                {stop.destinationName}
+              </OverridedCell>,
+              <OverridedCell
+                key={uuidv4()}
+                style={{
+                  padding: 0,
+                  margin: 0,
+                  textAlign: 'center',
+                  backgroundColor: 'transparent',
+                }}>
+                {stop.platform}
+              </OverridedCell>,
+              <OverridedCell key={uuidv4()}>{stop.time}</OverridedCell>,
+            ])}
           </Grid>
         ) : (
           <div>Loading...</div>
@@ -67,7 +64,7 @@ class Ruter extends React.Component<{}, State> {
 }
 
 const OverridedCell = props => (
-  <Cell {...props} style={{ padding: 0, backgroundColor: "transparent" }} />
+  <Cell {...props} style={{ padding: 0, backgroundColor: 'transparent' }} />
 );
 
 export default Ruter;

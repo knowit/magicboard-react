@@ -4,7 +4,7 @@ export type Stop = {
   stopId: string,
   platforms: Array<string>,
   timeToThere: number,
-  stopName?: string
+  stopName?: string,
 };
 
 export type ParsedStops = {
@@ -13,5 +13,5 @@ export type ParsedStops = {
   platform: string,
   stopId: string,
   stopName: string,
-  time: string
+  time: string,
 };

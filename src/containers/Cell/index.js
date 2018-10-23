@@ -1,7 +1,7 @@
 // @flow
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
-const Cell = styled("div")`
+const Cell = styled('div')`
   background-color: rgba(0, 23, 50, 0.7);
   color: white;
   font-size: 1vw;
