@@ -8,3 +8,5 @@ yarn-error.log
 /build/
 /coverage/
 /build/
+
+src/App.js
