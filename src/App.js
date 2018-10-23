@@ -1,26 +1,31 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+//@flow
+import React, { Component } from "react";
+import Carousel from "nuka-carousel";
 
-class App extends Component {
+import { Grid, Cell } from "./containers";
+import Ruter from "./modules/Ruter";
+import Sundtcommander from "./modules/Sundtcommander";
+
+class App extends Component<*> {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Carousel frameOverflow="hidden">
+        <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)">
+          <Sundtcommander />
+          <Cell />
+          <Cell />
+          <Cell />
+          <Cell />
+          <Cell />
+          <Cell />
+          <Ruter />
+          <Cell />
+        </Grid>
+        <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)" />
+        <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)" />
+        <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)" />
+        <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)" />
+      </Carousel>
     );
   }
 }
