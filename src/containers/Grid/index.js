@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'react-emotion';
 
 type Props = {
-  column: number,
-  row: number,
+  column: string,
+  row: string,
   nested: ?boolean,
 };
 
