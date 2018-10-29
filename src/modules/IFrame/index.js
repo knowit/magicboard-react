@@ -29,6 +29,8 @@ class IFrame extends React.Component<Props, State> {
     this.setState(prevState => ({ frame: prevState.frame + 1 }));
   };
 
+  intervalId: *;
+
   render() {
     return (
       <Iframe

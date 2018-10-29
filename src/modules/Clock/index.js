@@ -1,20 +1,24 @@
 // @flow
 import React, { Component } from 'react';
-import moment from 'moment-with-locales-es6';
-import 'moment-timezone';
+import moment from 'moment';
 import styled from 'react-emotion';
-import Grid from '../../containers/Grid';
-import { fontColor, fontSize } from '../../styles/theme';
+import { Cell } from '../../containers';
+import { fontSize } from '../../styles/theme';
 
-type Props = {};
+type Props = { row: string, column: string };
 type State = {
   time: string,
   date: string,
 };
 
 class Clock extends Component<Props, State> {
-  constructor() {
-    super();
+  static defaultProps = {
+    row: 'span 1',
+    column: 'span 5',
+  };
+
+  constructor(props: Props) {
+    super(props);
     moment.locale('nb');
     this.state = {
       time: moment().format('H:mm'),
@@ -36,35 +40,39 @@ class Clock extends Component<Props, State> {
       date: moment().format('dddd DD. MMMM'),
     });
 
+  intervalId: *;
+
   render() {
+    const { row, column } = this.props;
     return (
-      <Grid nested row="2fr 1fr" column="1fr">
-        <CenteredCell row="1">
-          <Time>{this.state.time}</Time>
-        </CenteredCell>
-        <CenteredCell row="2">
-          <Date>{this.state.date}</Date>
-        </CenteredCell>
-      </Grid>
+      <CenteredCell row={row} column={column}>
+        <Time>{this.state.time}</Time>
+        <Date>{this.state.date}</Date>
+      </CenteredCell>
     );
   }
 }
 
-const Date = styled('div')`
-  font-size: ${fontSize.medium};
-  font-color: ${fontColor.primary};
-`;
-
 const Time = styled('div')`
   font-size: ${fontSize.h2};
-  font-color: ${fontColor.primary};
 `;
 
-const CenteredCell = styled('div')`
-  display: ${'flex'};
-  align-items: ${'center'};
-  justify-content: ${'center'};
-  flex-direction: ${'column'};
+const Date = styled('div')`
+  margin-top: 20px;
+  font-size: ${fontSize.medium};
 `;
+
+const CenteredCell = props => (
+  <Cell
+    {...props}
+    style={{
+      display: 'flex',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      flexDirection: 'column',
+      backgroundColor: 'transparent',
+    }}
+  />
+);
 
 export default Clock;
