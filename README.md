@@ -1,8 +1,8 @@
 # magicboard-react
 
 ## Requirements
-*[Node.js](https://nodejs.org/en/)
-*[yarn](https://yarnpkg.com/lang/en/docs/install/)
+* [Node.js](https://nodejs.org/en/)
+* [yarn](https://yarnpkg.com/lang/en/docs/install/)
 
 ## Getting started
 ```
