@@ -15,6 +15,9 @@ export const getWeatherDescription = (weather: Weather) => {
 export const getWeatherSymbolId = (symbol) => {
   if (!symbol) return "";
   let id = symbol.n;
+  if(id[0] === "0"){
+    id.substr(1, id.length);
+  }
   switch (symbol.var) {
     case "Sun":
       id += "d";
@@ -25,8 +28,6 @@ export const getWeatherSymbolId = (symbol) => {
     case "Moon":
       id += "n";
       break;
-    default:
-      id += "d";
   }
   return id;
 };

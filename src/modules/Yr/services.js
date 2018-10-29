@@ -16,21 +16,20 @@ const parseYrData = (data) => {
   };
   weatherForecast.push(weatherNow);
 
-  Object.entries(data.longIntervals).forEach(([key, value]) => {
-    const date = new Date(value.start);
+  data.longIntervals.forEach(forecast => {
+    const date = new Date(forecast.start);
 
     if(date.getHours() === 12){
       const weather: Weather = {
-        start: value.start,
-        end: value.end,
-        temp: value.temperature.value,
-        symbol: getWeatherSymbolId(value.symbol),
-        precipitation: value.precipitation.value
+        start: forecast.start,
+        end: forecast.end,
+        temp: forecast.temperature.value,
+        symbol: getWeatherSymbolId(forecast.symbol),
+        precipitation: forecast.precipitation.value
       };
       weatherForecast.push(weather);
     }
   });
-
   return weatherForecast;
 };
 

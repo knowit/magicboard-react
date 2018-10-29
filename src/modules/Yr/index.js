@@ -2,62 +2,84 @@
 import React, { Component } from 'react';
 import styled from 'react-emotion';
 import { getYrData } from './services';
-import { fontColor, fontSize } from '../../styles/theme';
 import Grid from '../../containers/Grid';
-import type { Weather } from './types';
+import type { Props, State, Weather } from './types';
 import { getWeatherDescription } from './utils';
-import logo from './img/01d.svg';
-
-type Props = {
-  locationId: string,
-};
-type State = {
-  weather: ?Array<Weather>,
-};
+import { images } from './images';
+import { fontColor, fontSize } from '../../styles/theme';
+import Cell from '../../containers/Cell';
 
 class Yr extends Component<Props, State> {
-  constructor() {
-    super();
+  constructor(props: Props) {
+    super(props);
     this.state = {
       weather: undefined,
     };
   }
 
   async componentDidMount() {
-    const response = await getYrData(this.props.locationId);
-    this.setState({
-      weather: response,
-    });
+    this.tick();
+    this.intervalId = setInterval(this.tick, 1000 * 60 * 5);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  tick = async () => {
+    const response = await getYrData(this.props.locationId);
+    this.setState({ weather: response });
+  };
 
   render() {
     return this.state.weather ? (
-      <Grid nested row="1fr 1fr" column="1fr">
-        <Grid nested row="1fr" column="1fr 1fr">
-          <Grid nested row="1fr 1fr" column="1fr">
-            <TempNow>
-              {this.state.weather[0].temp}
-              {'°'}
-            </TempNow>
-            <DescriptionNow>
-              {getWeatherDescription(this.state.weather[0])}
-            </DescriptionNow>
-          </Grid>
-          <img src={logo} alt="logo" width="100%" height="100%" />
-        </Grid>
-        <Grid nested row="1fr 1fr 1fr" column="1fr">
-          {this.state.weather.map(weather => [
-            <Grid nested row="1fr" column="1fr 1fr 1fr">
-              <Forecast>{new Intl.DateTimeFormat('nb-NO', {
-                month: 'long',
-                day: '2-digit'
-              }).format(weather.start.firstSale)}</Forecast>
-              <Forecast>{weather.temp} {'°'}</Forecast>
-              <Forecast>{weather.precipitation}{"mm nedbør"}</Forecast>
-            </Grid>
+      <Cell area={this.props.area}>
+        <Grid nested row=" 3.5fr 1fr 1fr 1fr">
+          {this.state.weather.map((weather: Weather, index: number) => [
+            index === 0 ? (
+              <Grid nested column="1fr 1fr">
+                <Grid nested row="1fr 1fr">
+                  <TempNow>
+                    {weather.temp}
+                    {'°'}
+                  </TempNow>
+                  <DescriptionNow>
+                    {getWeatherDescription(weather)}
+                  </DescriptionNow>
+                </Grid>
+                <img
+                  src={images[weather.symbol]}
+                  alt="logo"
+                  width="100%"
+                  height="100%"
+                />
+              </Grid>
+            ) : (
+              <Grid nested column="3.5fr 1fr 2fr 3fr">
+                <Forecast>
+                  {new Intl.DateTimeFormat(this.props.language, {
+                    month: 'long',
+                    day: '2-digit',
+                  }).format(new Date(weather.start))}
+                </Forecast>
+                <img
+                  src={images[weather.symbol]}
+                  alt="logo"
+                  width="100%"
+                  height="100%"
+                />
+                <Forecast>
+                  {weather.temp} {'°'}
+                </Forecast>
+                <Forecast>
+                  {weather.precipitation}
+                  {'mm nedbør'}
+                </Forecast>
+              </Grid>
+            ),
           ])}
         </Grid>
-      </Grid>
+      </Cell>
     ) : (
       <div>Loading...</div>
     );
@@ -65,16 +87,25 @@ class Yr extends Component<Props, State> {
 }
 
 const TempNow = styled('div')`
-  font-size: ${fontSize.large};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${fontSize.h3};
   font-color: ${fontColor.primary};
 `;
 
 const DescriptionNow = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: ${fontSize.small};
   font-color: ${fontColor.primary};
 `;
 
 const Forecast = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: ${fontSize.small};
   font-color: ${fontColor.primary};
 `;

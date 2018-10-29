@@ -7,3 +7,14 @@ export type Weather = {
   symbol: string,
   precipitation: number
 };
+
+export type Props = {
+  area: string,
+  locationId: string,
+  language: string
+};
+
+export type State = {
+  locationId: string,
+  weather: ?Array<Weather>,
+};
