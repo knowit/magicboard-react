@@ -1,9 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'react-emotion';
+import uuidv4 from 'uuid/v4';
 import { getYrData } from './services';
 import Grid from '../../containers/Grid';
-import type { Props, State, Weather } from './types';
+import type { Props, State } from './types';
 import { getWeatherDescription } from './utils';
 import { images } from './images';
 import { fontColor, fontSize } from '../../styles/theme';
@@ -18,8 +19,9 @@ class Yr extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    this.tick();
-    this.intervalId = setInterval(this.tick, 1000 * 60 * 5);
+    const response = await getYrData(this.props.locationId);
+    this.setState({ weather: response });
+    this.intervalId = setInterval(this.tick, 1000 * 60 * 10);
   }
 
   componentWillUnmount() {
@@ -31,14 +33,16 @@ class Yr extends Component<Props, State> {
     this.setState({ weather: response });
   };
 
+  intervalId: any;
+
   render() {
     return this.state.weather ? (
       <Cell area={this.props.area}>
         <Grid nested row=" 3.5fr 1fr 1fr 1fr">
-          {this.state.weather.map((weather: Weather, index: number) => [
+          {this.state.weather.map((weather, index) => [
             index === 0 ? (
-              <Grid nested column="1fr 1fr">
-                <Grid nested row="1fr 1fr">
+              <Grid key={uuidv4()} nested column="1fr 1fr">
+                <Grid key={uuidv4()} nested row="1fr 1fr">
                   <TempNow>
                     {weather.temp}
                     {'°'}
@@ -55,7 +59,7 @@ class Yr extends Component<Props, State> {
                 />
               </Grid>
             ) : (
-              <Grid nested column="3.5fr 1fr 2fr 3fr">
+              <Grid key={uuidv4()} nested column="3.5fr 1fr 2fr 3fr">
                 <Forecast>
                   {new Intl.DateTimeFormat(this.props.language, {
                     month: 'long',

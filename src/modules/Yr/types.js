@@ -5,16 +5,15 @@ export type Weather = {
   end: string,
   temp: number,
   symbol: string,
-  precipitation: number
+  precipitation: number,
 };
 
 export type Props = {
   area: string,
   locationId: string,
-  language: string
+  language: string,
 };
 
 export type State = {
-  locationId: string,
   weather: ?Array<Weather>,
 };
