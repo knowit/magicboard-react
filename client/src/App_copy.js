@@ -7,6 +7,9 @@ import Ruter from './modules/Ruter';
 import Sundtcommander from './modules/Sundtcommander';
 import Clock from './modules/Clock';
 
+// CSS-grids are used to defined the structure.
+// To learn more about grids, tryout http://cssgridgarden.com/
+
 export const boards = () => [
   <Grid key={uuidv4()} row="repeat(10, 1fr)" column="repeat(5, 1fr)">
     <Clock />
