@@ -1,22 +1,25 @@
 // @flow
 import React from 'react';
-import Carousel from 'nuka-carousel';
+import uuidv4 from 'uuid/v4';
 
 import { Grid, Cell } from './containers';
+import Ruter from './modules/Ruter';
+import Sundtcommander from './modules/Sundtcommander';
+import Clock from './modules/Clock';
 
-const App = () => (
-  <Carousel frameOverflow="hidden">
-    <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)">
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-    </Grid>
-    <Grid row="repeat(10, 1fr)" column="repeat(5, 1fr)" />
-  </Carousel>
-);
-
-export default App;
+export const boards = () => [
+  <Grid key={uuidv4()} row="repeat(10, 1fr)" column="repeat(5, 1fr)">
+    <Clock />
+    <Sundtcommander />
+    <Cell />
+    <Cell />
+    <Cell />
+    <Cell />
+    <Cell />
+    <Ruter />
+    <Cell />
+  </Grid>,
+  <Grid key={uuidv4()} row="repeat(10, 1fr)" column="repeat(5, 1fr)">
+    <Cell />
+  </Grid>,
+];
