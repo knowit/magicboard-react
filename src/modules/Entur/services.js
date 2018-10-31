@@ -21,7 +21,7 @@ const enturDataToGeoJson = result => {
     const lines = [];
     feature.estimatedCalls.forEach(call => {
       lines.push({
-        name: call.serviceJourney.journeyPattern.line.name,
+        frontText: call.destinationDisplay.frontText,
         expectedArrival: call.expectedArrivalTime,
         transportMode: call.serviceJourney.journeyPattern.line.transportMode,
         publicCode: call.serviceJourney.journeyPattern.line.publicCode,
@@ -55,7 +55,7 @@ const citybikeDataToGeoJson = result => {
         name: feature.name,
         bikesAvailable: feature.bikesAvailable,
         totalBikes,
-        icon: 'citybike',
+        icon: 'bicycle',
       },
     });
   });
@@ -81,13 +81,13 @@ const fetchEnturData = (bbox: BBox) => {
           destinationDisplay {
             frontText
           }
-        serviceJourney {
-          journeyPattern {
-            line {
-              id
-              name
-              transportMode
-              publicCode
+          serviceJourney {
+            journeyPattern {
+              line {
+                id
+                name
+                transportMode
+                publicCode
             }
           }
         }
@@ -95,9 +95,9 @@ const fetchEnturData = (bbox: BBox) => {
     }
   }`;
 
-  axiosEnturGraphQL
+  return axiosEnturGraphQL
     .post('', { query: queryEnturStations })
-    .then(result => enturDataToGeoJson(result));
+    .then(result => result);
 };
 
 const fetchCitybikeData = async (bbox: BBox) => {
@@ -121,7 +121,8 @@ const fetchCitybikeData = async (bbox: BBox) => {
     .then(result => result);
 };
 
-export const getEnturData = async (bbox: BBox) => fetchEnturData(bbox);
+export const getEnturData = async (bbox: BBox) =>
+  fetchEnturData(bbox).then(data => enturDataToGeoJson(data));
 
 export const getCitybikeData = async (bbox: BBox) =>
   fetchCitybikeData(bbox).then(data => citybikeDataToGeoJson(data));
