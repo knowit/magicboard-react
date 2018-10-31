@@ -14,18 +14,14 @@ function buttonChannel() {
     };
 
     ws.onmessage = (event: MessageEvent) => {
-      switch (event.data) {
-        case 1:
-          emitter({ type: 'FACIAL_RECOGNITION_TOGGLED' });
-          break;
-        case 2:
-          emitter({ type: 'NEXT_BOARD' });
-          break;
-        case 3:
-          emitter({ type: 'PREVIOUS_BOARD' });
-          break;
-        default:
-          emitter({ type: 'UNKNOWN_BUTTON_PAYLOAD', payload: event.data });
+      if (event.data === '1') {
+        emitter({ type: 'FACIAL_RECOGNITION_TOGGLED' });
+      } else if (event.data === '2') {
+        emitter({ type: 'NEXT_BOARD' });
+      } else if (event.data === '3') {
+        emitter({ type: 'PREVIOUS_BOARD' });
+      } else {
+        emitter({ type: 'UNKNOWN_BUTTON_PAYLOAD', payload: event.data });
       }
     };
 
