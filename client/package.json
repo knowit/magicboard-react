@@ -1,7 +1,6 @@
 {
-  "name": "magicboard",
+  "name": "magicboard-client",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "emotion": "^9.2.12",
     "moment": "^2.22.2",

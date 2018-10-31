@@ -1,4 +1,5 @@
-# client
+# MagicBoard
+MagicBoard is a web application based on modules of React components to display a dashboard of your choice. Part of the DigiBygg project
 
 ## Requirements
 
