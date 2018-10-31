@@ -12,3 +12,5 @@ There is a `App_copy.js` file that shows the template for the board structure. M
 ```
 yarn start
 ```
+
+`App.js` defines the structure of the elements in the grid. We use css-grids to place the cells around.
