@@ -17,24 +17,41 @@ const enturDataToGeoJson = result => {
   const data = result.data.data.stopPlacesByBbox;
   const features = [];
 
+  const currentTime = new Date();
+
   data.forEach(feature => {
+    let nextLine = undefined;
     const lines = [];
     feature.estimatedCalls.forEach(call => {
-      lines.push({
+      const expectedArrival = new Date(call.expectedArrivalTime);
+      const timeDifferenceInMinutes = Math.floor(
+        (expectedArrival - currentTime) / 1000 / 60,
+      );
+
+      const expectedArrivalInMinutes =
+        timeDifferenceInMinutes === 0 ? 'nå' : `${timeDifferenceInMinutes} min`;
+
+      const line = {
         frontText: call.destinationDisplay.frontText,
-        expectedArrival: call.expectedArrivalTime,
+        expectedArrival: expectedArrivalInMinutes,
         transportMode: call.serviceJourney.journeyPattern.line.transportMode,
         publicCode: call.serviceJourney.journeyPattern.line.publicCode,
+      };
+
+      if (!nextLine) {
+        nextLine = line;
+      } else lines.push(line);
+    });
+    if (lines.length > 0) {
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [feature.longitude, feature.latitude],
+        },
+        properties: { name: feature.name, nextLine, lines },
       });
-    });
-    features.push({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [feature.longitude, feature.latitude],
-      },
-      properties: { name: feature.name, lines },
-    });
+    }
   });
   return { type: 'FeatureCollection', features };
 };
