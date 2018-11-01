@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Carousel from 'nuka-carousel';
 import { onMount, onUnmount } from 'react-keydown/dist/event_handlers';
 import { setBinding } from 'react-keydown/dist/store';
-import { boards } from '../App';
+import { boards } from '../../App';
 
-import type { Action } from '../actions';
+import type { Action } from '../../actions';
 
 type Props = {
   slideIndex: number,
