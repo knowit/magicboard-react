@@ -1,3 +1,7 @@
+const fontFamily = {
+  primary: "Raleway, sans-serif;"
+};
+
 const fontSize = {
   h1: '16vw',
   h2: '12vw',
@@ -5,6 +9,7 @@ const fontSize = {
   large: '6vw',
   medium: '3vw',
   small: '1.5vw',
+  xsmall: '1vw'
 };
 
 const fontColor = {
@@ -12,4 +17,4 @@ const fontColor = {
   secondary: '#000',
 };
 
-export { fontSize, fontColor };
+export { fontFamily, fontSize, fontColor };
