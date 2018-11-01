@@ -6,7 +6,13 @@ import uuidv4 from 'uuid/v4';
 import Carousel from 'nuka-carousel';
 import { getCitybikeData, getEnturData } from './services';
 import { generateBBox, getTransportModeIcon } from './utils';
-import type { BBox, Props, State } from './types';
+import type {
+  BBox,
+  EnturFeature,
+  Props,
+  PublicTransportArrival,
+  State,
+} from './types';
 import Cell from '../../containers/Cell';
 import { CitybikeLayout, CitybikePaint, Line, StationName } from './components';
 
@@ -34,7 +40,25 @@ class Entur extends React.Component<Props, State> {
       citybikeData,
       enturData,
     });
+
+    this.intervalId = setInterval(this.tick, 1000 * 60);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  tick = async () => {
+    const citybikeData = await getCitybikeData(this.bbox);
+    const enturData = await getEnturData(this.bbox);
+
+    this.setState({
+      citybikeData,
+      enturData,
+    });
+  };
+
+  intervalId: any;
 
   bbox: BBox;
 
@@ -55,7 +79,7 @@ class Entur extends React.Component<Props, State> {
               symbolLayout={CitybikeLayout}
               symbolPaint={CitybikePaint}
             />
-            {this.state.enturData.features.map(feature => [
+            {this.state.enturData.features.map((feature: EnturFeature) => [
               <Popup
                 key={uuidv4()}
                 coordinates={feature.geometry.coordinates}
@@ -68,15 +92,19 @@ class Entur extends React.Component<Props, State> {
                 <Line>
                   <img
                     src={getTransportModeIcon(
-                      feature.properties.nextLine.transportMode,
+                      feature.properties.nextPublicTransportArrival
+                        .transportMode,
                     )}
                     alt="icon"
                     width="10vw"
                     height="10vw"
                   />
-                  {feature.properties.nextLine.publicCode}{' '}
-                  {feature.properties.nextLine.frontText}{' '}
-                  {feature.properties.nextLine.expectedArrival}
+                  {feature.properties.nextPublicTransportArrival.publicCode}{' '}
+                  {feature.properties.nextPublicTransportArrival.frontText}{' '}
+                  {
+                    feature.properties.nextPublicTransportArrival
+                      .expectedArrival
+                  }
                 </Line>
                 <div
                   style={{
@@ -89,21 +117,24 @@ class Entur extends React.Component<Props, State> {
                     withoutControls
                     autoplay
                     easing="easeLinear"
-                    autoplayInterval={6000}
-                    speed={5000}
-                    wrapAround>
-                    {feature.properties.lines.map(line => [
-                      <Line key={uuidv4()}>
-                        <img
-                          src={getTransportModeIcon(line.transportMode)}
-                          alt="icon"
-                          width="10vw"
-                          height="10vw"
-                        />
-                        {line.publicCode} {line.frontText}{' '}
-                        {line.expectedArrival}
-                      </Line>,
-                    ])}
+                    autoplayInterval={3100}
+                    speed={3000}
+                    wrapAround
+                    width="17vw">
+                    {feature.properties.publicTransportArrivals.map(
+                      (arrival: PublicTransportArrival) => [
+                        <Line key={uuidv4()}>
+                          <img
+                            src={getTransportModeIcon(arrival.transportMode)}
+                            alt="icon"
+                            width="10vw"
+                            height="10vw"
+                          />
+                          {arrival.publicCode} {arrival.frontText}{' '}
+                          {arrival.expectedArrival}
+                        </Line>,
+                      ],
+                    )}
                   </Carousel>
                 </div>
               </Popup>,

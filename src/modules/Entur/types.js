@@ -8,8 +8,8 @@ export type Props = {
 };
 export type State = {
   center: [number, number],
-  citybikeData: ?{},
-  enturData: ?{},
+  citybikeData: any,
+  enturData: any,
 };
 
 export type BBox = {
@@ -17,4 +17,38 @@ export type BBox = {
   longMin: number,
   latMax: number,
   longMax: number,
+};
+
+export type PublicTransportArrival = {
+  frontText: string,
+  expectedArrival: string,
+  transportMode: string,
+  publicCode: string,
+};
+
+export type EnturFeature = {
+  type: string,
+  geometry: {
+    type: string,
+    coordinates: [number, number],
+  },
+  properties: {
+    name: string,
+    nextPublicTransportArrival: PublicTransportArrival,
+    publicTransportArrivals: PublicTransportArrival[],
+  },
+};
+
+export type CitybikeFeature = {
+  type: string,
+  geometry: {
+    type: string,
+    coordinates: [number, number],
+  },
+  properties: {
+    name: string,
+    bikesAvailable: number,
+    totalBikes: number,
+    icon: string,
+  },
 };
