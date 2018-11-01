@@ -2,6 +2,25 @@
 
 import geolib from 'geolib';
 import type { Props } from './types';
+import bus from './img/bus_black.png';
+import metro from './img/metro_black.png';
+import rail from './img/rail_black.png';
+import tram from './img/tram_black.png';
+
+export function getTransportModeIcon(transportMode: string) {
+  switch (transportMode) {
+    case 'bus':
+      return bus;
+    case 'metro':
+      return metro;
+    case 'rail':
+      return rail;
+    case 'tram':
+      return tram;
+    default:
+      return bus;
+  }
+}
 
 export function generateBBox(props: Props) {
   const { location, maxDistance } = props;

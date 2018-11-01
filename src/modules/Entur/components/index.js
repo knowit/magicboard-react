@@ -4,12 +4,12 @@ import styled from "react-emotion";
 import { fontColor, fontSize } from "../../../styles/theme";
 
 export const StationName = styled('div')`
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.small};
   color: ${fontColor.secondary};
 `;
 
 export const Line = styled('div')`
-  font-size: ${fontSize.small};
+  font-size: ${fontSize.xsmall};
   color: ${fontColor.secondary};
 `;
 
