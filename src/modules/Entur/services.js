@@ -1,7 +1,12 @@
 // @flow
 
 import axios from 'axios';
-import type { BBox } from './types';
+import type {
+  BBox,
+  CitybikeFeature,
+  EnturFeature,
+  PublicTransportArrival,
+} from './types';
 
 const axiosEnturGraphQL = axios.create({
   baseURL: 'https://api.entur.org/journeyplanner/2.0/index/graphql',
@@ -15,68 +20,79 @@ const axiosEnturGraphQL = axios.create({
 
 const enturDataToGeoJson = result => {
   const data = result.data.data.stopPlacesByBbox;
-  const features = [];
+  const enturFeatures = [];
 
   const currentTime = new Date();
 
-  data.forEach(feature => {
-    let nextLine = undefined;
-    const lines = [];
-    feature.estimatedCalls.forEach(call => {
-      const expectedArrival = new Date(call.expectedArrivalTime);
+  data.forEach(dataFeature => {
+    const publicTransportArrivals = [];
+    dataFeature.estimatedCalls.forEach(dataPublicTransportArrival => {
+      const expectedArrival = new Date(
+        dataPublicTransportArrival.expectedArrivalTime,
+      );
       const timeDifferenceInMinutes = Math.floor(
         (expectedArrival - currentTime) / 1000 / 60,
       );
 
       const expectedArrivalInMinutes =
-        timeDifferenceInMinutes === 0 ? 'nå' : `${timeDifferenceInMinutes} min`;
+        timeDifferenceInMinutes <= 0 ? 'nå' : `${timeDifferenceInMinutes} min`;
 
-      const line = {
-        frontText: call.destinationDisplay.frontText,
+      const publicTransportArrival: PublicTransportArrival = {
+        frontText: dataPublicTransportArrival.destinationDisplay.frontText,
         expectedArrival: expectedArrivalInMinutes,
-        transportMode: call.serviceJourney.journeyPattern.line.transportMode,
-        publicCode: call.serviceJourney.journeyPattern.line.publicCode,
+        transportMode:
+          dataPublicTransportArrival.serviceJourney.journeyPattern.line
+            .transportMode,
+        publicCode:
+          dataPublicTransportArrival.serviceJourney.journeyPattern.line
+            .publicCode,
       };
-
-      if (!nextLine) {
-        nextLine = line;
-      } else lines.push(line);
+      publicTransportArrivals.push(publicTransportArrival);
     });
-    if (lines.length > 0) {
-      features.push({
+    if (publicTransportArrivals.length > 0) {
+      const enturFeature: EnturFeature = {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [feature.longitude, feature.latitude],
+          coordinates: [dataFeature.longitude, dataFeature.latitude],
         },
-        properties: { name: feature.name, nextLine, lines },
-      });
+        properties: {
+          name: dataFeature.name,
+          nextPublicTransportArrival: publicTransportArrivals[0],
+          publicTransportArrivals: publicTransportArrivals.slice(
+            1,
+            publicTransportArrivals.length,
+          ),
+        },
+      };
+      enturFeatures.push(enturFeature);
     }
   });
-  return { type: 'FeatureCollection', features };
+  return { type: 'FeatureCollection', features: enturFeatures };
 };
 
 const citybikeDataToGeoJson = result => {
   const data = result.data.data.bikeRentalStationsByBbox;
-  const features = [];
+  const citybikeFeatures = [];
 
-  data.forEach(feature => {
-    const totalBikes = feature.bikesAvailable + feature.spacesAvailable;
-    features.push({
+  data.forEach(dataFeature => {
+    const totalBikes = dataFeature.bikesAvailable + dataFeature.spacesAvailable;
+    const citybikeFeature: CitybikeFeature = {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [feature.longitude, feature.latitude],
+        coordinates: [dataFeature.longitude, dataFeature.latitude],
       },
       properties: {
-        name: feature.name,
-        bikesAvailable: feature.bikesAvailable,
+        name: dataFeature.name,
+        bikesAvailable: dataFeature.bikesAvailable,
         totalBikes,
         icon: 'bicycle',
       },
-    });
+    };
+    citybikeFeatures.push(citybikeFeature);
   });
-  return { type: 'FeatureCollection', features };
+  return { type: 'FeatureCollection', features: citybikeFeatures };
 };
 
 const fetchEnturData = (bbox: BBox) => {
@@ -87,12 +103,10 @@ const fetchEnturData = (bbox: BBox) => {
        maximumLatitude:${bbox.latMax},
        maximumLongitude:${bbox.longMax})
        {
-        id,
         name,
         latitude,
         longitude,
         estimatedCalls(numberOfDepartures: 5) {
-          realtime
           expectedArrivalTime
           date
           destinationDisplay {
@@ -101,8 +115,6 @@ const fetchEnturData = (bbox: BBox) => {
           serviceJourney {
             journeyPattern {
               line {
-                id
-                name
                 transportMode
                 publicCode
             }
@@ -124,7 +136,6 @@ const fetchCitybikeData = async (bbox: BBox) => {
      minimumLongitude:${bbox.longMin},
      maximumLatitude:${bbox.latMax},
      maximumLongitude:${bbox.longMax}){
-        id,
         name,
         latitude,
         longitude,
