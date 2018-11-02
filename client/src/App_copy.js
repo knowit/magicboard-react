@@ -7,22 +7,31 @@ import Ruter from './modules/Ruter';
 import Sundtcommander from './modules/Sundtcommander';
 import Clock from './modules/Clock';
 
-// CSS-grids are used to defined the structure.
-// To learn more about grids, tryout http://cssgridgarden.com/
+const ROW_CELLS = 5;
+const COLUMN_CELLS = 10;
 
-export const boards = () => [
-  <Grid key={uuidv4()} row="repeat(10, 1fr)" column="repeat(5, 1fr)">
-    <Clock />
-    <Sundtcommander />
-    <Cell />
-    <Cell />
-    <Cell />
-    <Cell />
-    <Cell />
-    <Ruter />
-    <Cell />
-  </Grid>,
-  <Grid key={uuidv4()} row="repeat(10, 1fr)" column="repeat(5, 1fr)">
-    <Cell />
-  </Grid>,
-];
+export const boards = (viewMode?: 'landscape' | 'portrait') => {
+  const row = `repeat(${
+    viewMode === 'landscape' ? ROW_CELLS : COLUMN_CELLS
+  }, 1fr)`;
+  const column = `repeat(${
+    viewMode === 'landscape' ? COLUMN_CELLS : ROW_CELLS
+  }, 1fr)`;
+
+  return [
+    <Grid key={uuidv4()} row={row} column={column}>
+      <Clock />
+      <Sundtcommander />
+      <Ruter />
+      <Cell />
+      <Cell />
+      <Cell />
+      <Cell />
+    </Grid>,
+    <Grid key={uuidv4()} row={row} column={column}>
+      <Cell />
+      <Cell />
+      <Ruter />
+    </Grid>,
+  ];
+};
