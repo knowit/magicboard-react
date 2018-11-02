@@ -3,13 +3,13 @@ const fontFamily = {
 };
 
 const fontSize = {
-  h1: '16vw',
-  h2: '12vw',
-  h3: '8vw',
-  large: '6vw',
-  medium: '3vw',
-  small: '1.5vw',
-  xsmall: '1vw',
+  h1: '16vh',
+  h2: '12vh',
+  h3: '8vh',
+  large: '6vh',
+  medium: '3vh',
+  small: '1.5vh',
+  xsmall: '1vh',
 };
 
 const fontColor = {
