@@ -7,25 +7,17 @@ import { boards } from './App';
 const NUMBER_OF_BOARDS = boards().length - 1;
 
 type ReducerState = {
-  viewMode: 'landscape' | 'portrait',
   noMotionDetected: boolean,
   slideIndex: number,
 };
 
 const initialState = {
-  viewMode: 'landscape',
   noMotionDetected: false,
   slideIndex: 0,
 };
 
 const rootReducer = (state: ReducerState = initialState, action: Action) => {
   switch (action.type) {
-    case 'SWITCH_VIEW_MODE':
-      return {
-        ...state,
-        viewMode: state.viewMode === 'landscape' ? 'portrait' : 'landscape',
-      };
-
     case 'NEXT_BOARD':
       return {
         ...state,
