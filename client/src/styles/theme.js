@@ -1,5 +1,5 @@
 const fontFamily = {
-  primary: "Raleway, sans-serif;"
+  primary: 'Raleway, sans-serif;',
 };
 
 const fontSize = {
@@ -9,7 +9,7 @@ const fontSize = {
   large: '6vw',
   medium: '3vw',
   small: '1.5vw',
-  xsmall: '1vw'
+  xsmall: '1vw',
 };
 
 const fontColor = {

@@ -4,7 +4,7 @@ import Iframe from 'react-iframe';
 import { Cell } from '../../containers';
 
 const Sundtcommander = () => (
-  <Cell area="2 / 2 / 6 / 6">
+  <Cell row="span 4" column="span 4">
     <Iframe
       url="http://sundtcommander.knowit.no/"
       width="100%"

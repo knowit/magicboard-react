@@ -58,7 +58,8 @@
     "flow-bin": "^0.83.0",
     "husky": "^1.1.2",
     "lint-staged": "^7.3.0",
-    "prettier": "1.14.3"
+    "prettier": "1.14.3",
+    "redux-logger": "^3.0.6"
   },
   "husky": {
     "hooks": {

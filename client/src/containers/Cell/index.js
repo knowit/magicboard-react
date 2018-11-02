@@ -2,6 +2,9 @@
 import styled from 'react-emotion';
 
 const Cell = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 23, 50, 0.7);
   color: white;
   font-size: 1vw;
