@@ -75,8 +75,8 @@ export const Button = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 80px;
+  width: 30vh;
+  height: 10vh;
   background-color: #058dc7;
   border-radius: 4px;
 `;

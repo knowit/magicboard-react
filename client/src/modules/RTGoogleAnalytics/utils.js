@@ -5,9 +5,9 @@ export const parseRTData = (data: RealTimeResult) => {
   const parsed = {
     currentActiveUsers: data.totalsForAllResults['rt:activeUsers'],
     deviceCategory: {
-      desktop: data.rows[0][1] || 0,
-      mobile: data.rows[1][1] || 0,
-      tablet: data.rows[2][1] || 0,
+      desktop: data.rows[0] ? data.rows[0][1] : 0,
+      mobile: data.rows[1] ? data.rows[1][1] : 0,
+      tablet: data.rows[2] ? data.rows[2][1] : 0,
     },
   };
   return parsed;
