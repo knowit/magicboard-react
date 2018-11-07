@@ -3,15 +3,15 @@
 import axios from 'axios';
 
 const organization = "knowit";
+const token = '';
 
 const fetchRepos = async () => {
   const repos = [];
 
   const endpoint = `https://api.github.com/orgs/${organization}/repos?per_page=256`;
-  const token = '';
-  await axios.get(endpoint, { headers: { Authorization: token } }).then(response => {
+  await axios.get(endpoint, { headers: { Authorization: `token ${token}` } }).then(response => {
     response.data.forEach(repo => {
-      repos.push(repo.name);
+      if (!repo.fork) repos.push(repo.name);
     });
   })
     .catch((error) => {
@@ -21,30 +21,45 @@ const fetchRepos = async () => {
   return repos;
 };
 
-const fetchCommits = async (repos) => {
-  const personCommits = {};
-
-  repos.forEach(repo => {
-    const endpoint = `https://api.github.com/repos/${organization}/${repo}/stats/contributors`;
-    const token = '6e1d16608cc6555cc3ac43b6eb1b7e8f636f0064';
-    axios.get(endpoint, { headers: { Authorization: token } }).then(response => {
-      /* response.data.forEach(person => {
-
-        if (!personCommits[person.author.login]) {
-          personCommits[person.author.login] = person.total;
-        } else {
-          personCommits[person.author.login] += person.total;
-        }
-      });*/
-
-      console.log(response);
-    })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-
-  return personCommits;
+const fetchContributors = async (repos, contributors) => {
+  const endpoint = `https://api.github.com/repos/${organization}/${repos[0]}/stats/contributors`;
+  await axios.get(endpoint, { headers: { Authorization: `token ${token}` } }).then(response => {
+    contributors.push(response.data);
+    if (repos.length === 1) {
+      return contributors
+    }
+    repos.shift();
+    return fetchContributors(repos, contributors);
+  })
+    .catch((error) => {
+      console.log(error);
+    });
+  return contributors;
 };
 
-export const getGithubData = async () => fetchRepos().then(repos => {fetchCommits(repos)});
+const calculateContributors = (contributors) => {
+  const calculatedContributors = {};
+
+  contributors.forEach(repo => {
+    repo.forEach(contributor => {
+      if (!calculatedContributors[contributor.author.login]) {
+        calculatedContributors[contributor.author.login] = contributor.total;
+      }
+      else {
+        calculatedContributors[contributor.author.login] += contributor.total;
+      }
+    });
+  });
+
+  return calculatedContributors
+};
+
+export const getGithubData = async () => {
+  const repos = await fetchRepos();
+
+  const contributors = await fetchContributors(repos, []);
+
+  const calculatedContributors = calculateContributors(contributors);
+
+  return calculatedContributors
+};
