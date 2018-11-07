@@ -1,0 +1,39 @@
+{
+  "name": "ical2json",
+  "version": "1.2.0",
+  "description": "A simple node package to convert ical to JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc nodeunit test.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:adrianlee44/ical2json.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrianlee44/ical2json/issues"
+  },
+  "keywords": [
+    "ical",
+    "json",
+    "converter"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "author": "Adrian Lee",
+  "license": "MIT",
+  "bin": "bin/ical2json",
+  "devDependencies": {
+    "coveralls": "^3.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-nodeunit": "^1.0.0",
+    "nyc": "^11.3.0"
+  },
+  "dependencies": {
+    "commander": "^2.11.0",
+    "q": "^1.5.1"
+  }
+}
