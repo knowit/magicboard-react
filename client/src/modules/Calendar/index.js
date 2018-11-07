@@ -63,10 +63,20 @@ class Calendar extends Component<Props, State> {
     }
 
     polling = (accessToken: string) => {
-        //const url = `${API_URL}${this.props.calendarID}`;
-        const url = `${API_URL}${this.props.calendarID}&access_token=${accessToken}`;
+        const url = `${API_URL}${this.props.calendarID}/events`;
+        //const url = `${API_URL}${this.props.calendarID}&key=${accessToken}`;
         console.log("URL: ", url);
-        fetch(url)
+
+
+
+        var myHeaders = new Headers({
+            'Content-length': 0,
+            'Authorization': 'Bearer ' + accessToken
+        });
+
+        console.log(myHeaders);
+
+        fetch(url, myHeaders)
             .then(result => console.log(result.json()))
 
         // .then((data: RealTimeResult) => {
