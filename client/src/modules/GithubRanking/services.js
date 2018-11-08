@@ -1,73 +1,118 @@
+/* eslint-disable no-console */
 // @flow
 
 import axios from 'axios';
-import type { User, Organization } from "./types";
+import type { User, Organization } from './types';
 
-const token = 'ef6a4bd178dc469ba86a5c6b246a5c08fef9479e';
+const fetchMemberInfo = async (token: string, member: User) => {
+  const info = { name: '', avatar: '' };
 
-const fetchMemberAvatar = async (memberName: User) => {
-  let avatarUrl = "";
-
-  const headers = { Authorization: `token ${token}`, Accept: "application/vnd.github.cloak-preview"};
-  const endpoint = `https://api.github.com/users/${memberName}`;
-  await axios.get(endpoint, { headers }).then(response => {
-    avatarUrl = response.data.avatar_url;
-  })
-    .catch((error) => {
+  const headers = {
+    Authorization: `token ${token}`,
+    Accept: 'application/vnd.github.cloak-preview',
+  };
+  const endpoint = `https://api.github.com/users/${member.login}`;
+  await axios
+    .get(endpoint, { headers })
+    .then(response => {
+      info.name = response.data.name;
+      info.avatar = response.data.avatar_url;
+    })
+    .catch(error => {
       console.log(error);
     });
-  return avatarUrl;
+  return info;
 };
 
-const fetchMemberCommits = async (memberName: string) => {
+const fetchMemberCommits = async (token: string, member: User) => {
   let totalCommits = 0;
 
-  const headers = { Authorization: `token ${token}`, Accept: "application/vnd.github.cloak-preview"};
-  const endpoint = `https://api.github.com/search/commits?q=author:${memberName}`;
-  await axios.get(endpoint, { headers }).then(response => {
-    totalCommits = response.data.total_count;
-  })
-    .catch((error) => {
+  const headers = {
+    Authorization: `token ${token}`,
+    Accept: 'application/vnd.github.cloak-preview',
+  };
+  const endpoint = `https://api.github.com/search/commits?q=author:${
+    member.login
+  }`;
+  await axios
+    .get(endpoint, { headers })
+    .then(response => {
+      totalCommits = response.data.total_count;
+    })
+    .catch(error => {
       console.log(error);
     });
   return totalCommits;
 };
 
-const fetchMembersData = async (argMembers, returnMembers) => {
-  if(argMembers.length === 0){
+const fetchMembersData = async (
+  token: string,
+  argMembers: Array<User>,
+  returnMembers: Array<User>,
+) => {
+  if (argMembers.length === 0) {
     return returnMembers;
   }
 
-  const member: User = argMembers[0];
-  argMembers.shift();
+  const newArgMembers = argMembers.slice();
+  const newReturnMembers = returnMembers.slice();
 
-  member.contributions = await fetchMemberCommits(member.name);
-  member.avatar = await fetchMemberAvatar(member.name);
-  returnMembers.push(member);
+  const member = newArgMembers[0];
+  newArgMembers.shift();
 
-  return fetchMembersData(argMembers, returnMembers);
+  member.contributions = await fetchMemberCommits(token, member);
+  const memberInfo = await fetchMemberInfo(token, member);
+  member.name = memberInfo.name;
+  member.avatar = memberInfo.avatar;
+  newReturnMembers.push(member);
+
+  return fetchMembersData(token, newArgMembers, newReturnMembers);
 };
 
-const fetchOrganizationMembers = async (organization: Organization) => {
+const fetchOrganizationMembers = async (
+  token: string,
+  organization: Organization,
+) => {
   const members = [];
 
   const endpoint = `https://api.github.com/orgs/${organization.name}/members`;
-  await axios.get(endpoint, { headers: { Authorization: `token ${token}` } }).then(response => {
-    response.data.forEach(member => {
-      const user: User = { name: member.login, contributions: 0};
-      members.push(user);
-    });
-  })
-    .catch((error) => {
+  await axios
+    .get(endpoint, { headers: { Authorization: `token ${token}` } })
+    .then(response => {
+      response.data.forEach(member => {
+        const user: User = {
+          login: member.login,
+          name: '',
+          contributions: 0,
+          avatar: '',
+        };
+        members.push(user);
+      });
+    })
+    .catch(error => {
       console.log(error);
     });
 
   return members;
 };
 
-export const getGithubData = async () => {
-  const organization: Organization = { name: "knowit", members: []};
-  organization.members = await fetchOrganizationMembers(organization).then(members => fetchMembersData(members, []));
+const getTop10Members = (members: Array<User>) => {
+  const returnMembers = members.slice();
+
+  returnMembers.sort(
+    (a, b) => parseFloat(b.contributions) - parseFloat(a.contributions),
+  );
+  return returnMembers.length > 10 ? returnMembers.slice(0, 10) : returnMembers;
+};
+
+export const getGithubData = async (
+  organizationName: string,
+  token: string,
+) => {
+  const organization: Organization = { name: organizationName, members: [] };
+  organization.members = await fetchOrganizationMembers(token, organization)
+    .then(members => fetchMembersData(token, members, []))
+    .then(members => getTop10Members(members));
 
   return organization;
 };

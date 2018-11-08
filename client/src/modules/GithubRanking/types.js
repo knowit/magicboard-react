@@ -1,16 +1,22 @@
 // @flow
 
+export type Props = {
+  organizationName: string,
+  githubToken: string,
+};
+
 export type User = {
+  login: string,
   name: string,
   contributions: number,
-  avatar: string
+  avatar: string,
 };
 
 export type Organization = {
   name: string,
-  members: User[]
-}
+  members: Array<User>,
+};
 
 export type State = {
-  organization: any
+  organization: any,
 };
