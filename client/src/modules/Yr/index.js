@@ -1,16 +1,19 @@
 // @flow
 import React, { Component } from 'react';
-import styled from 'react-emotion';
 import uuidv4 from 'uuid/v4';
 import { getYrData } from './services';
-import Grid from '../../containers/Grid';
+import { Grid, Cell } from '../../containers/index';
 import type { Props, State } from './types';
 import { getWeatherDescription } from './utils';
 import { images } from './images';
-import { fontColor, fontSize } from '../../styles/theme';
-import Cell from '../../containers/Cell';
+import { DescriptionNow, Forecast, TempNow } from './components';
 
 class Yr extends Component<Props, State> {
+  static defaultProps = {
+    locationId: '1-73738',
+    language: 'nb-NO',
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -37,16 +40,13 @@ class Yr extends Component<Props, State> {
 
   render() {
     return this.state.weather ? (
-      <Cell area={this.props.area}>
+      <Cell row="span 6" column="span 2">
         <Grid nested row=" 3.5fr 1fr 1fr 1fr">
           {this.state.weather.map((weather, index) => [
             index === 0 ? (
               <Grid key={uuidv4()} nested column="1fr 1fr">
-                <Grid key={uuidv4()} nested row="1fr 1fr">
-                  <TempNow>
-                    {weather.temp}
-                    {'°'}
-                  </TempNow>
+                <Grid nested row="1fr 1fr">
+                  <TempNow>{`${weather.temp}°`}</TempNow>
                   <DescriptionNow>
                     {getWeatherDescription(weather)}
                   </DescriptionNow>
@@ -72,13 +72,8 @@ class Yr extends Component<Props, State> {
                   width="100%"
                   height="100%"
                 />
-                <Forecast>
-                  {weather.temp} {'°'}
-                </Forecast>
-                <Forecast>
-                  {weather.precipitation}
-                  {'mm nedbør'}
-                </Forecast>
+                <Forecast>{`${weather.temp}°`}</Forecast>
+                <Forecast>{`${weather.precipitation}mm nedbør`}</Forecast>
               </Grid>
             ),
           ])}
@@ -89,29 +84,5 @@ class Yr extends Component<Props, State> {
     );
   }
 }
-
-const TempNow = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${fontSize.h3};
-  font-color: ${fontColor.primary};
-`;
-
-const DescriptionNow = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${fontSize.small};
-  font-color: ${fontColor.primary};
-`;
-
-const Forecast = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${fontSize.small};
-  font-color: ${fontColor.primary};
-`;
 
 export default Yr;
