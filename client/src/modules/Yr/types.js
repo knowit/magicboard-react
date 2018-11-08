@@ -9,7 +9,6 @@ export type Weather = {
 };
 
 export type Props = {
-  area: string,
   locationId: string,
   language: string,
 };
