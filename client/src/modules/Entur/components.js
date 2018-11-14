@@ -1,17 +1,17 @@
 // @flow
 
 import styled from 'react-emotion';
-import { fontFamily, fontColor, fontSize } from '../../../styles/theme';
+import { fontFamily, fontColor, fontSize } from '../../styles/theme';
 
 export const StationName = styled('div')`
   font-family: ${fontFamily.primary}
-  font-size: ${fontSize.small};
+  font-size: ${fontSize.medium};
   color: ${fontColor.secondary};
 `;
 
 export const Line = styled('div')`
   font-family: ${fontFamily.primary}
-  font-size: ${fontSize.xsmall};
+  font-size: ${fontSize.small};
   color: ${fontColor.secondary};
 `;
 
