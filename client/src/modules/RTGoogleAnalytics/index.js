@@ -29,6 +29,7 @@ type Props = {
   apiOptions: string,
   // View id is obtainable only in google analytics project https://keyword-hero.com/documentation/finding-your-view-id-in-google-analytics
   viewId: string,
+  name: string,
 };
 
 type State = {
@@ -99,7 +100,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
         {this.state.rtData ? (
           categoryPercentages && (
             <Container>
-              <Header>Global Digital Library</Header>
+              <Header>{this.props.name}</Header>
               <SubHeader>Right now</SubHeader>
               <Active>{this.state.rtData.currentActiveUsers}</Active>
               <SubHeader>active users</SubHeader>
