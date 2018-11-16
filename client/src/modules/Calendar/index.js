@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 // @flow
 
 import React, { Component } from 'react';
 import uuidv4 from 'uuid/v4';
 import { Grid } from '../../containers';
 import config from './config';
-import { getOAuthToken } from '../../ouath2';
+import { getOAuthToken } from '../../ouath2/index';
 import { Header, Button, Cell } from './components';
 import type { Props, State, CalendarRaw } from './types';
 import { convertDateTimeToInTime } from './utils';
@@ -88,10 +89,10 @@ class Calendar extends Component<Props, State> {
     console.log('Updated calendar');
 
     return (
-      <Cell row="span 5" column="span 2">
+      <Cell row="span 3" column="span 3">
         {this.state.calendarData ? (
           <Grid nested row="1fr 7fr" column="1fr">
-            <Header>Upcomming Events </Header>
+            <Header>Upcoming Events </Header>
             <Grid nested row="repeat(6fr, 1fr)" style={{ height: 'auto' }}>
               <Grid nested column="4fr 1fr" style={{ height: 'auto' }}>
                 <OverridedCell>Name</OverridedCell>

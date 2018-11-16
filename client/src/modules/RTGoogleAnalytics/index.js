@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // @flow
 import React from 'react';
 
@@ -18,7 +19,7 @@ import {
 } from './components';
 import { parseRTData, calculatePercentage } from './utils';
 import config from './config';
-import { getOAuthToken } from '../../ouath2';
+import { getOAuthToken } from '../../ouath2/index';
 
 import type { RealTimeResult } from '../../ouath2/types';
 
@@ -29,6 +30,7 @@ type Props = {
   apiOptions: string,
   // View id is obtainable only in google analytics project https://keyword-hero.com/documentation/finding-your-view-id-in-google-analytics
   viewId: string,
+  name: string,
 };
 
 type State = {
@@ -95,11 +97,11 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
         this.state.rtData.currentActiveUsers,
       );
     return (
-      <Cell row="span 2" column="span 2">
+      <Cell row="span 3" column="span 5">
         {this.state.rtData ? (
           categoryPercentages && (
             <Container>
-              <Header>Global Digital Library</Header>
+              <Header>{this.props.name}</Header>
               <SubHeader>Right now</SubHeader>
               <Active>{this.state.rtData.currentActiveUsers}</Active>
               <SubHeader>active users</SubHeader>

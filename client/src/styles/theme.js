@@ -10,6 +10,7 @@ const fontSize = {
   medium: '3vh',
   small: '1.5vh',
   xsmall: '1vh',
+  xxsmall: '0.5vh',
 };
 
 const fontColor = {
