@@ -5,11 +5,12 @@ import Carousel from 'nuka-carousel';
 import { onMount, onUnmount } from 'react-keydown/dist/event_handlers';
 import { setBinding } from 'react-keydown/dist/store';
 import { boards } from '../../App';
-
 import type { Action } from '../../actions';
+import { Cell } from '../index';
 
 type Props = {
   slideIndex: number,
+  noMotionDetected: boolean,
   nextSlide: () => void,
   previousSlide: () => void,
 };
@@ -34,7 +35,13 @@ class Caroussel extends React.PureComponent<Props> {
   }
 
   render() {
-    return <Carousel slideIndex={this.props.slideIndex}>{boards()}</Carousel>;
+    return this.props.noMotionDetected ? (
+      <BlackCell />
+    ) : (
+      <Carousel withoutControls slideIndex={this.props.slideIndex}>
+        {boards()}
+      </Carousel>
+    );
   }
 }
 
@@ -47,11 +54,24 @@ setBinding({
 const ConnectedApp = connect(
   state => ({
     slideIndex: state.rootReducer.slideIndex,
+    noMotionDetected: state.rootReducer.noMotionDetected,
   }),
   (dispatch: (action: Action) => void) => ({
     nextSlide: () => dispatch({ type: 'NEXT_BOARD' }),
     previousSlide: () => dispatch({ type: 'PREVIOUS_BOARD' }),
   }),
 )(Caroussel);
+
+const BlackCell = props => (
+  <Cell
+    {...props}
+    style={{
+      width: '-webkit-fill-available',
+      height: 'auto',
+      backgroundColor: '#000',
+      margin: '-5%',
+    }}
+  />
+);
 
 export default ConnectedApp;

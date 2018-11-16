@@ -1,25 +1,20 @@
 // @flow
 import React from 'react';
-import uuidv4 from 'uuid/v4';
 
-import { Grid, Cell } from './containers';
-import Ruter from './modules/Ruter';
+import { Grid } from './containers';
 import Clock from './modules/Clock';
 
-const ROW_CELLS = 5;
-const COLUMN_CELLS = 10;
+const ROW_CELLS = 'repeat(16, 1fr)';
+const COLUMN_CELLS = 'repeat(10, 1fr)';
 
 export const boards = () => [
-  <Grid key={uuidv4()} row={ROW_CELLS} column={COLUMN_CELLS}>
+  <Grid key={0} row={ROW_CELLS} column={COLUMN_CELLS}>
     <Clock />
-    <Cell />
-    <Cell />
-    <Cell />
-    <Cell />
   </Grid>,
-  <Grid key={uuidv4()} row={ROW_CELLS} column={COLUMN_CELLS}>
-    <Cell />
-    <Cell />
-    <Ruter />
+  <Grid key={1} row={ROW_CELLS} column={COLUMN_CELLS}>
+    <Clock />
+  </Grid>,
+  <Grid key={2} row={ROW_CELLS} column={COLUMN_CELLS}>
+    <Clock />
   </Grid>,
 ];

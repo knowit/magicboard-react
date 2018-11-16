@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // @flow
 import React from 'react';
 
@@ -18,7 +19,7 @@ import {
 } from './components';
 import { parseRTData, calculatePercentage } from './utils';
 import config from './config';
-import { getOAuthToken } from '../../ouath2';
+import { getOAuthToken } from '../../ouath2/index';
 
 import type { RealTimeResult } from '../../ouath2/types';
 
@@ -96,7 +97,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
         this.state.rtData.currentActiveUsers,
       );
     return (
-      <Cell row="span 2" column="span 2">
+      <Cell row="span 3" column="span 5">
         {this.state.rtData ? (
           categoryPercentages && (
             <Container>

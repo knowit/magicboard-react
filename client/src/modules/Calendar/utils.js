@@ -4,7 +4,7 @@ export function convertDateTimeToInTime(dateTime: string) {
   const dateNow = new Date();
   const dateEvent = new Date(dateTime);
   const timeDiff = Math.abs(dateEvent.getTime() - dateNow.getTime());
-  const dayDifference = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const dayDifference = Math.floor(timeDiff / (1000 * 3600 * 24));
   if (dayDifference > 0) {
     if (dayDifference === 1) {
       return `${dayDifference} Day`;
@@ -13,7 +13,7 @@ export function convertDateTimeToInTime(dateTime: string) {
     return `${dayDifference} Days`;
   }
 
-  const hourDifference = Math.ceil(timeDiff / (1000 * 3600));
+  const hourDifference = Math.floor(timeDiff / (1000 * 3600));
   if (hourDifference > 0) {
     if (dayDifference === 1) {
       return `${hourDifference} Hour`;
@@ -22,7 +22,7 @@ export function convertDateTimeToInTime(dateTime: string) {
     return `${hourDifference} Hours`;
   }
 
-  const minuteDifference = Math.ceil(timeDiff / (1000 * 60));
+  const minuteDifference = Math.floor(timeDiff / (1000 * 60));
   if (dayDifference === 1) {
     return `${minuteDifference} Minute`;
   }
