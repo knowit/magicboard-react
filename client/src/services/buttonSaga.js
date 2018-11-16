@@ -14,11 +14,11 @@ function buttonChannel() {
     };
 
     ws.onmessage = (event: MessageEvent) => {
-      if (event.data === '1') {
+      if (String(event.data).includes('1')) {
         emitter({ type: 'FACIAL_RECOGNITION_TOGGLED' });
-      } else if (event.data === '2') {
+      } else if (String(event.data).includes('2')) {
         emitter({ type: 'NEXT_BOARD' });
-      } else if (event.data === '3') {
+      } else if (String(event.data).includes('3')) {
         emitter({ type: 'PREVIOUS_BOARD' });
       } else {
         emitter({ type: 'UNKNOWN_BUTTON_PAYLOAD', payload: event.data });

@@ -14,12 +14,17 @@ function motionChannel() {
     };
 
     ws.onmessage = (event: MessageEvent) => {
-      if (event.data.includes('0')) {
+      if (String(event.data).includes('0')) {
         emitter({ type: 'NO_MOTION_DETECTED' });
-      } else if (event.data.includes('1')) {
+      } else if (
+        String(event.data)
+          .toString()
+          .includes('1')
+      ) {
         emitter({ type: 'MOTION_DETECTED' });
       }
     };
+
     return () => {};
   });
 }
