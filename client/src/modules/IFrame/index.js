@@ -23,7 +23,10 @@ class IFrame extends React.Component<Props, State> {
 
   tick = () => {
     this.setState(prevState => ({
-      currentUrlIndex: prevState.currentUrlIndex + 1 < this.props.url.length ? prevState.currentUrlIndex + 1 : 0,
+      currentUrlIndex:
+        prevState.currentUrlIndex + 1 < this.props.url.length
+          ? prevState.currentUrlIndex + 1
+          : 0,
       frame: prevState.frame + 1,
     }));
   };
@@ -32,7 +35,7 @@ class IFrame extends React.Component<Props, State> {
 
   render() {
     return (
-      <Cell row="span 5" column="span 5">
+      <Cell row="span 2" column="span 5">
         <Iframe
           url={this.props.url[this.state.currentUrlIndex]}
           width="100%"

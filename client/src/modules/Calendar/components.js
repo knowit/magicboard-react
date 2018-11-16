@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 import { fontSize } from '../../styles/theme';
 
 export const Header = styled('div')`
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.small};
   display: flex;
   justify-content: center;
   align-items: center;

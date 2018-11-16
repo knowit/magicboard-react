@@ -14,7 +14,7 @@ const StyledGrid = styled('div')`
   grid-template-columns: ${props => props.column};
   grid-gap: 8px;
   overflow: hidden;
-  width: ${props => (props.nested ? '100%' : '100vw')};
+  width: ${props => (props.nested ? '100%' : 'auto')};
   height: ${props => (props.nested ? '100%' : '100vh')};
 `;
 

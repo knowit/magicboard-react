@@ -24,7 +24,7 @@ class Entur extends React.Component<Props, State> {
     super(props);
     Map = ReactMapboxGl({
       accessToken: this.props.accessToken,
-      attributionControl: false
+      attributionControl: false,
     });
     this.bbox = generateBBox(this.props);
     this.state = {
@@ -66,12 +66,12 @@ class Entur extends React.Component<Props, State> {
 
   render() {
     return (
-      <Cell row="span 7" column="span 5">
+      <Cell row="span 10" column="span 10">
         {this.state.enturData && this.state.citybikeData ? (
           <Map
             center={this.state.center}
-            zoom={[16]}
-            style="mapbox://styles/petlov/cjn5p1j4z0kfh2suvku2gjg6y"
+            zoom={[17]}
+            style="mapbox://styles/petlov/cjn5p1j4z0kfh2suvku2gjg6y" // eslint-disable-line react/style-prop-object
             containerStyle={{
               height: '100%',
               width: '100%',
@@ -82,10 +82,7 @@ class Entur extends React.Component<Props, State> {
               symbolPaint={CitybikePaint}
             />
             {this.state.enturData.features.map((feature: EnturFeature) => [
-              <Popup
-                key={uuidv4()}
-                coordinates={feature.geometry.coordinates}
-              >
+              <Popup key={uuidv4()} coordinates={feature.geometry.coordinates}>
                 <StationName>{feature.properties.name}</StationName>
                 <Line>
                   <img
@@ -106,7 +103,7 @@ class Entur extends React.Component<Props, State> {
                 </Line>
                 <div
                   style={{
-                    maxWidth: '13vw',
+                    maxWidth: '15vw',
                     overflow: 'hidden',
                     position: 'relative',
                     whiteSpace: 'nowrap',
@@ -118,7 +115,7 @@ class Entur extends React.Component<Props, State> {
                     autoplayInterval={3100}
                     speed={3000}
                     wrapAround
-                    width="13vw">
+                    width="15vw">
                     {feature.properties.publicTransportArrivals.map(
                       (arrival: PublicTransportArrival) => [
                         <Line key={uuidv4()}>
