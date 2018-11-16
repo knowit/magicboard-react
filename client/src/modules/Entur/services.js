@@ -34,20 +34,24 @@ const enturDataToGeoJson = result => {
         (expectedArrival - currentTime) / 1000 / 60,
       );
 
-      const expectedArrivalInMinutes =
-        timeDifferenceInMinutes <= 0 ? 'nå' : `${timeDifferenceInMinutes} min`;
+      if (timeDifferenceInMinutes < 60) {
+        const expectedArrivalInMinutes =
+          timeDifferenceInMinutes <= 0
+            ? 'nå'
+            : `${timeDifferenceInMinutes} min`;
 
-      const publicTransportArrival: PublicTransportArrival = {
-        frontText: dataPublicTransportArrival.destinationDisplay.frontText,
-        expectedArrival: expectedArrivalInMinutes,
-        transportMode:
-          dataPublicTransportArrival.serviceJourney.journeyPattern.line
-            .transportMode,
-        publicCode:
-          dataPublicTransportArrival.serviceJourney.journeyPattern.line
-            .publicCode,
-      };
-      publicTransportArrivals.push(publicTransportArrival);
+        const publicTransportArrival: PublicTransportArrival = {
+          frontText: dataPublicTransportArrival.destinationDisplay.frontText,
+          expectedArrival: expectedArrivalInMinutes,
+          transportMode:
+            dataPublicTransportArrival.serviceJourney.journeyPattern.line
+              .transportMode,
+          publicCode:
+            dataPublicTransportArrival.serviceJourney.journeyPattern.line
+              .publicCode,
+        };
+        publicTransportArrivals.push(publicTransportArrival);
+      }
     });
     if (publicTransportArrivals.length > 0) {
       const enturFeature: EnturFeature = {

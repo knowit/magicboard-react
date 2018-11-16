@@ -30,16 +30,18 @@ export const Label = styled('div')`
 `;
 
 export const Active = styled('div')`
-  margin: 20px;
+  margin-top: 50px;
+  margin-bottom: 100px;
   font-size: ${fontSize.large};
 `;
 
 export const Header = styled('div')`
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.small};
 `;
 
 export const SubHeader = styled('div')`
-  font-size: ${fontSize.small};
+  margin-bottom: 50px;
+  font-size: ${fontSize.xsmall};
 `;
 
 export const CategoryBar = styled('div')`

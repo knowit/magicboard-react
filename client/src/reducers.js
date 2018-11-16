@@ -13,7 +13,7 @@ type ReducerState = {
 
 const initialState = {
   noMotionDetected: false,
-  slideIndex: 0,
+  slideIndex: NUMBER_OF_BOARDS === 0 ? NUMBER_OF_BOARDS : 1,
 };
 
 const rootReducer = (state: ReducerState = initialState, action: Action) => {
