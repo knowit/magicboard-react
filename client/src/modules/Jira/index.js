@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { generateChartData } from './services';
 import { Cell } from '../../containers';
 import type { Props, State } from './types';
+import { options } from './options';
 
 const TIME_INTERVAL = 1000 * 60;
 
@@ -12,7 +13,6 @@ class Jira extends React.Component<Props, State> {
     super(props);
     this.state = {
       data: undefined,
-      options: undefined,
       modeIndex: 0,
     };
   }
@@ -22,10 +22,9 @@ class Jira extends React.Component<Props, State> {
       this.props.projectKey,
       this.props.year,
       this.props.modeArray[this.state.modeIndex],
-    ).then(({ data, options }) => {
+    ).then(data => {
       this.setState(prevState => ({
         data,
-        options,
         modeIndex:
           prevState.modeIndex < this.props.modeArray.length - 1
             ? prevState.modeIndex + 1
@@ -45,10 +44,9 @@ class Jira extends React.Component<Props, State> {
       this.props.projectKey,
       this.props.year,
       this.props.modeArray[this.state.modeIndex],
-    ).then(({ data, options }) => {
+    ).then(data => {
       this.setState(prevState => ({
         data,
-        options,
         modeIndex:
           prevState.modeIndex < this.props.modeArray.length - 1
             ? prevState.modeIndex + 1
@@ -63,7 +61,7 @@ class Jira extends React.Component<Props, State> {
     return (
       <Cell row="span 2" column="span 5">
         {this.state.data ? (
-          <Bar data={this.state.data} options={this.state.options} />
+          <Bar data={this.state.data} options={options} />
         ) : (
           <div>Loading...</div>
         )}
