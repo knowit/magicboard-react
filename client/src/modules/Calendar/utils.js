@@ -15,7 +15,7 @@ export function convertDateTimeToInTime(dateTime: string) {
 
   const hourDifference = Math.floor(timeDiff / (1000 * 3600));
   if (hourDifference > 0) {
-    if (dayDifference === 1) {
+    if (hourDifference === 1) {
       return `${hourDifference} Hour`;
     }
 
@@ -23,9 +23,9 @@ export function convertDateTimeToInTime(dateTime: string) {
   }
 
   const minuteDifference = Math.floor(timeDiff / (1000 * 60));
-  if (dayDifference === 1) {
+  if (minuteDifference === 1) {
     return `${minuteDifference} Minute`;
   }
 
-  return `${dayDifference} Minutes`;
+  return `${minuteDifference} Minutes`;
 }
