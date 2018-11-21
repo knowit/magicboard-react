@@ -60,10 +60,10 @@ const generateMonthData = (projectKey: string, year: number) =>
       issuesPerMonth[date.getMonth()] += 1;
     }
 
-    dataObject.label = `Antall anbud i ${year}`;
-    dataObject.data = issuesPerMonth;
-
-    return dataObject;
+    const monthObj = { ...dataObject };
+    monthObj.label = `Antall anbud i ${year}`;
+    monthObj.data = issuesPerMonth;
+    return monthObj;
   });
 
 const generateWeekData = (projectKey: string, year: number) =>
@@ -75,10 +75,10 @@ const generateWeekData = (projectKey: string, year: number) =>
       issuesPerWeek[momentDate.week()] += 1;
     }
 
-    dataObject.label = `Antall anbud i ${year}`;
-    dataObject.data = issuesPerWeek;
-
-    return dataObject;
+    const weekObj = { ...dataObject };
+    weekObj.label = `Antall anbud i ${year}`;
+    weekObj.data = issuesPerWeek;
+    return weekObj;
   });
 
 const generateStatusData = (projectKey: string, year: number) =>
@@ -94,10 +94,10 @@ const generateStatusData = (projectKey: string, year: number) =>
       issuesPerStatus[xLabels.indexOf(issues[i].fields.status.name)] += 1;
     }
 
-    dataObject.label = `Antall anbud i ${year}`;
-    dataObject.data = issuesPerStatus;
-
-    return { dataObject, xLabels };
+    const statusObj = { ...dataObject };
+    statusObj.label = `Status på anbud i ${year}`;
+    statusObj.data = issuesPerStatus;
+    return { statusObj, xLabels };
   });
 
 export const generateChartData = (
@@ -123,7 +123,7 @@ export const generateChartData = (
     const issuesStatusPromise = generateStatusData(projectKey, year);
     return issuesStatusPromise.then(issueData => ({
       labels: issueData.xLabels,
-      datasets: [issueData.dataObject],
+      datasets: [issueData.statusObj],
     }));
   }
   return null;
