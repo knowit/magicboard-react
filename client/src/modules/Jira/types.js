@@ -26,6 +26,7 @@ export type Issue = {
     },
   },
 };
+
 export type Props = {
   projectKey: string, // Always SALG?
   year: number,
@@ -34,4 +35,5 @@ export type Props = {
 export type State = {
   data: ?(Object[]),
   modeIndex: number,
+  frame: number,
 };
