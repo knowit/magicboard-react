@@ -9,11 +9,16 @@ let client = null;
 function motionService(ws, req) {
     ws.on("message", msg => {
         console.log(msg);
-        client = ws;
+        if (client === null) {
+            client = ws;
+        }
     });
 
     ws.on("close", () => {
-        client = null;
+        if (ws === client) {
+            client = null;
+            console.log("Motion Service Disconnected")
+        }
     });
 
     parser.on("data", data => {
