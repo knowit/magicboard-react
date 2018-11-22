@@ -1,5 +1,5 @@
 // @flow
-import type { RealTimeResult } from '../../ouath2';
+import type { RealTimeResult } from '../../ouath2/index';
 
 export const parseRTData = (data: RealTimeResult) => {
   const parsed = {

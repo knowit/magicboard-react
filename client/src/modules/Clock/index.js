@@ -13,8 +13,8 @@ type State = {
 
 class Clock extends Component<Props, State> {
   static defaultProps = {
-    row: 'span 1',
-    column: 'span 5',
+    row: 'span 2',
+    column: 'span 10',
   };
 
   constructor(props: Props) {
@@ -54,7 +54,7 @@ class Clock extends Component<Props, State> {
 }
 
 const Time = styled('div')`
-  font-size: ${fontSize.h2};
+  font-size: ${fontSize.h3};
 `;
 
 const Date = styled('div')`

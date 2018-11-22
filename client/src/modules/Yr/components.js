@@ -7,7 +7,7 @@ export const TempNow = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${fontSize.h1};
+  font-size: ${fontSize.large};
   font-color: ${fontColor.primary};
 `;
 
@@ -15,7 +15,7 @@ export const DescriptionNow = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.xxsmall};
   font-color: ${fontColor.primary};
 `;
 
@@ -23,6 +23,6 @@ export const Forecast = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.xxsmall};
   font-color: ${fontColor.primary};
 `;

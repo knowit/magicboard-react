@@ -13,6 +13,7 @@ class Jira extends React.Component<Props, State> {
     super(props);
     this.state = {
       data: undefined,
+
       modeIndex: 0,
       frame: 0,
     };
@@ -53,6 +54,7 @@ class Jira extends React.Component<Props, State> {
             ? prevState.modeIndex + 1
             : 0,
         frame: prevState.frame + 1,
+
       }));
     });
   };

@@ -1,17 +1,18 @@
 // @flow
 
 import styled from 'react-emotion';
-import { fontFamily, fontColor, fontSize } from '../../../styles/theme';
+import { fontFamily, fontColor, fontSize } from '../../styles/theme';
 
 export const StationName = styled('div')`
   font-family: ${fontFamily.primary}
-  font-size: ${fontSize.small};
+  font-size: ${fontSize.xsmall};
   color: ${fontColor.secondary};
+  margin-bottom: 10px;
 `;
 
 export const Line = styled('div')`
   font-family: ${fontFamily.primary}
-  font-size: ${fontSize.xsmall};
+  font-size: ${fontSize.xxsmall};
   color: ${fontColor.secondary};
 `;
 
@@ -21,8 +22,8 @@ export const CitybikeLayout = {
   'text-font': ['Raleway Regular'],
   'text-offset': [0, 0.6],
   'text-anchor': 'top',
-  'text-size': 10,
-  'icon-size': 1,
+  'text-size': 22,
+  'icon-size': 1.5,
 };
 
 export const CitybikePaint = {

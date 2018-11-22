@@ -1,7 +1,6 @@
 // @flow
 
 export type Props = {
-  area: string,
   accessToken: string,
   location: [number, number],
   maxDistance: number,

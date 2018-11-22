@@ -8,7 +8,7 @@ import { store } from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Caroussel />
+    <Caroussel noMotionDetected={false} />
   </Provider>,
   document.getElementById('root'),
 );
