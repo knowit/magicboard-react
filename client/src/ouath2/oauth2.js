@@ -1,4 +1,3 @@
-// @flow
 import qs from 'querystring';
 import type OAuthConfig from './types';
 
