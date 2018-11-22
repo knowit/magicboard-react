@@ -24,6 +24,7 @@ class Jira extends React.Component<Props, State> {
       this.props.projectKey,
       this.props.year,
       this.props.modeArray[this.state.modeIndex],
+      this.props.auth,
     ).then(data => {
       this.setState(prevState => ({
         data,
@@ -46,6 +47,7 @@ class Jira extends React.Component<Props, State> {
       this.props.projectKey,
       this.props.year,
       this.props.modeArray[this.state.modeIndex],
+      this.props.auth,
     ).then(data => {
       this.setState(prevState => ({
         data,
@@ -54,7 +56,6 @@ class Jira extends React.Component<Props, State> {
             ? prevState.modeIndex + 1
             : 0,
         frame: prevState.frame + 1,
-
       }));
     });
   };
