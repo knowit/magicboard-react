@@ -6,14 +6,25 @@ const parser = port.pipe(new Readline({delimiter: "\n"}));
 let client = null;
 
 function buttonService(ws, req) {
+
     ws.on("message", msg => {
         console.log(msg);
-        client = ws;
+        if (client === null) {
+            client = ws;
+        }
+        /*
+        else {
+            if (ws !== client) {
+                client = ws;
+            }
+        }*/
     });
 
-
     ws.on("close", () => {
-        client = null;
+        if (ws === client) {
+            client = null;
+            console.log("Button Service Disconnected")
+        }
     });
 
     parser.on("data", data => {

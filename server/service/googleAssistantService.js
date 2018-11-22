@@ -8,9 +8,10 @@ function googleAssistantService(ws, req) {
         } else if (client !== null) {
             client.send(msg);
         }
-    })
+    });
 
     ws.on("close", () => {
+        console.log("Google Assistant Service Disconnected");
         if (client === ws){
             client = null;
         }
