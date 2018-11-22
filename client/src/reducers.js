@@ -9,11 +9,13 @@ const NUMBER_OF_BOARDS = boards().length - 1;
 type ReducerState = {
   noMotionDetected: boolean,
   slideIndex: number,
+  googleAction: string,
 };
 
 const initialState = {
   noMotionDetected: false,
-  slideIndex: 0,
+  slideIndex: NUMBER_OF_BOARDS === 0 ? NUMBER_OF_BOARDS : 1,
+  googleAction: undefined,
 };
 
 const rootReducer = (state: ReducerState = initialState, action: Action) => {

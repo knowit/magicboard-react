@@ -93,6 +93,8 @@ const generateStatusData = (projectKey: string, year: number) =>
       }
       issuesPerStatus[xLabels.indexOf(issues[i].fields.status.name)] += 1;
     }
+    return issuesPerMonth;
+  });
 
     const statusObj = { ...dataObject };
     statusObj.label = `Status på anbud i ${year}`;

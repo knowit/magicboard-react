@@ -40,7 +40,7 @@ class Yr extends Component<Props, State> {
 
   render() {
     return this.state.weather ? (
-      <Cell row="span 6" column="span 2">
+      <Cell row="span 3" column="span 4">
         <Grid nested row=" 3.5fr 1fr 1fr 1fr">
           {this.state.weather.map((weather, index) => [
             index === 0 ? (
