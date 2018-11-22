@@ -31,6 +31,7 @@ export type Props = {
   projectKey: string, // Always SALG?
   year: number,
   modeArray: Mode[],
+  auth: string,
 };
 export type State = {
   data: ?(Object[]),
