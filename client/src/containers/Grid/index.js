@@ -5,7 +5,7 @@ import styled from 'react-emotion';
 type Props = {
   column: string,
   row: string,
-  nested: ?boolean,
+  nested?: boolean,
 };
 
 const StyledGrid = styled('div')`
