@@ -35,12 +35,18 @@ class Caroussel extends React.PureComponent<Props> {
   }
 
   render() {
-    return this.props.noMotionDetected ? (
-      <BlackCell />
-    ) : (
-      <Carousel withoutControls slideIndex={this.props.slideIndex}>
-        {boards()}
-      </Carousel>
+    return (
+      <BlackCell
+        background={this.props.noMotionDetected ? 'black' : 'transparent'}>
+        <Carousel
+          withoutControls
+          slideIndex={this.props.slideIndex === 0 ? 1 : this.props.slideIndex}
+          style={{
+            visibility: this.props.noMotionDetected ? 'hidden' : 'visible',
+          }}>
+          {boards()}
+        </Carousel>
+      </BlackCell>
     );
   }
 }
@@ -68,7 +74,7 @@ const BlackCell = props => (
     style={{
       width: '-webkit-fill-available',
       height: 'auto',
-      backgroundColor: '#000',
+      backgroundColor: props.background,
       margin: '-5%',
     }}
   />
