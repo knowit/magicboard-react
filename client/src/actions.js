@@ -6,4 +6,7 @@ export type Action =
   | { type: 'FACIAL_RECOGNITION_TO GGLED' }
   | { type: 'NEXT_BOARD' }
   | { type: 'PREVIOUS_BOARD' }
+  | { type: 'GENERAL_INFO_BOARD' }
+  | { type: 'BUILDING_INFO_BOARD' }
+  | { type: 'SALES_INFO_BOARD' }
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number };

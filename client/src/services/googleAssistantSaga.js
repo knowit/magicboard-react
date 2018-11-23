@@ -18,7 +18,6 @@ function googleAssistantChannel() {
         ws.onmessage = (event: MessageEvent) => {
             if (timer) {
                 if (event.data === 'Next Board') {
-                    console.log('Next slide ');
                     emitter({type: 'NEXT_BOARD'});
 
                 } else if (event.data === 'Previous board') {
