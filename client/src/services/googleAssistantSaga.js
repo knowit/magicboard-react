@@ -17,18 +17,35 @@ function googleAssistantChannel() {
 
         ws.onmessage = (event: MessageEvent) => {
             if (timer) {
-                if (event.data === 'Next slide') {
+                if (event.data === 'Next Board') {
                     console.log('Next slide ');
                     emitter({type: 'NEXT_BOARD'});
-                } else if (event.data === 'Previous Slide') {
+
+                } else if (event.data === 'Previous board') {
                     emitter({type: 'PREVIOUS_BOARD'});
-                    timer = false;
-                    setTimeout(() => {
-                        timer = true
-                    }, 300);
+
+                }
+
+                else if (event.data === 'General Info Board') {
+                    emitter({type: 'GENERAL_INFO_BOARD'});
+
+                }
+
+                else if (event.data === 'Building Info Board') {
+                    emitter({type: 'BUILDING_INFO_BOARD'});
+
+                }
+
+                else if (event.data === 'Sales Info Board') {
+                    emitter({type: 'SALES_INFO_BOARD'});
+
                 }
 
             }
+            timer = false;
+            setTimeout(() => {
+                timer = true
+            }, 300);
         };
         return () => {
         };
