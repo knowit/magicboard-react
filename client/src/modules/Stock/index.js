@@ -36,7 +36,7 @@ class Stock extends React.Component<Props, State> {
 
   render() {
     return (
-      <Cell row="span 2" column="span 3">
+      <Cell row="span 2" column="span 5">
         {this.state.data ? (
           <Line data={this.state.data} options={this.state.options} />
         ) : (
