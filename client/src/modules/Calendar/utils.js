@@ -6,7 +6,7 @@ export function convertDateTimeToInTime(dateTime: string) {
   const timeDiff = dateEvent.getTime() - dateNow.getTime();
   const dayDifference = Math.floor(timeDiff / (1000 * 3600 * 24));
   if(timeDiff < 0){
-    return'Happening Now'
+    return'Now'
   }
 
   if (dayDifference > 0) {
