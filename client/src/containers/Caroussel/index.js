@@ -39,7 +39,7 @@ class Caroussel extends React.PureComponent<Props> {
       <SleepCell
         background={this.props.noMotionDetected ? 'black' : 'transparent'}
         margin={this.props.noMotionDetected ? '-5%' : '0'}>
-        <Carousel withoutControls slideIndex={this.props.slideIndex}>
+        <Carousel withoutControls slideIndex={this.props.slideIndex} style={{visibility: this.props.noMotionDetected ? 'hidden' : 'visible'}}>
           {boards()}
         </Carousel>
       </SleepCell>
