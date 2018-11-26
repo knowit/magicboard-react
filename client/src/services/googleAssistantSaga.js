@@ -20,7 +20,7 @@ function googleAssistantChannel() {
                 if (event.data === 'Next Board') {
                     emitter({type: 'NEXT_BOARD'});
 
-                } else if (event.data === 'Previous board') {
+                } else if (event.data === 'Previous Board') {
                     emitter({type: 'PREVIOUS_BOARD'});
 
                 }
