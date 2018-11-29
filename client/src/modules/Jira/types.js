@@ -28,7 +28,7 @@ export type Issue = {
 };
 
 export type Props = {
-  projectKey: string, // Always SALG?
+  projectKey: string,
   year: number,
   modeArray: Mode[],
   auth: string,
