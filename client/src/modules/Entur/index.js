@@ -23,6 +23,7 @@ class Entur extends React.Component<Props, State> {
     static defaultProps = {
         row: 'span 10',
         column: 'span 10',
+        zoom: 17,
     };
 
     constructor(props: Props) {
@@ -75,7 +76,7 @@ class Entur extends React.Component<Props, State> {
                 {this.state.enturData && this.state.citybikeData ? (
                     <Map
                         center={this.state.center}
-                        zoom={[17]}
+                        zoom={[this.props.zoom]}
                         style="mapbox://styles/petlov/cjn5p1j4z0kfh2suvku2gjg6y" // eslint-disable-line react/style-prop-object
                         containerStyle={{
                             height: '100%',
@@ -120,7 +121,7 @@ class Entur extends React.Component<Props, State> {
                                         autoplayInterval={3100}
                                         speed={3000}
                                         wrapAround
-                                        width="15vw">
+                                        width="20vw">
                                         {feature.properties.publicTransportArrivals.map(
                                             (arrival: PublicTransportArrival) => [
                                                 <Line key={uuidv4()}>

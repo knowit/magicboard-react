@@ -3,6 +3,7 @@
 export type Props = {
     row?: string,
     column?: string,
+    zoom?: number,
     accessToken: string,
     location: [number, number],
     maxDistance: number,
