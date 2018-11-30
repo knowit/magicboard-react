@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize } from '../../styles/theme';
+import { fontSize } from '../../styles/website_theme';
 
 export const Header = styled('div')`
   font-size: ${fontSize.small};
@@ -25,7 +25,7 @@ export const Cell = styled('div')`
   align-items: center;
   background-color: rgba(0, 23, 50, 0.7);
   color: white;
-  font-size: 1vw;
+  font-size: ${fontSize.xxsmall};
   padding: 8px;
   grid-area: ${props => props.area};
   grid-row: ${props => props.row};

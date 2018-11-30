@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'react-emotion';
-import { fontColor, fontSize } from '../../styles/theme';
+import { fontColor, fontSize } from '../../styles/website_theme';
 
 export const TempNow = styled('div')`
   display: flex;
