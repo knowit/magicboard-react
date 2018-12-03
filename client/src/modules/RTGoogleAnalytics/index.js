@@ -81,10 +81,16 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
   };
 
   handleClick = async () => {
-    const token = await getOAuthToken({ ...config });
-    const accessToken = token.access_token;
-    this.setState({ accessToken });
-    this.polling(accessToken);
+      try {
+          const token = await getOAuthToken({...config});
+          console.log(token);
+          const accessToken = token.access_token;
+          this.setState({ accessToken });
+          this.polling(accessToken);
+      }
+      catch(err){
+          console.log(err);
+      }
   };
 
   intervalId: *;
