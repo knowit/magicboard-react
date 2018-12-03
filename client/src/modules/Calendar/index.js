@@ -43,7 +43,9 @@ class Calendar extends Component<Props, State> {
 
   polling = async (accessToken: string) => {
     // Get events after the date of today.
-    const date = new Date().toISOString();
+    const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+    const date = (new Date(Date.now() - tzoffset)).toISOString();
+    console.log(date);
 
     const myHeaders = new Headers({
       Authorization: `Bearer ${accessToken}`,
@@ -77,10 +79,17 @@ class Calendar extends Component<Props, State> {
   };
 
   handleClick = async () => {
-    const token = await getOAuthToken({ ...config });
-    const accessToken = token.access_token;
-    this.setState({ accessToken });
-    this.polling(accessToken);
+
+    try {
+        const token = await getOAuthToken({...config});
+        console.log(token);
+        const accessToken = token.access_token;
+        this.setState({ accessToken });
+        this.polling(accessToken);
+    }
+    catch(err){
+         console.log(err);
+    }
   };
 
   intervalId: *;
