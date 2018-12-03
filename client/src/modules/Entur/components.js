@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'react-emotion';
-import { fontFamily, fontColor, fontSize } from '../../styles/website_theme';
+import { fontFamily, fontColor, fontSize } from '../../styles/theme';
 
 export const StationName = styled('div')`
   font-family: ${fontFamily.primary}

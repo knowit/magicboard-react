@@ -44,7 +44,7 @@ class Caroussel extends React.PureComponent<Props> {
 
                 <VerticalContainer>
                     <Clock/>
-                    <Carousel withoutControls slideIndex={this.props.slideIndex} style={{visibility: this.props.noMotionDetected ? 'hidden' : 'visible'}}>
+                    <Carousel slideIndex={this.props.slideIndex} style={{visibility: this.props.noMotionDetected ? 'hidden' : 'visible'}}>
                         {boards()}
                     </Carousel>
                 </VerticalContainer>

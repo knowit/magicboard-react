@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize } from '../../styles/website_theme';
+import { fontSize } from '../../styles/theme';
 
 export const Header = styled('div')`
   font-size: ${fontSize.small};
