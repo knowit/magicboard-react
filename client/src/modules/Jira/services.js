@@ -3,8 +3,7 @@ import moment from 'moment';
 import { Mode } from './types';
 import { dataObject } from './options';
 import type { Issue } from './types';
-
-const PROXYURL = 'https://aqueous-oasis-75157.herokuapp.com/'; // Owned by bjornar.dalsnes@knowit.no
+import config from './config';
 
 const MONTHS = [
   'Januar',
@@ -37,9 +36,11 @@ const filterIssues = (issues: Issue[], year: number) => {
 };
 
 const fetchJiraIssues = (projectKey: string, year: number, auth: string) => {
-  const URL = `https://support.knowit.no/rest/api/2/search?jql=project=${projectKey}&fields=status,created&status/name=Rejected&maxResults=10000`;
+  const URL = `https://${
+    config.baseUrl
+  }/rest/api/2/search?jql=project=${projectKey}&fields=status,created&status/name=Rejected&maxResults=10000`;
 
-  return fetch(PROXYURL + URL, {
+  return fetch(config.proxyUrl + URL, {
     method: 'GET',
     headers: {
       Authorization: `Basic ${auth}`,
