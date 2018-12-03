@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize, margin } from '../../styles/website_theme';
+import { fontSize, margin } from '../../styles/theme';
 
 export const Container = styled('div')`
   display: flex;
