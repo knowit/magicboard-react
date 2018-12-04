@@ -6,13 +6,16 @@ import uuidv4 from 'uuid/v4';
 import { Grid } from '../../containers';
 import config from './config';
 import { getOAuthToken } from '../../ouath2/index';
+import { getNewAuthToken } from '../../ouath2/index';
+
 import { Header, Button, Cell } from './components';
 import type { Props, State, CalendarRaw } from './types';
 import { convertDateTimeToInTime } from './utils';
 
-const POLL_INTERVAL = 600; // in seconds
+const POLL_INTERVAL = 1000; // seconds
 
 const API_URL = 'https://www.googleapis.com/calendar/v3/calendars/';
+
 
 class Calendar extends Component<Props, State> {
   static defaultProps = {
@@ -21,7 +24,7 @@ class Calendar extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { accessToken: undefined, calendarData: undefined };
+    this.state = { accessToken: undefined, calendarData: undefined, refreshToken : undefined};
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -29,16 +32,24 @@ class Calendar extends Component<Props, State> {
       this.state.accessToken &&
       prevState.accessToken !== this.state.accessToken
     ) {
-      const { accessToken } = this.state;
-      this.intervalId = setInterval(
-        () => this.polling(accessToken),
-        1000 * POLL_INTERVAL,
-      );
+
+        this.intervalId = setInterval(
+            () => this.polling(this.state.accessToken),
+            60 * POLL_INTERVAL,
+        );
+
+        this.intervalId2 = setInterval(
+            async () => {const token = await getNewAuthToken({...config}, this.state.refreshToken);
+                    this.state.accessToken = token.access_token;
+                    console.log('New access token',this.state.accessToken)},
+            3600 * POLL_INTERVAL,
+        );
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
+      clearInterval(this.intervalId2);
   }
 
   polling = async (accessToken: string) => {
@@ -83,9 +94,8 @@ class Calendar extends Component<Props, State> {
     try {
         const token = await getOAuthToken({...config});
         console.log(token);
-        const accessToken = token.access_token;
-        this.setState({ accessToken });
-        this.polling(accessToken);
+        this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
+        this.polling(this.state.accessToken);
     }
     catch(err){
          console.log(err);
@@ -93,6 +103,9 @@ class Calendar extends Component<Props, State> {
   };
 
   intervalId: *;
+
+  intervalId2: *;
+
 
   render() {
     console.log('Updated calendar');
