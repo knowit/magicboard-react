@@ -19,11 +19,11 @@ import {
 } from './components';
 import { parseRTData, calculatePercentage } from './utils';
 import config from './config';
-import { getOAuthToken } from '../../ouath2/index';
+import {getNewAuthToken, getOAuthToken} from '../../ouath2/index';
 
 import type { RealTimeResult } from '../../ouath2/types';
 
-const POLL_INTERVAL = 10; // in seconds
+const POLL_INTERVAL = 1000; // seconds
 
 type Props = {
   // find metrics and options at https://developers.google.com/analytics/devguides/reporting/realtime/dimsmets/
@@ -47,7 +47,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { rtData: undefined, accessToken: undefined };
+    this.state = { rtData: undefined, accessToken: undefined, refreshToken : undefined};
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -58,13 +58,23 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
       const { accessToken } = this.state;
       this.intervalId = setInterval(
         () => this.polling(accessToken),
-        1000 * POLL_INTERVAL,
+        10 * POLL_INTERVAL,
       );
+
+        this.intervalId2 = setInterval(
+          async () => {const token = await getNewAuthToken({...config}, this.state.refreshToken);
+            this.state.accessToken = token.access_token;
+            console.log('New access token',this.state.accessToken)},
+          3600 * POLL_INTERVAL,
+        );
+
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
+    clearInterval(this.intervalId2);
+
   }
 
   polling = (accessToken: string) => {
@@ -83,10 +93,9 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
   handleClick = async () => {
       try {
           const token = await getOAuthToken({...config});
-          console.log(token);
-          const accessToken = token.access_token;
-          this.setState({ accessToken });
-          this.polling(accessToken);
+          this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
+          this.polling(this.state.accessToken);
+
       }
       catch(err){
           console.log(err);

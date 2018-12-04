@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import uuidv4 from 'uuid/v4';
 import { Grid } from '../../containers';
 import config from './config';
-import { getOAuthToken } from '../../ouath2/index';
-import { getNewAuthToken } from '../../ouath2/index';
+import { getNewAuthToken, getOAuthToken } from '../../ouath2/index';
+
 
 import { Header, Button, Cell } from './components';
 import type { Props, State, CalendarRaw } from './types';
@@ -93,7 +93,6 @@ class Calendar extends Component<Props, State> {
 
     try {
         const token = await getOAuthToken({...config});
-        console.log(token);
         this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
         this.polling(this.state.accessToken);
     }
