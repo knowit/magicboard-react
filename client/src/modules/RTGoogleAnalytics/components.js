@@ -1,12 +1,13 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize } from '../../styles/theme';
+import { fontSize, margin } from '../../styles/theme';
 
 export const Container = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 60%;
 `;
 
 export const RowContainer = styled('div')`
@@ -14,24 +15,25 @@ export const RowContainer = styled('div')`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  align-self: flex-start;
+  align-self: center;
 `;
 
 export const Square = styled('div')`
-  width: 10px;
-  height: 10px;
+  width: ${margin.small};
+  height: ${margin.small};
   background-color: ${props => props.color};
-  margin-right: 10px;
+  margin-right: ${margin.small};
 `;
 
 export const Label = styled('div')`
   text-transform: uppercase;
-  margin-right: 10px;
+  margin-right: ${margin.small};
+  font-size: ${fontSize.xxsmall};
 `;
 
 export const Active = styled('div')`
-  margin-top: 50px;
-  margin-bottom: 100px;
+  margin-top: ${margin.medium};
+  margin-bottom: ${margin.large};
   font-size: ${fontSize.large};
 `;
 
@@ -40,7 +42,7 @@ export const Header = styled('div')`
 `;
 
 export const SubHeader = styled('div')`
-  margin-bottom: 50px;
+  margin-bottom: ${margin.medium};
   font-size: ${fontSize.xsmall};
 `;
 
@@ -57,14 +59,14 @@ export const Mobile = styled('div')`
   text-align: center;
   width: ${props => props.value}%;
   background-color: #50b432;
-  margin-right: 2px;
+  margin-right: ${margin.xsmall};
 `;
 
 export const Desktop = styled('div')`
   text-align: center;
   width: ${props => props.value}%;
   background-color: #ed561b;
-  margin-right: 2px;
+  margin-right: ${margin.xsmall};
 `;
 
 export const Tablet = styled('div')`
