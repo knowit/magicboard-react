@@ -4,15 +4,19 @@ import type OAuthConfig from './types';
 const WINDOW_WIDTH = 1080;
 const WINDOW_HEIGHT = 640;
 
-export const getOAuthToken = (payload: OAuthConfig) => {
-  const { redirectUri, clientId, authorizationUrl, scope } = payload;
+
+export const getOAuthCode = (payload: OAuthConfig) => {
+  const {redirectUri, clientId, authorizationUrl, scope} = payload;
 
   const params = {
     scope,
     client_id: clientId,
     redirect_uri: redirectUri,
     display: 'popup',
-    response_type: 'token',
+    response_type: 'code',
+    access_type: 'offline',
+    promt: 'consent',
+    approval_prompt: 'force',
   };
 
   const options = {
@@ -71,3 +75,63 @@ export const getOAuthToken = (payload: OAuthConfig) => {
     }, 500);
   });
 };
+
+
+export const getOAuthToken = async (payload: OAuthConfig) => {
+  const {redirectUri, clientId, clientSecret} = payload;
+  const result = await getOAuthCode(payload);
+
+  const params = {
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    code: result.code,
+    grant_type: 'authorization_code',
+    client_secret: clientSecret,
+  };
+  const url = 'https://www.googleapis.com/oauth2/v4/token';
+  const uri = new URL(url);
+
+  return new Promise((resolve, reject) => {
+    fetch(uri, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      body: JSON.stringify(params), // body data type must match "Content-Type" header
+    }).then(response => {
+      if (response.error) {
+        reject(new Error(response.error));
+      }
+      else {
+        resolve(response.json());
+      }
+    })
+  });
+};
+
+export const getNewAuthToken = async (payload: OAuthConfig, refreshToken) => {
+
+  const {clientId, clientSecret} = payload;
+  const params = {
+    client_id: clientId,
+    refresh_token: refreshToken,
+    client_secret: clientSecret,
+    grant_type: 'refresh_token',
+  };
+  const url = 'https://www.googleapis.com/oauth2/v4/token';
+  const uri = new URL(url);
+
+  return new Promise((resolve, reject) => {
+    fetch(uri, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      body: JSON.stringify(params), // body data type must match "Content-Type" header
+    }).then(response => {
+      if (response.error) {
+        reject(new Error(response.error));
+      }
+      else {
+        resolve(response.json());
+      }
+
+    });
+  });
+};
+
+
