@@ -5,7 +5,10 @@ import styled from 'react-emotion';
 import { Cell } from '../../containers';
 import { fontSize } from '../../styles/theme';
 
-type Props = { row: string, column: string };
+type Props = {
+    row?: string,
+    column?: string,
+};
 type State = {
   time: string,
   date: string,
@@ -54,6 +57,7 @@ class Clock extends Component<Props, State> {
 }
 
 const Time = styled('div')`
+  margin-top: 8px;
   font-size: ${fontSize.h3};
 `;
 

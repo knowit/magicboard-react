@@ -1,9 +1,11 @@
 // @flow
 
 export type Props = {
-  url: string[],
+    row?: string,
+    column?: string,
+    url: string[],
 };
 export type State = {
-  currentUrlIndex: number,
-  frame: number,
+    currentUrlIndex: number,
+    frame: number,
 };

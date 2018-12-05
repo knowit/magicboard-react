@@ -1,53 +1,56 @@
 // @flow
 
 export type Props = {
-  accessToken: string,
-  location: [number, number],
-  maxDistance: number,
+    row?: string,
+    column?: string,
+    zoom?: number,
+    accessToken: string,
+    location: [number, number],
+    maxDistance: number,
 };
 export type State = {
-  center: [number, number],
-  citybikeData: any,
-  enturData: any,
+    center: [number, number],
+    citybikeData: any,
+    enturData: any,
 };
 
 export type BBox = {
-  latMin: number,
-  longMin: number,
-  latMax: number,
-  longMax: number,
+    latMin: number,
+    longMin: number,
+    latMax: number,
+    longMax: number,
 };
 
 export type PublicTransportArrival = {
-  frontText: string,
-  expectedArrival: string,
-  transportMode: string,
-  publicCode: string,
+    frontText: string,
+    expectedArrival: string,
+    transportMode: string,
+    publicCode: string,
 };
 
 export type EnturFeature = {
-  type: string,
-  geometry: {
     type: string,
-    coordinates: [number, number],
-  },
-  properties: {
-    name: string,
-    nextPublicTransportArrival: PublicTransportArrival,
-    publicTransportArrivals: PublicTransportArrival[],
-  },
+    geometry: {
+        type: string,
+        coordinates: [number, number],
+    },
+    properties: {
+        name: string,
+        nextPublicTransportArrival: PublicTransportArrival,
+        publicTransportArrivals: PublicTransportArrival[],
+    },
 };
 
 export type CitybikeFeature = {
-  type: string,
-  geometry: {
     type: string,
-    coordinates: [number, number],
-  },
-  properties: {
-    name: string,
-    bikesAvailable: number,
-    totalBikes: number,
-    icon: string,
-  },
+    geometry: {
+        type: string,
+        coordinates: [number, number],
+    },
+    properties: {
+        name: string,
+        bikesAvailable: number,
+        totalBikes: number,
+        icon: string,
+    },
 };
