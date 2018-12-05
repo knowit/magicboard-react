@@ -26,7 +26,7 @@ class Calendar extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { accessToken: undefined, calendarData: undefined, refreshToken : undefined};
+    this.state = { accessToken: '', calendarData: undefined, refreshToken : ''};
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -36,7 +36,7 @@ class Calendar extends Component<Props, State> {
     ) {
 
         this.intervalId = setInterval(
-            () => this.polling(this.state.accessToken),
+            () => this.polling(),
             60 * POLL_INTERVAL,
         );
 
@@ -54,14 +54,14 @@ class Calendar extends Component<Props, State> {
       clearInterval(this.intervalId2);
   }
 
-  polling = async (accessToken: string) => {
+  polling = async () => {
     // Get events after the date of today.
     const tzoffset = (new Date()).getTimezoneOffset() * 60000;
     const date = (new Date(Date.now() - tzoffset)).toISOString();
     console.log(date);
 
     const myHeaders = new Headers({
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${this.state.accessToken}`,
       'Content-length': '0',
     });
 
@@ -96,7 +96,7 @@ class Calendar extends Component<Props, State> {
     try {
         const token = await getOAuthToken({...config});
         this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
-        this.polling(this.state.accessToken);
+        this.polling();
     }
     catch(err){
          console.log(err);

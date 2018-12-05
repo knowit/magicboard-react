@@ -9,7 +9,8 @@ export type Props = {
 
 export type State = {
     calendarData: any,
-    accessToken: ?string,
+    accessToken: string,
+    refreshToken: string,
 };
 
 export type CalendarRaw = {
