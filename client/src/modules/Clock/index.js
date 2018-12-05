@@ -3,15 +3,16 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'react-emotion';
 import { Cell } from '../../containers';
-import { fontSize } from '../../styles/theme';
+import { fontSize } from '../../styles/website_theme';
 
 type Props = {
-    row?: string,
-    column?: string,
+  row?: string,
+  column?: string,
+  style?: object
 };
 type State = {
   time: string,
-  date: string,
+  date: string
 };
 
 class Clock extends Component<Props, State> {
@@ -27,6 +28,7 @@ class Clock extends Component<Props, State> {
       time: moment().format('H:mm'),
       date: moment().format('dddd DD. MMMM'),
     };
+
   }
 
   componentDidMount() {
@@ -46,9 +48,8 @@ class Clock extends Component<Props, State> {
   intervalId: *;
 
   render() {
-    const { row, column } = this.props;
     return (
-      <CenteredCell row={row} column={column}>
+      <CenteredCell {...this.props} >
         <Time>{this.state.time}</Time>
         <Date>{this.state.date}</Date>
       </CenteredCell>
@@ -56,27 +57,32 @@ class Clock extends Component<Props, State> {
   }
 }
 
-const Time = styled('div')`
-  margin-top: 8px;
+const Time = styled('p')`
+  height: fit-content;
+  margin-top: 100px;
   font-size: ${fontSize.h3};
 `;
 
-const Date = styled('div')`
-  margin-top: 20px;
+const Date = styled('p')`
+  height: fit-content;
+  margin-top: -100px;
   font-size: ${fontSize.medium};
 `;
 
-const CenteredCell = props => (
-  <Cell
-    {...props}
+const CenteredCell = (props) => {
+  const { row, column, style } = props;
+  return <Cell
+    row={row ? row : 'span 3'}
+    column={column ? column : 'span 3'}
     style={{
+      ...style,
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
       flexDirection: 'column',
       backgroundColor: 'transparent',
     }}
-  />
-);
+  >{props.children}</Cell>
+}
 
 export default Clock;
