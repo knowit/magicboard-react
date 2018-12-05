@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import uuidv4 from 'uuid/v4';
-import { Grid } from '../../containers';
+import {Grid} from '../../containers';
 import config from './config';
+
 import { getNewAuthToken, getOAuthToken } from '../../ouath2/index';
-
-
 import { Header, Button, Cell } from './components';
 import type { Props, State, CalendarRaw } from './types';
 import { convertDateTimeToInTime } from './utils';
@@ -18,7 +17,10 @@ const API_URL = 'https://www.googleapis.com/calendar/v3/calendars/';
 
 
 class Calendar extends Component<Props, State> {
+  
   static defaultProps = {
+    row: 'span 3',
+    column: 'span 3',
     apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
   };
 
@@ -110,7 +112,7 @@ class Calendar extends Component<Props, State> {
     console.log('Updated calendar');
 
     return (
-      <Cell row="span 3" column="span 3">
+      <Cell row={this.props.row} column={this.props.column}>
         {this.state.calendarData ? (
           <Grid nested row="1fr 7fr" column="1fr">
             <Header>Upcoming Events </Header>
@@ -144,7 +146,7 @@ class Calendar extends Component<Props, State> {
 }
 
 const OverridedCell = props => (
-  <Cell {...props} style={{ padding: 0, backgroundColor: 'transparent' }} />
+    <Cell {...props} style={{padding: 0, backgroundColor: 'transparent'}}/>
 );
 
 export default Calendar;

@@ -2,48 +2,53 @@
 // @flow
 import React from 'react';
 
-import { Cell } from '../../containers';
+import {Cell} from '../../containers';
 import {
-  Container,
-  Header,
-  SubHeader,
-  CategoryBar,
-  Mobile,
-  Desktop,
-  Tablet,
-  RowContainer,
-  Label,
-  Square,
-  Active,
-  Button,
+    Container,
+    Header,
+    SubHeader,
+    CategoryBar,
+    Mobile,
+    Desktop,
+    Tablet,
+    RowContainer,
+    Label,
+    Square,
+    Active,
+    Button,
 } from './components';
-import { parseRTData, calculatePercentage } from './utils';
+import {parseRTData, calculatePercentage} from './utils';
 import config from './config';
+
 import {getNewAuthToken, getOAuthToken} from '../../ouath2/index';
 
-import type { RealTimeResult } from '../../ouath2/types';
+import type {RealTimeResult} from '../../ouath2/types';
 
 const POLL_INTERVAL = 1000; // seconds
 
 type Props = {
-  // find metrics and options at https://developers.google.com/analytics/devguides/reporting/realtime/dimsmets/
-  apiOptions: string,
-  // View id is obtainable only in google analytics project https://keyword-hero.com/documentation/finding-your-view-id-in-google-analytics
-  viewId: string,
-  name: string,
+    row?: string,
+    column?: string,
+    // find metrics and options at https://developers.google.com/analytics/devguides/reporting/realtime/dimsmets/
+    apiOptions: string,
+    // View id is obtainable only in google analytics project https://keyword-hero.com/documentation/finding-your-view-id-in-google-analytics
+    viewId: string,
+    name: string,
 };
 
 type State = {
-  rtData: ?Object,
-  accessToken: ?string,
+    rtData: ?Object,
+    accessToken: ?string,
 };
 
 const API_URL = 'https://www.googleapis.com/analytics/v3/data/realtime?ids=ga:';
 
 class RTGoogleAnalytics extends React.Component<Props, State> {
   static defaultProps = {
-    apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
-  };
+        row: 'span 3',
+        column: 'span 5',
+        apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
+    };
 
   constructor(props: Props) {
     super(props);
@@ -112,7 +117,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
         this.state.rtData.currentActiveUsers,
       );
     return (
-      <Cell row="span 3" column="span 5">
+      <Cell row={this.props.row} column={this.props.column}>
         {this.state.rtData ? (
           categoryPercentages && (
             <Container>
@@ -155,6 +160,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
       </Cell>
     );
   }
+
 }
 
 export default RTGoogleAnalytics;
