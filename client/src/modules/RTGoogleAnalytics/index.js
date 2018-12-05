@@ -38,7 +38,8 @@ type Props = {
 
 type State = {
     rtData: ?Object,
-    accessToken: ?string,
+    accessToken: string,
+    refreshToken: string,
 };
 
 const API_URL = 'https://www.googleapis.com/analytics/v3/data/realtime?ids=ga:';
@@ -52,7 +53,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { rtData: undefined, accessToken: undefined, refreshToken : undefined};
+    this.state = { rtData: undefined, accessToken: '', refreshToken : ''};
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -60,9 +61,8 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
       this.state.accessToken &&
       prevState.accessToken !== this.state.accessToken
     ) {
-      const { accessToken } = this.state;
       this.intervalId = setInterval(
-        () => this.polling(accessToken),
+        () => this.polling(),
         10 * POLL_INTERVAL,
       );
 
@@ -82,10 +82,10 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
 
   }
 
-  polling = (accessToken: string) => {
+  polling = () => {
     const url = `${API_URL}${this.props.viewId}${
       this.props.apiOptions
-    }&access_token=${accessToken}`;
+    }&access_token=${this.state.accessToken}`;
 
     fetch(url)
       .then(result => result.json())
@@ -99,7 +99,7 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
       try {
           const token = await getOAuthToken({...config});
           this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
-          this.polling(this.state.accessToken);
+          this.polling();
 
       }
       catch(err){
@@ -108,6 +108,9 @@ class RTGoogleAnalytics extends React.Component<Props, State> {
   };
 
   intervalId: *;
+
+  intervalId2: *;
+
 
   render() {
     const categoryPercentages =
