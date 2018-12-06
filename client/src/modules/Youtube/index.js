@@ -11,6 +11,7 @@ class Youtube extends React.Component<Props, State> {
     super(props);
     this.state = {
       totalViews: 0,
+      totalLikes: 0,
       videos: [],
     };
   }
@@ -47,12 +48,17 @@ class Youtube extends React.Component<Props, State> {
                       videoResponse.result.items[0].snippet.thumbnails.default
                         .url,
                     views: videoResponse.result.items[0].statistics.viewCount,
-                    likes: videoResponse.result.items[0].statistics.likeCount,
+                    likes: videoResponse.result.items[0].statistics.likeCount
+                      ? videoResponse.result.items[0].statistics.likeCount
+                      : 0,
                   };
                   this.setState(prevState => ({
                     totalViews:
                       parseInt(prevState.totalViews, 10) +
                       parseInt(video.views, 10),
+                    totalLikes:
+                      parseInt(prevState.totalLikes, 10) +
+                      parseInt(video.likes, 10),
                     videos: [...prevState.videos, video],
                   }));
                 }
@@ -62,7 +68,15 @@ class Youtube extends React.Component<Props, State> {
           if (response.result.nextPageToken) {
             this.pollPage(gapiClient, response.result.nextPageToken);
           }
-        });
+        })
+        .then(
+          this.setState(prevState => ({
+            // Sorts videos by views
+            videos: prevState.videos
+              .sort((a, b) => b.views - a.views)
+              .slice(0, this.props.maxVideos),
+          })),
+        );
     });
   };
 
@@ -88,8 +102,8 @@ class Youtube extends React.Component<Props, State> {
   render() {
     return (
       <Cell row={this.props.row} column={this.props.column}>
-        {this.state.totalViews ? (
-          <div>{this.state.totalViews}</div>
+        {this.state.videos[4] ? (
+          <div>{this.state.videos[4].views}</div>
         ) : (
           <div>Loading...</div>
         )}
