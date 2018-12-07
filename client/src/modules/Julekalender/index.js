@@ -133,25 +133,25 @@ class Julekalender extends Component<Props, State> {
       return (
         <Cell row={this.props.row} column={this.props.column}>
           <Grid nested row="repeat(7,1fr)" column="repeat(2, 1fr)">
-            <Cell row="span 1" column="span 2" background="none" center>
-              <Header><RedSpan>Jule</RedSpan>kale<GreenSpan>nder</GreenSpan></Header>
+            <Cell row="span 1" column="span 2" background="transparent" center>
+              <Header align="center"><RedSpan>Jule</RedSpan>kale<GreenSpan>nder</GreenSpan></Header>
             </Cell>
 
-            <Cell row="span 1" column="span 1" background="none" center>
-              <HeaderFont>Users</HeaderFont>
+            <Cell row="span 1" column="span 1" background="transparent" center>
+              <HeaderFont align="center">Users</HeaderFont>
             </Cell>
-            <Cell row="span 1" column="span 1" background="none" center>
-              <HeaderFont>Completed luker</HeaderFont>
+            <Cell row="span 1" column="span 1" background="transparent" center>
+              <HeaderFont align="center">Completed luker</HeaderFont>
             </Cell>
 
-            <Cell row="span 1" column="span 1" background="none" center>
-              <Active>{numbUsers}</Active>
+            <Cell row="span 1" column="span 1" background="transparent" center>
+              <Active align="center">{numbUsers}</Active>
             </Cell >
-            <Cell row="span 1" column="span 1" background="none" center>
-              <Active>{numbCorrectAnwswers}</Active>
+            <Cell row="span 1" column="span 1" background="transparent" center>
+              <Active align="center">{numbCorrectAnwswers}</Active>
             </Cell>
 
-            <Cell row="span 2" column="span 2" background="none">
+            <Cell row="span 2" column="span 2" background="transparent">
               <LaughingSanta/>
             </Cell>
           </Grid>

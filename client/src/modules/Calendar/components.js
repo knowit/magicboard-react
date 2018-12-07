@@ -21,9 +21,9 @@ export const Button = styled('div')`
 
 export const Cell = styled('div')`
   display: flex;
-  justify-content: left;
+  justify-content: ${props => props.center ? 'center' : 'left'};
   align-items: center;
-  background-color: rgba(0, 23, 50, 0.7);
+  background-color: ${props => props.background ? props.background : 'rgba(0, 23, 50, 0.7)'};
   color: white;
   font-size: ${fontSize.xxsmall};
   padding: 8px;

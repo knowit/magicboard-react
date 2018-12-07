@@ -24,7 +24,7 @@ import {getNewAuthToken, getOAuthToken} from '../../ouath2/index';
 
 import type {RealTimeResult} from '../../ouath2/types';
 
-const POLL_INTERVAL = 1000; // seconds
+const POLL_INTERVAL = 1000; // 1second
 
 type Props = {
     row?: string,
