@@ -4,6 +4,7 @@ import styled from "react-emotion";
 import {Cell, Header} from "../Calendar/components";
 import {Grid} from "../../containers";
 import {fontSize, margin} from "../../styles/theme";
+import LaughingSanta from './laughingSanta';
 
 const SECOND = 1000;
 
@@ -65,7 +66,7 @@ function getNumberOfCorrectAnswers() {
 
 class Julekalender extends Component<Props, State> {
   static defaultProps = {
-    row: 'span 2',
+    row: 'span 8',
     column: 'span 3',
   };
 
@@ -78,13 +79,13 @@ class Julekalender extends Component<Props, State> {
   }
 
   componentDidMount() {
-    getNumberOfUsers().then((numbCorrectAnwswers) => {
+    getNumberOfCorrectAnswers().then((numbCorrectAnwswers) => {
       this.setState({
         numbCorrectAnwswers
       })
     });
 
-    getNumberOfCorrectAnswers().then((numbUsers) => {
+    getNumberOfUsers().then((numbUsers) => {
       this.setState({
         numbUsers
       })
@@ -92,7 +93,7 @@ class Julekalender extends Component<Props, State> {
 
     this.numberOfCorrectAnswersInterval = setInterval(
       () => {
-        getNumberOfUsers().then((numbCorrectAnwswers) => {
+        getNumberOfCorrectAnswers().then((numbCorrectAnwswers) => {
           this.setState({
             numbCorrectAnwswers
           })
@@ -103,7 +104,7 @@ class Julekalender extends Component<Props, State> {
 
     this.numberOfUsersInterval = setInterval(
       () => {
-        getNumberOfCorrectAnswers().then((numbUsers) => {
+        getNumberOfUsers().then((numbUsers) => {
           this.setState({
             numbUsers
           })
@@ -125,24 +126,34 @@ class Julekalender extends Component<Props, State> {
   ;
 
   render() {
-    const {numbCorrectAnwswers, numbUsers} = this.state;
+    const {numbUsers, numbCorrectAnwswers} = this.state;
 
 
     if (numbUsers && numbCorrectAnwswers) {
       return (
         <Cell row={this.props.row} column={this.props.column}>
-          <Grid nested row="1fr 7fr" column="1fr">
-          <Header><RedSpan>Jule</RedSpan>kale<GreenSpan>nder</GreenSpan></Header>
-            <Grid nested row="repeat(2fr, 1fr)">
-              <Grid nested column="1fr 1fr" >
-                <HeaderFont>Number of users</HeaderFont>
-                <HeaderFont>Number of completed luker</HeaderFont>
-              </Grid>
-              <Grid nested column="1fr 1fr" >
-                <Active>{numbUsers}</Active>
-                <Active>{numbCorrectAnwswers}</Active>
-              </Grid>
-            </Grid>
+          <Grid nested row="repeat(7,1fr)" column="repeat(2, 1fr)">
+            <Cell row="span 1" column="span 2" background="none" center>
+              <Header><RedSpan>Jule</RedSpan>kale<GreenSpan>nder</GreenSpan></Header>
+            </Cell>
+
+            <Cell row="span 1" column="span 1" background="none" center>
+              <HeaderFont>Users</HeaderFont>
+            </Cell>
+            <Cell row="span 1" column="span 1" background="none" center>
+              <HeaderFont>Completed luker</HeaderFont>
+            </Cell>
+
+            <Cell row="span 1" column="span 1" background="none" center>
+              <Active>{numbUsers}</Active>
+            </Cell >
+            <Cell row="span 1" column="span 1" background="none" center>
+              <Active>{numbCorrectAnwswers}</Active>
+            </Cell>
+
+            <Cell row="span 2" column="span 2" background="none">
+              <LaughingSanta/>
+            </Cell>
           </Grid>
         </Cell>
       )
