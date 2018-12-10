@@ -2,8 +2,8 @@ export type Video = {
   title: string,
   views: number,
   likes: number,
-  description: string,
   thumbnail: string,
+  duration: string,
 };
 
 export type Props = {
@@ -11,6 +11,7 @@ export type Props = {
   column?: string,
   channelId: string,
   maxVideos: number,
+  minLength: number,
 };
 
 export type State = {
