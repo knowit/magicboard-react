@@ -74,5 +74,8 @@
       "yarn autoformat",
       "git add"
     ]
+  },
+  "compilerOptions": {
+    "types": ["gapi"]
   }
 }
