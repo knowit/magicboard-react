@@ -1,5 +1,4 @@
 // @flow
-/* global gapi */
 
 import React from 'react';
 import moment from 'moment';
@@ -23,6 +22,8 @@ import {
 } from './components';
 import { fontSize } from '../../styles/website_theme';
 import youtubeIcon from '../../styles/images/yt_icon_rgb.png';
+
+declare var gapi: any;
 
 class Youtube extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -57,18 +58,25 @@ class Youtube extends React.Component<Props, State> {
         });
       });
     };
-    document.body.appendChild(script);
+
+    if (document.body) {
+      document.body.appendChild(script);
+    }
 
     this.intervalId = setInterval(this.tick, 1000 * 60 * 60);
   }
 
-  videosEqual = (a, b) =>
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  videosEqual = (a: Video, b: Video) =>
     a.title === b.title &&
     a.thumbnail === b.thumbnail &&
     a.views === b.views &&
     a.likes === b.likes;
 
-  pollPage = (gapiClient, token) => {
+  pollPage = (gapiClient: any, token: string) => {
     gapiClient.load('youtube', 'v3', () => {
       gapiClient.youtube.playlistItems
         .list({
@@ -163,7 +171,9 @@ class Youtube extends React.Component<Props, State> {
         this.pollPage(gapi.client, '');
       });
     };
-    document.body.appendChild(script);
+    if (document.body) {
+      document.body.appendChild(script);
+    }
   };
 
   tick = () => {
