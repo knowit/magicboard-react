@@ -5,9 +5,11 @@
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "chartjs-plugin-datalabels": "^0.4.0",
+    "clay-client": "^0.2.1",
     "coffeescript": "^2.3.2",
     "emotion": "^9.2.12",
     "geolib": "^2.0.24",
+    "himalaya": "^1.1.0",
     "mapbox-gl": "^0.50.0",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
@@ -74,8 +76,5 @@
       "yarn autoformat",
       "git add"
     ]
-  },
-  "compilerOptions": {
-    "types": ["gapi"]
   }
 }
