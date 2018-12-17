@@ -20,7 +20,6 @@ import {
   ImageContainer,
   VideoInfoContainer,
 } from './components';
-import { fontSize } from '../../styles/website_theme';
 import youtubeIcon from '../../styles/images/yt_icon_rgb.png';
 
 declare var gapi: any;
@@ -197,7 +196,7 @@ class Youtube extends React.Component<Props, State> {
               <img
                 src={this.state.videos[i].thumbnail}
                 alt=""
-                style={{ maxHeight: '100px' }}
+                style={{ maxHeight: '200px' }}
               />
             </ImageContainer>
             <VideoInfoContainer>

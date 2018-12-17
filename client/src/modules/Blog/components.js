@@ -19,6 +19,7 @@ export const RowContainer = styled('div')`
 `;
 
 export const Header = styled('div')`
+  margin-top: 12px;
   font-size: ${fontSize.title};
   width: 100%;
 `;
@@ -38,8 +39,9 @@ export const Grid = styled('div')`
 
 export const ImageContainer = styled('img')`
   width: 100%;
-  height: 100px;
+  height: 250px;
   overflow: hidden;
+  margin-bottom: 10px;
 `;
 
 export const ProfileImageContainer = styled('img')`
@@ -56,6 +58,7 @@ export const ClapImageContainer = styled('img')`
 export const Title = styled('div')`
   font-size: ${fontSize.xsmall};
   line-height: 1;
+  margin-bottom: 10px;
 `;
 
 export const SubTitle = styled('div')`
