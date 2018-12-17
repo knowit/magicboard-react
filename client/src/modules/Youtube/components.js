@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize, fontColor } from '../../styles/website_theme';
+import { fontSize, fontColor } from '../../styles/theme';
 
 export const ColContainer = styled('div')`
   display: flex;
