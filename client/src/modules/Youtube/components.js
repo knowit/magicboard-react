@@ -18,8 +18,8 @@ export const RowContainer = styled('div')`
   align-self: center;
 `;
 
-export const IconContainer = styled('div')`
-  max-height: ${fontSize.title};
+export const IconContainer = styled('img')`
+  max-height: ${fontSize.small};
   margin-right: 12px;
 `;
 
