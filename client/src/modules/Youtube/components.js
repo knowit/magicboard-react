@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize, fontColor } from '../../styles/website_theme';
+import { fontSize, fontColor } from '../../styles/theme';
 
 export const ColContainer = styled('div')`
   display: flex;
@@ -18,7 +18,7 @@ export const RowContainer = styled('div')`
   align-self: center;
 `;
 
-export const IconContainer = styled('div')`
+export const IconContainer = styled('img')`
   max-height: ${fontSize.title};
   margin-right: 12px;
 `;
@@ -76,8 +76,9 @@ export const VideoContainer = styled('div')`
   width: 100%;
 `;
 
-export const ImageContainer = styled('div')`
+export const ImageContainer = styled('img')`
   margin-right: 4px;
+  max-height: 100px;
 `;
 
 export const VideoInfoContainer = styled('div')`
