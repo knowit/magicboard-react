@@ -90,7 +90,7 @@ class Blog extends React.Component<Props, State> {
         postRows.push(
           <ColContainer key={i}>
             <ImageContainer
-              src={`https://cdn-images-1.medium.com/fit/t/320/160/${
+              src={`https://cdn-images-1.medium.com/fit/t/1600/800/${
                 this.state.posts[i].imageId
               }`}
               alt=""
