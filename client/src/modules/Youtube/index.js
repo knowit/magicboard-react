@@ -226,16 +226,10 @@ class Youtube extends React.Component<Props, State> {
       <Cell row={this.props.row} column={this.props.column}>
         <ColContainer>
           <RowContainer>
-            <IconContainer>
-              <img
-                src={youtubeIcon}
-                alt=""
-                style={{ maxHeight: `${fontSize.title}` }}
-              />
-            </IconContainer>
+            <IconContainer src={youtubeIcon} alt="" />
             <Header>{this.state.playlistName}</Header>
           </RowContainer>
-          <SubHeader>{`> ${this.props.minLength} minutes`}</SubHeader>
+          <SubHeader>{`Longer than ${this.props.minLength} minutes`}</SubHeader>
           <InfoContainer>
             <ViewContainer>{`${this.state.totalViews} views`}</ViewContainer>
             <LikeContainer>{`${this.state.totalLikes} likes`}</LikeContainer>
