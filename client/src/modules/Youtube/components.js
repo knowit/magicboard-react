@@ -28,6 +28,7 @@ export const Header = styled('div')`
   width: 100%;
   border-bottom: ${props =>
     props.small ? `1px solid ${fontColor.primary}` : ''};
+  margin-top: 10px;
   margin-bottom: 10px;
 `;
 
