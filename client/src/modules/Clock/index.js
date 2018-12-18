@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'react-emotion';
 import { Cell } from '../../containers';
-import { fontSize } from '../../styles/website_theme';
+import { fontSize } from '../../styles/theme';
 
 type Props = {
   row?: string,
