@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'react-emotion';
 import { Cell } from '../../containers';
-import { fontSize } from '../../styles/theme';
+import { fontFamily, fontSize } from '../../styles/theme';
 
 type Props = {
   row?: string,
   column?: string,
-  style: any,
-  children: any,
+  style?: any,
+  children?: any,
 };
 type State = {
   time: string,
@@ -59,15 +59,19 @@ class Clock extends Component<Props, State> {
 
 const Time = styled('p')`
   height: fit-content;
-  margin-top: 80px;
+  margin-top: 116px;
   font-size: ${fontSize.h3};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
 const Date = styled('p')`
   height: fit-content;
-  margin-top: -130px;
+  margin-top: -170px;
   margin-bottom: 40px;
   font-size: ${fontSize.medium};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
 const CenteredCell = (props: Props) => (
