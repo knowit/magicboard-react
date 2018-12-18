@@ -5,6 +5,7 @@
     "husky": "^1.1.2"
   },
   "dependencies": {
+    "himalaya": "^1.1.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   }

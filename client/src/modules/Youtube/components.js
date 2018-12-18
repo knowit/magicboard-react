@@ -28,6 +28,8 @@ export const Header = styled('div')`
   width: 100%;
   border-bottom: ${props =>
     props.small ? `1px solid ${fontColor.primary}` : ''};
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const SubHeader = styled('div')`
@@ -47,7 +49,7 @@ export const InfoContainer = styled('div')`
   width: 100%;
   height: auto;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
 `;
 
 export const ViewContainer = styled('div')`
