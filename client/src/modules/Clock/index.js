@@ -59,14 +59,14 @@ class Clock extends Component<Props, State> {
 
 const Time = styled('p')`
   height: fit-content;
-  margin-top: 30px;
+  margin-top: 80px;
   font-size: ${fontSize.h3};
 `;
 
 const Date = styled('p')`
   height: fit-content;
-  margin-top: -100px;
-  margin-bottom: 0px;
+  margin-top: -130px;
+  margin-bottom: 40px;
   font-size: ${fontSize.medium};
 `;
 
