@@ -122,7 +122,7 @@ class Blog extends React.Component<Props, State> {
     }
     return (
       <Cell row={this.props.row} column={this.props.column}>
-        <ColContainer>
+        <ColContainer main>
           <RowContainer>
             <Header>knowitlabs</Header>
           </RowContainer>
