@@ -40,11 +40,16 @@ const icons = {
 };
 
 export function getIconFromSummary(summary: string) {
-  const firstWord = summary
-    .replace(/ .*/, '')
-    .replace(/-.*/, '')
-    .toLowerCase();
-  return icons[firstWord];
+  const words: string[] = summary.split(/-| /);
+
+  for (let i = 0; i < words.length; i += 1) {
+    console.log(words[i]);
+    if (icons[words[i].toLowerCase()]) {
+      return icons[words[i].toLowerCase()];
+    }
+  }
+
+  return null;
 }
 
 export function convertDateTimeToInTime(dateTime: string) {
