@@ -84,5 +84,3 @@ export function convertDateTimeToInTime(dateTime: string) {
 
   return `${minuteDifference} Minutes`;
 }
-
-getIconFromSummary('Rust-kveld #5');
