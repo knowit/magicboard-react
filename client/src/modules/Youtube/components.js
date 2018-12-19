@@ -6,8 +6,10 @@ export const ColContainer = styled('div')`
   display: flex;
   flex: 1;
   flex-direction: column;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
+  padding: 36px;
 `;
 
 export const RowContainer = styled('div')`
@@ -16,6 +18,7 @@ export const RowContainer = styled('div')`
   justify-content: center;
   align-items: center;
   align-self: center;
+  margin-top: 36px;
 `;
 
 export const IconContainer = styled('img')`
@@ -28,8 +31,6 @@ export const Header = styled('div')`
   width: 100%;
   border-bottom: ${props =>
     props.small ? `1px solid ${fontColor.primary}` : ''};
-  margin-top: 10px;
-  margin-bottom: 10px;
 `;
 
 export const SubHeader = styled('div')`
@@ -74,7 +75,7 @@ export const VideoList = styled('div')`
 export const VideoContainer = styled('div')`
   display: flex;
   flex-direction: row;
-  margin: 6px;
+  margin: 12px;
   width: 100%;
 `;
 

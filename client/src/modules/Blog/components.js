@@ -8,6 +8,7 @@ export const ColContainer = styled('div')`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  padding: ${props => (props.main ? '36px' : '0px')};
 `;
 
 export const RowContainer = styled('div')`
@@ -19,7 +20,7 @@ export const RowContainer = styled('div')`
 `;
 
 export const Header = styled('div')`
-  margin-top: 12px;
+  margin-top: 36px;
   font-size: ${fontSize.title};
   width: 100%;
 `;
@@ -32,9 +33,10 @@ export const SubHeader = styled('div')`
 
 export const Grid = styled('div')`
   display: grid;
-  grid-gap: 24px;
+  grid-gap: 48px;
   grid-template-columns: repeat(2, 1fr);
   margin: 8px;
+  margin-bottom: 28px;
 `;
 
 export const ImageContainer = styled('img')`
