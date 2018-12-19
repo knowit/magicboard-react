@@ -5,16 +5,17 @@ import { fontSize } from '../../styles/theme';
 export const ColContainer = styled('div')`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
 `;
 
 export const Grid = styled('div')`
   display: grid;
-  grid-gap: 24px;
+  grid-gap: 36px 10px;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;
-  padding: 8px;
+  padding: 36px;
   max-width: 100%;
 `;
 
@@ -35,7 +36,7 @@ export const Text = styled('div')`
 
 export const IconContainer = styled('img')`
   width: 3em;
-  margin-right: 8px;
+  margin-right: 12px;
   color: white;
 `;
 
@@ -44,7 +45,7 @@ export const Header = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 42px;
 `;
 
 export const Button = styled('div')`

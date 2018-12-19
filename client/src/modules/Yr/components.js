@@ -15,7 +15,7 @@ export const DescriptionNow = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${fontSize.xxsmall};
+  font-size: ${fontSize.xsmall};
   font-color: ${fontColor.primary};
 `;
 
@@ -23,6 +23,6 @@ export const Forecast = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${fontSize.xxsmall};
+  font-size: ${fontSize.xsmall};
   font-color: ${fontColor.primary};
 `;
