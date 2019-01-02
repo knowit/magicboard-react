@@ -3,16 +3,17 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'react-emotion';
 import { Cell } from '../../containers';
-import { fontSize } from '../../styles/website_theme';
+import { fontFamily, fontSize } from '../../styles/theme';
 
 type Props = {
   row?: string,
   column?: string,
+
   style?: Object
 };
 type State = {
   time: string,
-  date: string
+  date: string,
 };
 
 class Clock extends Component<Props, State> {
@@ -28,7 +29,6 @@ class Clock extends Component<Props, State> {
       time: moment().format('H:mm'),
       date: moment().format('dddd DD. MMMM'),
     };
-
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ class Clock extends Component<Props, State> {
 
   render() {
     return (
-      <CenteredCell {...this.props} >
+      <CenteredCell {...this.props}>
         <Time>{this.state.time}</Time>
         <Date>{this.state.date}</Date>
       </CenteredCell>
@@ -59,30 +59,35 @@ class Clock extends Component<Props, State> {
 
 const Time = styled('p')`
   height: fit-content;
-  margin-top: 100px;
+  margin-top: 116px;
   font-size: ${fontSize.h3};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
 const Date = styled('p')`
   height: fit-content;
-  margin-top: -100px;
+  margin-top: -170px;
+  margin-bottom: 40px;
   font-size: ${fontSize.medium};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
-const CenteredCell = (props) => {
-  const { row, column, style } = props;
-  return <Cell
-    row={row ? row : 'span 3'}
-    column={column ? column : 'span 3'}
+const CenteredCell = (props: Props) => (
+  <Cell
+    row={props.row || 'span 3'}
+    column={props.column || 'span 3'}
     style={{
-      ...style,
+      ...props.style,
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
       flexDirection: 'column',
       backgroundColor: 'transparent',
-    }}
-  >{props.children}</Cell>
-}
+    }}>
+    {props.children}
+  </Cell>
+);
 
 export default Clock;

@@ -35,6 +35,7 @@ export type Props = {
     modeArray: Mode[],
     auth: string,
 };
+
 export type State = {
     data: ?(Object[]),
     modeIndex: number,

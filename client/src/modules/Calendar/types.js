@@ -5,6 +5,7 @@ export type Props = {
   column?: string,
   calendars: string[],
   maxResults: number,
+
   accessToken?: string,
   fetching: boolean,
   getAuthentication: any,
