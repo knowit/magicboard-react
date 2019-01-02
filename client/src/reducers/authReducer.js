@@ -6,7 +6,7 @@ import type {Action} from '../actions';
 type ReducerState = {
   accessToken: ?string,
   refreshToken: ?string,
-  fetching: boolean
+  fetching: boolean,
 };
 
 const initialState: ReducerState = {
@@ -15,7 +15,7 @@ const initialState: ReducerState = {
   fetching: false
 };
 
-const authReducer = (state = initialState, action: Action) => {
+const authReducer = (state: ReducerState = initialState, action: Action) => {
   switch (action.type) {
     case 'SET_AUTH_TOKENS':
       return {

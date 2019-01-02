@@ -40,6 +40,7 @@ class Calendar extends Component<Props, State> {
     }
   }
 
+
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
@@ -50,34 +51,36 @@ class Calendar extends Component<Props, State> {
     const date = (new Date(Date.now() - tzoffset)).toISOString();
     console.log(date);
 
-    const myHeaders = new Headers({
-      Authorization: `Bearer ${this.props.accessToken}`,
-      'Content-length': '0',
-    });
-
-    const results = await Promise.all(
-      this.props.calendars.map(s =>
-        fetch(`${API_URL}${s}/events?timeMin=${date}`, {headers: myHeaders})
-          .then(response => response.json())
-          .catch(e => {
-            console.log(`Calendar ${s} failed. Reason ${e}`);
-            return Promise.resolve({items: []});
-          }),
-      ),
-    );
-    if (results[0].items !== null) {
-      this.setState({
-        calendarData: []
-          .concat(...results.map((j: CalendarRaw) => j.items))
-          .filter(e => e != null)
-          .filter(e => e.start.dateTime !== undefined)
-          .sort(
-            (a, b) =>
-              new Date(a.start.dateTime).getTime() -
-              new Date(b.start.dateTime).getTime(),
-          )
-          .slice(0, this.props.maxResults),
+    if (this.props.accessToken) {
+      const myHeaders = new Headers({
+        Authorization: `Bearer ${this.props.accessToken}`,
+        'Content-length': '0',
       });
+
+      const results = await Promise.all(
+        this.props.calendars.map(s =>
+          fetch(`${API_URL}${s}/events?timeMin=${date}`, {headers: myHeaders})
+            .then(response => response.json())
+            .catch(e => {
+              console.log(`Calendar ${s} failed. Reason ${e}`);
+              return Promise.resolve({items: []});
+            }),
+        ),
+      );
+      if (results[0].items !== null) {
+        this.setState({
+          calendarData: []
+            .concat(...results.map((j: CalendarRaw) => j.items))
+            .filter(e => e != null)
+            .filter(e => e.start.dateTime !== undefined)
+            .sort(
+              (a, b) =>
+                new Date(a.start.dateTime).getTime() -
+                new Date(b.start.dateTime).getTime(),
+            )
+            .slice(0, this.props.maxResults),
+        });
+      }
     }
   };
 
@@ -86,6 +89,9 @@ class Calendar extends Component<Props, State> {
       this.props.getAuthentication();
     }
   };
+
+  intervalId: *;
+
 
   render() {
     return (

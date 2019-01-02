@@ -36,6 +36,7 @@ type Props = {
   name: string,
   accessToken?: string,
   fetching?: boolean,
+  getAuthentication: any,
 };
 
 type State = {
@@ -73,16 +74,18 @@ class RTGoogleAnalytics extends Component<Props, State> {
   }
 
   polling = () => {
-    const url = `${API_URL}${this.props.viewId}${
-      this.props.apiOptions
-      }&access_token=${this.props.accessToken}`;
+    if (this.props.accessToken) {
+      const url = `${API_URL}${this.props.viewId}${
+        this.props.apiOptions
+        }&access_token=${this.props.accessToken}`;
 
-    fetch(url)
-      .then(result => result.json())
-      .then((data: RealTimeResult) => {
-        this.setState({rtData: parseRTData(data)});
-      })
-      .catch(error => console.log(error));
+      fetch(url)
+        .then(result => result.json())
+        .then((data: RealTimeResult) => {
+          this.setState({rtData: parseRTData(data)});
+        })
+        .catch(error => console.log(error));
+    }
   };
 
   handleClick = () => {
@@ -91,6 +94,7 @@ class RTGoogleAnalytics extends Component<Props, State> {
     }
   };
 
+  intervalId: *;
 
   render() {
     const categoryPercentages =

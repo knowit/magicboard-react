@@ -8,7 +8,7 @@ import { fontSize } from '../../styles/website_theme';
 type Props = {
   row?: string,
   column?: string,
-  style?: object
+  style?: Object
 };
 type State = {
   time: string,
