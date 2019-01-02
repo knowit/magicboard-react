@@ -5,12 +5,14 @@ export type Props = {
   column?: string,
   calendars: string[],
   maxResults: number,
+
+  accessToken?: string,
+  fetching: boolean,
+  getAuthentication: any,
 };
 
 export type State = {
   calendarData: any,
-  accessToken: string,
-  refreshToken: string,
 };
 
 export type CalendarRaw = {

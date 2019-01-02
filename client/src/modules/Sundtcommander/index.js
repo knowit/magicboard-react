@@ -14,8 +14,11 @@ const Sundtcommander = (props: Props) => {
     String(props.zoom),
   );
 
-  return (
-    <Cell row={props.row} column={props.column}>
+
+  if(props.zoom) {
+    const urlString = `http://sundtcommander.knowit.no?zoom=${props.zoom}`;
+
+    return (<Cell row={props.row} column={props.column}>
       <Iframe
         url={urlString}
         width="100%"
@@ -25,13 +28,15 @@ const Sundtcommander = (props: Props) => {
         position="relative"
         allowFullScreen
       />
-    </Cell>
-  );
+
+    </Cell>)
+  }
+  return null;
 };
 
 Sundtcommander.defaultProps = {
-  row: 'span 10',
-  column: 'span 10',
+  row: "span 10",
+  column: "span 10",
   zoom: 19.6,
 };
 

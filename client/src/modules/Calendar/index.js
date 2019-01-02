@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
 // @flow
-
+ 
+import uuidv4 from 'uuid/v4';
+import {connect} from 'react-redux';
+import {Grid} from '../../containers';
+import {getAuthentication} from '../../actions';
+ 
 import React, { Component } from 'react';
 import { Cell } from '../../containers';
 import config from './config';
 
-import { getNewAuthToken, getOAuthToken } from '../../ouath2/index';
 import {
   Button,
   ColContainer,
@@ -18,6 +22,7 @@ import {
 import type { Props, State, CalendarRaw } from './types';
 import { convertDateTimeToInTime, getIconFromSummary } from './utils';
 
+
 const POLL_INTERVAL = 1000; // seconds
 
 const API_URL = 'https://www.googleapis.com/calendar/v3/calendars/';
@@ -29,32 +34,26 @@ class Calendar extends Component<Props, State> {
     apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
   };
 
+
   constructor(props: Props) {
     super(props);
-    this.state = { accessToken: '', calendarData: undefined, refreshToken: '' };
+
+    this.state = {calendarData: undefined};
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (
-      this.state.accessToken &&
-      prevState.accessToken !== this.state.accessToken
-    ) {
-      this.intervalId = setInterval(() => this.polling(), 60 * POLL_INTERVAL);
-
-      this.intervalId2 = setInterval(async () => {
-        const token = await getNewAuthToken(
-          { ...config },
-          this.state.refreshToken,
-        );
-        this.state.accessToken = token.access_token;
-        console.log('New access token', this.state.accessToken);
-      }, 3600 * POLL_INTERVAL);
+  componentDidUpdate() {
+    if (this.props.accessToken && !this.intervalId) {
+      this.polling();
+      this.intervalId = setInterval(
+        () => this.polling(),
+        60 * POLL_INTERVAL,
+      );
     }
   }
 
+
   componentWillUnmount() {
     clearInterval(this.intervalId);
-    clearInterval(this.intervalId2);
   }
 
   polling = async () => {
@@ -63,53 +62,48 @@ class Calendar extends Component<Props, State> {
     const date = new Date(Date.now() - tzoffset).toISOString();
     console.log(date);
 
-    const myHeaders = new Headers({
-      Authorization: `Bearer ${this.state.accessToken}`,
-      'Content-length': '0',
-    });
-
-    const results = await Promise.all(
-      this.props.calendars.map(s =>
-        fetch(`${API_URL}${s}/events?timeMin=${date}`, { headers: myHeaders })
-          .then(response => response.json())
-          .catch(e => {
-            console.log(`Calendar ${s} failed. Reason ${e}`);
-            return Promise.resolve({ items: [] });
-          }),
-      ),
-    );
-    if (results[0].items !== null) {
-      this.setState({
-        calendarData: []
-          .concat(...results.map((j: CalendarRaw) => j.items))
-          .filter(e => e != null)
-          .filter(e => e.start.dateTime !== undefined)
-          .sort(
-            (a, b) =>
-              new Date(a.start.dateTime).getTime() -
-              new Date(b.start.dateTime).getTime(),
-          )
-          .slice(0, this.props.maxResults),
+    if (this.props.accessToken) {
+      const myHeaders = new Headers({
+        Authorization: `Bearer ${this.props.accessToken}`,
+        'Content-length': '0',
       });
+
+      const results = await Promise.all(
+        this.props.calendars.map(s =>
+          fetch(`${API_URL}${s}/events?timeMin=${date}`, {headers: myHeaders})
+            .then(response => response.json())
+            .catch(e => {
+              console.log(`Calendar ${s} failed. Reason ${e}`);
+              return Promise.resolve({items: []});
+            }),
+        ),
+      );
+      if (results[0].items !== null) {
+        this.setState({
+          calendarData: []
+            .concat(...results.map((j: CalendarRaw) => j.items))
+            .filter(e => e != null)
+            .filter(e => e.start.dateTime !== undefined)
+            .sort(
+              (a, b) =>
+                new Date(a.start.dateTime).getTime() -
+                new Date(b.start.dateTime).getTime(),
+            )
+            .slice(0, this.props.maxResults),
+        });
+      }
     }
   };
 
-  handleClick = async () => {
-    try {
-      const token = await getOAuthToken({ ...config });
-      this.setState({
-        accessToken: token.access_token,
-        refreshToken: token.refresh_token,
-      });
-      this.polling();
-    } catch (err) {
-      console.log(err);
+
+  handleClick = () => {
+    if (!this.props.fetching) {
+      this.props.getAuthentication();
+
     }
   };
 
   intervalId: *;
-
-  intervalId2: *;
 
   render() {
     return (
@@ -127,6 +121,7 @@ class Calendar extends Component<Props, State> {
                   <Text>{event.summary}</Text>
                 </ItemContainer>,
                 <Text>{convertDateTimeToInTime(event.start.dateTime)}</Text>,
+
               ])}
             </Grid>
           </ColContainer>
@@ -140,4 +135,18 @@ class Calendar extends Component<Props, State> {
   }
 }
 
-export default Calendar;
+
+const OverridedCell = props => (
+  <Cell {...props} style={{padding: 0, backgroundColor: 'transparent'}}/>
+);
+
+const mapStateToProps = state => ({
+  accessToken: state.auth.accessToken,
+  fetching: state.auth.fetching,
+});
+
+const mapDispatchToProps = {
+  getAuthentication
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
