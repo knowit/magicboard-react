@@ -62,8 +62,8 @@ setBinding({
 
 const ConnectedApp = connect(
     state => ({
-        slideIndex: state.rootReducer.slideIndex,
-        noMotionDetected: state.rootReducer.noMotionDetected,
+        slideIndex: state.root.slideIndex,
+        noMotionDetected: state.root.noMotionDetected,
     }),
     (dispatch: (action: Action) => void) => ({
         nextSlide: () => dispatch({ type: 'NEXT_BOARD' }),

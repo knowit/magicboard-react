@@ -44,7 +44,7 @@ function buttonChannel() {
         };
 
         ws.onclose = () => {
-            console.log("This is closed now");
+            console.log("ButtonSage closed ");
         };
 
 
