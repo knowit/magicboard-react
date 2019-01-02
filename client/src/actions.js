@@ -1,4 +1,5 @@
 // @flow
+import {Dispatch} from 'redux';
 import config from './ouath2/config';
 import {getNewAuthToken, getOAuthToken} from './ouath2/index';
 
@@ -31,7 +32,7 @@ const setTokens = (accessToken: string, refreshToken: string) =>
 const fetchingTokens = () => ({type: 'FETCHING_AUTH_TOKENS'});
 const failedFetchingTokens = () => ({type: 'ERROR_FETCHING_TOKENS'});
 
-export const getAuthentication = () => (dispatch) => {
+export const getAuthentication = () => (dispatch : Dispatch) => {
 
   dispatch(fetchingTokens());
   getOAuthToken({...config})
