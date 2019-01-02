@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Iframe from 'react-iframe';
-import {Cell} from '../../containers';
+import { Cell } from '../../containers';
 
 type Props = {
   row?: string,
@@ -9,8 +9,11 @@ type Props = {
   zoom?: number,
 };
 
-
 const Sundtcommander = (props: Props) => {
+  const urlString = 'http://sundtcommander.knowit.no?zoom='.concat(
+    String(props.zoom),
+  );
+
 
   if(props.zoom) {
     const urlString = `http://sundtcommander.knowit.no?zoom=${props.zoom}`;
@@ -25,6 +28,7 @@ const Sundtcommander = (props: Props) => {
         position="relative"
         allowFullScreen
       />
+
     </Cell>)
   }
   return null;
