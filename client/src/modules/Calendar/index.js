@@ -3,13 +3,13 @@
 
 import React, {Component} from 'react';
 import uuidv4 from 'uuid/v4';
+import {connect} from 'react-redux';
 import {Grid} from '../../containers';
-import config from './config';
+import {getAuthentication} from '../../actions';
 
-import { getNewAuthToken, getOAuthToken } from '../../ouath2/index';
-import { Header, Button, Cell } from './components';
-import type { Props, State, CalendarRaw } from './types';
-import { convertDateTimeToInTime } from './utils';
+import {Header, Button, Cell} from './components';
+import type {Props, State, CalendarRaw} from './types';
+import {convertDateTimeToInTime} from './utils';
 
 const POLL_INTERVAL = 1000; // seconds
 
@@ -17,41 +17,31 @@ const API_URL = 'https://www.googleapis.com/calendar/v3/calendars/';
 
 
 class Calendar extends Component<Props, State> {
-  
+
   static defaultProps = {
     row: 'span 3',
     column: 'span 3',
     apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
   };
 
+
   constructor(props: Props) {
     super(props);
-    this.state = { accessToken: '', calendarData: undefined, refreshToken : ''};
+    this.state = {calendarData: undefined};
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (
-      this.state.accessToken &&
-      prevState.accessToken !== this.state.accessToken
-    ) {
-
-        this.intervalId = setInterval(
-            () => this.polling(),
-            60 * POLL_INTERVAL,
-        );
-
-        this.intervalId2 = setInterval(
-            async () => {const token = await getNewAuthToken({...config}, this.state.refreshToken);
-                    this.state.accessToken = token.access_token;
-                    console.log('New access token',this.state.accessToken)},
-            3600 * POLL_INTERVAL,
-        );
+  componentDidUpdate() {
+    if (this.props.accessToken && !this.intervalId) {
+      this.polling();
+      this.intervalId = setInterval(
+        () => this.polling(),
+        60 * POLL_INTERVAL,
+      );
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
-      clearInterval(this.intervalId2);
   }
 
   polling = async () => {
@@ -61,17 +51,17 @@ class Calendar extends Component<Props, State> {
     console.log(date);
 
     const myHeaders = new Headers({
-      Authorization: `Bearer ${this.state.accessToken}`,
+      Authorization: `Bearer ${this.props.accessToken}`,
       'Content-length': '0',
     });
 
     const results = await Promise.all(
       this.props.calendars.map(s =>
-        fetch(`${API_URL}${s}/events?timeMin=${date}`, { headers: myHeaders })
+        fetch(`${API_URL}${s}/events?timeMin=${date}`, {headers: myHeaders})
           .then(response => response.json())
           .catch(e => {
             console.log(`Calendar ${s} failed. Reason ${e}`);
-            return Promise.resolve({ items: [] });
+            return Promise.resolve({items: []});
           }),
       ),
     );
@@ -91,33 +81,20 @@ class Calendar extends Component<Props, State> {
     }
   };
 
-  handleClick = async () => {
-
-    try {
-        const token = await getOAuthToken({...config});
-        this.setState({accessToken: token.access_token, refreshToken: token.refresh_token});
-        this.polling();
-    }
-    catch(err){
-         console.log(err);
+  handleClick = () => {
+    if (!this.props.fetching) {
+      this.props.getAuthentication();
     }
   };
 
-  intervalId: *;
-
-  intervalId2: *;
-
-
   render() {
-    console.log('Updated calendar');
-
     return (
       <Cell row={this.props.row} column={this.props.column}>
         {this.state.calendarData ? (
           <Grid nested row="1fr 7fr" column="1fr">
             <Header>Upcoming Events </Header>
-            <Grid nested row="repeat(6fr, 1fr)" style={{ height: 'auto' }}>
-              <Grid nested column="4fr 1fr" style={{ height: 'auto' }}>
+            <Grid nested row="repeat(6fr, 1fr)" style={{height: 'auto'}}>
+              <Grid nested column="4fr 1fr" style={{height: 'auto'}}>
                 <OverridedCell>Name</OverridedCell>
                 <OverridedCell align="left">Time</OverridedCell>
               </Grid>
@@ -126,7 +103,7 @@ class Calendar extends Component<Props, State> {
                   nested
                   column="4fr 1fr"
                   key={uuidv4()}
-                  style={{ height: 'auto' }}>
+                  style={{height: 'auto'}}>
                   <OverridedCell>{event.summary}</OverridedCell>
                   <OverridedCell>
                     {convertDateTimeToInTime(event.start.dateTime)}
@@ -146,7 +123,16 @@ class Calendar extends Component<Props, State> {
 }
 
 const OverridedCell = props => (
-    <Cell {...props} style={{padding: 0, backgroundColor: 'transparent'}}/>
+  <Cell {...props} style={{padding: 0, backgroundColor: 'transparent'}}/>
 );
 
-export default Calendar;
+const mapStateToProps = state => ({
+  accessToken: state.auth.accessToken,
+  fetching: state.auth.fetching,
+});
+
+const mapDispatchToProps = {
+  getAuthentication
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

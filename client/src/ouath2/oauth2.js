@@ -77,36 +77,37 @@ export const getOAuthCode = (payload: OAuthConfig) => {
 };
 
 
-export const getOAuthToken = async (payload: OAuthConfig) => {
+export const getOAuthToken = (payload: OAuthConfig) => {
   const {redirectUri, clientId, clientSecret} = payload;
-  const result = await getOAuthCode(payload);
 
-  const params = {
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    code: result.code,
-    grant_type: 'authorization_code',
-    client_secret: clientSecret,
-  };
-  const url = 'https://www.googleapis.com/oauth2/v4/token';
-  const uri = new URL(url);
 
-  return new Promise((resolve, reject) => {
-    fetch(uri, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      body: JSON.stringify(params), // body data type must match "Content-Type" header
+  return getOAuthCode(payload).then(result => {
+
+    const params = {
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code: result.code,
+      grant_type: 'authorization_code',
+      client_secret: clientSecret,
+    };
+    const url = 'https://www.googleapis.com/oauth2/v4/token';
+    const uri = new URL(url);
+
+
+    return fetch(uri, {
+      method: "POST",
+      body: JSON.stringify(params),
     }).then(response => {
       if (response.error) {
-        reject(new Error(response.error));
+        return Promise.reject(new Error(response.error));
       }
-      else {
-        resolve(response.json());
-      }
+      return response.json();
     })
   });
 };
 
-export const getNewAuthToken = async (payload: OAuthConfig, refreshToken) => {
+
+export const getNewAuthToken = (payload: OAuthConfig, refreshToken) => {
 
   const {clientId, clientSecret} = payload;
   const params = {
@@ -118,20 +119,15 @@ export const getNewAuthToken = async (payload: OAuthConfig, refreshToken) => {
   const url = 'https://www.googleapis.com/oauth2/v4/token';
   const uri = new URL(url);
 
-  return new Promise((resolve, reject) => {
-    fetch(uri, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      body: JSON.stringify(params), // body data type must match "Content-Type" header
-    }).then(response => {
-      if (response.error) {
-        reject(new Error(response.error));
-      }
-      else {
-        resolve(response.json());
-      }
+  return fetch(uri, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    body: JSON.stringify(params), // body data type must match "Content-Type" header
+  }).then(response => {
+    if (response.error) {
+      return Promise.reject(new Error(response.error));
+    }
 
-    });
+    return response.json();
+
   });
 };
-
-
