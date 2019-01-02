@@ -1,20 +1,18 @@
 /* eslint-disable no-console */
 // @flow
  
-import uuidv4 from 'uuid/v4';
+
 import {connect} from 'react-redux';
-import {Grid} from '../../containers';
+import React, { Component } from 'react';
+import {Grid, Cell} from '../../containers';
 import {getAuthentication} from '../../actions';
  
-import React, { Component } from 'react';
-import { Cell } from '../../containers';
-import config from './config';
+
 
 import {
   Button,
   ColContainer,
   Header,
-  Grid,
   ItemContainer,
   IconContainer,
   Text,
