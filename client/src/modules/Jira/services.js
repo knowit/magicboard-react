@@ -72,7 +72,7 @@ const generateWeekData = (projectKey: string, year: number, auth: string) =>
 
     for (let i = 0; i < issues.length; i += 1) {
       const momentDate = moment(issues[i].fields.created); // moment has to be used to get week number
-      issuesPerWeek[momentDate.week()] += 1;
+      issuesPerWeek[momentDate.week() - 1] += 1;
     }
 
     const weekObj = { ...dataObject };
