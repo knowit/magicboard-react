@@ -8,8 +8,8 @@ import { fontFamily, fontSize } from '../../styles/theme';
 type Props = {
   row?: string,
   column?: string,
-
-  style?: Object
+  style?: Object,
+  children?: Object,
 };
 type State = {
   time: string,
