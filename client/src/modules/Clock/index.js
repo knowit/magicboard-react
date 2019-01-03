@@ -9,7 +9,7 @@ type Props = {
   row?: string,
   column?: string,
   style?: Object,
-  children?: Object,
+  children?: any,
 };
 type State = {
   time: string,
