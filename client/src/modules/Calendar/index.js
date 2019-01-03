@@ -37,7 +37,7 @@ class Calendar extends Component<Props, State> {
   componentDidUpdate() {
     if (this.props.accessToken && !this.intervalId) {
       this.polling();
-      this.intervalId = setInterval(() => this.polling(), 60 * POLL_INTERVAL);
+      this.intervalId = setInterval(() => this.polling(), 600 * POLL_INTERVAL);
     }
   }
 

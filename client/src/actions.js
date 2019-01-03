@@ -1,7 +1,7 @@
 // @flow
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 import config from './ouath2/config';
-import {getNewAuthToken, getOAuthToken} from './ouath2/index';
+import { getNewAuthToken, getOAuthToken } from './ouath2/index';
 
 const POLL_INTERVAL = 1000; // 1second
 
@@ -18,35 +18,33 @@ export type Action =
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number }
 
   // Auth actions
-  | { type: 'SET_AUTH_TOKENS', payload: { accessToken: string, refreshToken: string } }
+  | {
+      type: 'SET_AUTH_TOKENS',
+      payload: { accessToken: string, refreshToken: string },
+    }
   | { type: 'SET_AUTH_ACCESS_TOKEN', payload: string }
   | { type: 'ERROR_FETCHING_TOKENS' }
   | { type: 'FETCHING_AUTH_TOKENS' };
 
-const setTokens = (accessToken: string, refreshToken: string) =>
-  ({
-    type: 'SET_AUTH_TOKENS',
-    payload: {accessToken, refreshToken}
-  });
+const setTokens = (accessToken: string, refreshToken: string) => ({
+  type: 'SET_AUTH_TOKENS',
+  payload: { accessToken, refreshToken },
+});
 
-const fetchingTokens = () => ({type: 'FETCHING_AUTH_TOKENS'});
-const failedFetchingTokens = () => ({type: 'ERROR_FETCHING_TOKENS'});
+const fetchingTokens = () => ({ type: 'FETCHING_AUTH_TOKENS' });
+const failedFetchingTokens = () => ({ type: 'ERROR_FETCHING_TOKENS' });
 
-export const getAuthentication = () => (dispatch : Dispatch) => {
-
+export const getAuthentication = () => (dispatch: Dispatch) => {
   dispatch(fetchingTokens());
-  getOAuthToken({...config})
-    .then((tokens) => {
-
+  getOAuthToken({ ...config })
+    .then(tokens => {
       dispatch(setTokens(tokens.access_token, tokens.refresh_token));
-      setInterval(
-        () => {
-          getNewAuthToken({...config}, tokens.refreshToken).then((token) => {
-            dispatch(setTokens(token.access_token, tokens.refresh_token));
-          })
-        },
-        3600 * POLL_INTERVAL,
-      );
+      setInterval(() => {
+        getNewAuthToken({ ...config }, tokens.refresh_token).then(token => {
+          dispatch(setTokens(token.access_token, tokens.refresh_token));
+          console.log(token.access_token);
+        });
+      }, 1800 * POLL_INTERVAL);
     })
     .catch(() => {
       dispatch(failedFetchingTokens());
