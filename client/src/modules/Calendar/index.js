@@ -1,25 +1,21 @@
 /* eslint-disable no-console */
 // @flow
- 
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import {Grid, Cell} from '../../containers';
-import {getAuthentication} from '../../actions';
- 
-
-
+import { Cell } from '../../containers';
+import { getAuthentication } from '../../actions';
 import {
   Button,
   ColContainer,
   Header,
+  Grid,
   ItemContainer,
   IconContainer,
   Text,
 } from './components';
 import type { Props, State, CalendarRaw } from './types';
 import { convertDateTimeToInTime, getIconFromSummary } from './utils';
-
 
 const POLL_INTERVAL = 1000; // seconds
 
@@ -32,23 +28,18 @@ class Calendar extends Component<Props, State> {
     apiOptions: '&metrics=rt:activeUsers&dimensions=rt:deviceCategory',
   };
 
-
   constructor(props: Props) {
     super(props);
 
-    this.state = {calendarData: undefined};
+    this.state = { calendarData: undefined };
   }
 
   componentDidUpdate() {
     if (this.props.accessToken && !this.intervalId) {
       this.polling();
-      this.intervalId = setInterval(
-        () => this.polling(),
-        60 * POLL_INTERVAL,
-      );
+      this.intervalId = setInterval(() => this.polling(), 60 * POLL_INTERVAL);
     }
   }
-
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
@@ -68,11 +59,11 @@ class Calendar extends Component<Props, State> {
 
       const results = await Promise.all(
         this.props.calendars.map(s =>
-          fetch(`${API_URL}${s}/events?timeMin=${date}`, {headers: myHeaders})
+          fetch(`${API_URL}${s}/events?timeMin=${date}`, { headers: myHeaders })
             .then(response => response.json())
             .catch(e => {
               console.log(`Calendar ${s} failed. Reason ${e}`);
-              return Promise.resolve({items: []});
+              return Promise.resolve({ items: [] });
             }),
         ),
       );
@@ -93,11 +84,9 @@ class Calendar extends Component<Props, State> {
     }
   };
 
-
   handleClick = () => {
     if (!this.props.fetching) {
       this.props.getAuthentication();
-
     }
   };
 
@@ -119,7 +108,6 @@ class Calendar extends Component<Props, State> {
                   <Text>{event.summary}</Text>
                 </ItemContainer>,
                 <Text>{convertDateTimeToInTime(event.start.dateTime)}</Text>,
-
               ])}
             </Grid>
           </ColContainer>
@@ -133,18 +121,16 @@ class Calendar extends Component<Props, State> {
   }
 }
 
-
-const OverridedCell = props => (
-  <Cell {...props} style={{padding: 0, backgroundColor: 'transparent'}}/>
-);
-
 const mapStateToProps = state => ({
   accessToken: state.auth.accessToken,
   fetching: state.auth.fetching,
 });
 
 const mapDispatchToProps = {
-  getAuthentication
+  getAuthentication,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Calendar);
