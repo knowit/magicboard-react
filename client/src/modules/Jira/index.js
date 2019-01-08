@@ -6,8 +6,8 @@ import { Cell } from '../../containers';
 import type { Props, State } from './types';
 import { options } from './options';
 
-const DATA_INTERVAL = 1000 * 60 * 60 * 2;
-const ROTATE_INTERVAL = 1000 * 60 * 2;
+const DATA_INTERVAL = 1000 * 60 * 60;
+const ROTATE_INTERVAL = 1000 * 60;
 
 class Jira extends React.Component<Props, State> {
   static defaultProps = {
