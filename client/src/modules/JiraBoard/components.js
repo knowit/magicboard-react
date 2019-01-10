@@ -14,10 +14,14 @@ export const Header = styled('div')`
   font-size: ${fontSize.title};
   width: 100%;
   text-align: center;
+  line-height: 1;
+  padding: 16px;
 `;
 
 export const SubHeader = styled('div')`
   font-size: ${fontSize.small};
+  line-height: 1;
+  padding: 16px;
 `;
 
 export const IssueList = styled('div')`
@@ -29,12 +33,12 @@ export const IssueList = styled('div')`
 export const IssueContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  margin-bottom: 8px;
+  padding: 24px;
+  margin-bottom: 16px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 4px;
   border-color: ${fontColor.tertiary};
-  border-radius: 5px;
+  border-radius: 10px;
 `;
 
 export const RowContainer = styled('div')`
