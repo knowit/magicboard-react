@@ -6,8 +6,10 @@ export const ColContainer = styled('div')`
   display: flex;
   flex: 1;
   flex-direction: column;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
+  padding: 36px;
 `;
 
 export const RowContainer = styled('div')`
@@ -16,6 +18,7 @@ export const RowContainer = styled('div')`
   justify-content: center;
   align-items: center;
   align-self: center;
+  margin-top: 36px;
 `;
 
 export const IconContainer = styled('img')`
@@ -47,7 +50,7 @@ export const InfoContainer = styled('div')`
   width: 100%;
   height: auto;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
 `;
 
 export const ViewContainer = styled('div')`
@@ -72,7 +75,7 @@ export const VideoList = styled('div')`
 export const VideoContainer = styled('div')`
   display: flex;
   flex-direction: row;
-  margin: 6px;
+  margin: 12px;
   width: 100%;
 `;
 

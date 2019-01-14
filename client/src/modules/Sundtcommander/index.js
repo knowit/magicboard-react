@@ -10,23 +10,26 @@ type Props = {
 };
 
 const Sundtcommander = (props: Props) => {
-  const urlString = 'http://sundtcommander.knowit.no?zoom='.concat(
-    String(props.zoom),
-  );
+  if (props.zoom) {
+    const urlString = 'http://sundtcommander.knowit.no?zoom='.concat(
+      String(props.zoom),
+    );
 
-  return (
-    <Cell row={props.row} column={props.column}>
-      <Iframe
-        url={urlString}
-        width="100%"
-        height="100%"
-        id="myId"
-        display="initial"
-        position="relative"
-        allowFullScreen
-      />
-    </Cell>
-  );
+    return (
+      <Cell row={props.row} column={props.column}>
+        <Iframe
+          url={urlString}
+          width="100%"
+          height="100%"
+          id="myId"
+          display="initial"
+          position="relative"
+          allowFullScreen
+        />
+      </Cell>
+    );
+  }
+  return null;
 };
 
 Sundtcommander.defaultProps = {

@@ -1,6 +1,6 @@
 // @flow
 import styled from 'react-emotion';
-import { fontSize, fontColor } from '../../styles/website_theme';
+import { fontSize, fontColor } from '../../styles/theme';
 
 export const ColContainer = styled('div')`
   display: flex;
@@ -8,6 +8,7 @@ export const ColContainer = styled('div')`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  padding: ${props => (props.main ? '36px' : '0px')};
 `;
 
 export const RowContainer = styled('div')`
@@ -19,6 +20,7 @@ export const RowContainer = styled('div')`
 `;
 
 export const Header = styled('div')`
+  margin-top: 36px;
   font-size: ${fontSize.title};
   width: 100%;
 `;
@@ -31,15 +33,17 @@ export const SubHeader = styled('div')`
 
 export const Grid = styled('div')`
   display: grid;
-  grid-gap: 24px;
+  grid-gap: 48px;
   grid-template-columns: repeat(2, 1fr);
   margin: 8px;
+  margin-bottom: 28px;
 `;
 
 export const ImageContainer = styled('img')`
   width: 100%;
-  height: 100px;
+  height: 250px;
   overflow: hidden;
+  margin-bottom: 10px;
 `;
 
 export const ProfileImageContainer = styled('img')`
@@ -56,6 +60,7 @@ export const ClapImageContainer = styled('img')`
 export const Title = styled('div')`
   font-size: ${fontSize.xsmall};
   line-height: 1;
+  margin-bottom: 10px;
 `;
 
 export const SubTitle = styled('div')`

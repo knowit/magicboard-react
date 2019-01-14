@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import styled from "react-emotion";
 import Carousel from 'nuka-carousel';
-import {onMount, onUnmount} from 'react-keydown/dist/event_handlers';
-import {setBinding} from 'react-keydown/dist/store';
-import {boards} from '../../App';
-import type {Action} from '../../actions';
-import {Cell} from '../index';
+import { onMount, onUnmount } from 'react-keydown/dist/event_handlers';
+import { setBinding } from 'react-keydown/dist/store';
+import { boards } from '../../App';
+import type { Action } from '../../actions';
+import { Cell } from '../index';
 import Clock from "../../modules/Clock";
 
 type Props = {
@@ -43,8 +43,8 @@ class Caroussel extends React.PureComponent<Props> {
                 margin={this.props.noMotionDetected ? '-5%' : '0'}>
 
                 <VerticalContainer>
-                    <Clock/>
-                    <Carousel slideIndex={this.props.slideIndex} style={{visibility: this.props.noMotionDetected ? 'hidden' : 'visible'}}>
+                    <Clock style={{ visibility: this.props.noMotionDetected ? 'hidden' : 'visible' }} />
+                    <Carousel slideIndex={this.props.slideIndex} style={{ visibility: this.props.noMotionDetected ? 'hidden' : 'visible' }}>
                         {boards()}
                     </Carousel>
                 </VerticalContainer>
@@ -62,12 +62,12 @@ setBinding({
 
 const ConnectedApp = connect(
     state => ({
-        slideIndex: state.rootReducer.slideIndex,
-        noMotionDetected: state.rootReducer.noMotionDetected,
+        slideIndex: state.root.slideIndex,
+        noMotionDetected: state.root.noMotionDetected,
     }),
     (dispatch: (action: Action) => void) => ({
-        nextSlide: () => dispatch({type: 'NEXT_BOARD'}),
-        previousSlide: () => dispatch({type: 'PREVIOUS_BOARD'}),
+        nextSlide: () => dispatch({ type: 'NEXT_BOARD' }),
+        previousSlide: () => dispatch({ type: 'PREVIOUS_BOARD' }),
     }),
 )(Caroussel);
 
@@ -85,7 +85,7 @@ const SleepCell = props => (
 
 const VerticalContainer = styled('div')`
     width: 100%;
-    height: 100%;
+    height: 100vh;
 `;
 
 export default ConnectedApp;

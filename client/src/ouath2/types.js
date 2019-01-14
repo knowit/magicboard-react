@@ -38,4 +38,5 @@ export type OAuthConfig = {
   redirectUri: string,
   authorizationUrl: string,
   scope: string,
+  clientSecret: string,
 };

@@ -46,7 +46,6 @@ class Blog extends React.Component<Props, State> {
         const content = JSON.parse(
           json[1].children[1].children[6].children[0].content.slice(31, -8),
         );
-        console.log(content);
 
         for (let i = 0; i < this.props.maxPosts; i += 1) {
           const post: Post = {
@@ -90,7 +89,7 @@ class Blog extends React.Component<Props, State> {
         postRows.push(
           <ColContainer key={i}>
             <ImageContainer
-              src={`https://cdn-images-1.medium.com/fit/t/320/160/${
+              src={`https://cdn-images-1.medium.com/fit/t/1600/800/${
                 this.state.posts[i].imageId
               }`}
               alt=""
@@ -123,7 +122,7 @@ class Blog extends React.Component<Props, State> {
     }
     return (
       <Cell row={this.props.row} column={this.props.column}>
-        <ColContainer>
+        <ColContainer main>
           <RowContainer>
             <Header>knowitlabs</Header>
           </RowContainer>

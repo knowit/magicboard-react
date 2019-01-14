@@ -17,6 +17,8 @@ const fontSize = {
 const fontColor = {
   primary: '#FFF',
   secondary: '#000',
+  tertiary: '#398a9b',
+
 };
 
 const margin = {

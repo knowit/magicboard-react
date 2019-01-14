@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styled from 'react-emotion';
 import { Cell } from '../../containers';
-import { fontSize } from '../../styles/theme';
+import { fontFamily, fontSize } from '../../styles/theme';
 
 type Props = {
-    row?: string,
-    column?: string,
+  row?: string,
+  column?: string,
+  style?: Object,
+  children?: any,
 };
 type State = {
   time: string,
@@ -46,9 +48,8 @@ class Clock extends Component<Props, State> {
   intervalId: *;
 
   render() {
-    const { row, column } = this.props;
     return (
-      <CenteredCell row={row} column={column}>
+      <CenteredCell {...this.props}>
         <Time>{this.state.time}</Time>
         <Date>{this.state.date}</Date>
       </CenteredCell>
@@ -56,27 +57,37 @@ class Clock extends Component<Props, State> {
   }
 }
 
-const Time = styled('div')`
-  margin-top: 8px;
+const Time = styled('p')`
+  height: fit-content;
+  margin-top: 116px;
   font-size: ${fontSize.h3};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
-const Date = styled('div')`
-  margin-top: 20px;
+const Date = styled('p')`
+  height: fit-content;
+  margin-top: -170px;
+  margin-bottom: 40px;
   font-size: ${fontSize.medium};
+  font-family: ${fontFamily.primary};
+  font-feature-settings: 'lnum' 1;
 `;
 
-const CenteredCell = props => (
+const CenteredCell = (props: Props) => (
   <Cell
-    {...props}
+    row={props.row || 'span 3'}
+    column={props.column || 'span 3'}
     style={{
+      ...props.style,
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
       flexDirection: 'column',
       backgroundColor: 'transparent',
-    }}
-  />
+    }}>
+    {props.children}
+  </Cell>
 );
 
 export default Clock;
