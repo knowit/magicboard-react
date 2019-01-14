@@ -192,13 +192,7 @@ class Youtube extends React.Component<Props, State> {
       for (let i = 0; i < this.props.maxVideos; i += 1) {
         videoRows.push(
           <VideoContainer key={i}>
-            <ImageContainer>
-              <img
-                src={this.state.videos[i].thumbnail}
-                alt=""
-                style={{ maxHeight: '200px' }}
-              />
-            </ImageContainer>
+            <ImageContainer src={this.state.videos[i].thumbnail} alt="" />
             <VideoInfoContainer>
               <VideoHeader>{this.state.videos[i].title}</VideoHeader>
               <InfoContainer>
