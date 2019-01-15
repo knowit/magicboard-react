@@ -76,12 +76,12 @@ export const VideoContainer = styled('div')`
   display: flex;
   flex-direction: row;
   margin: 12px;
+  margin-bottom: 24px;
   width: 100%;
 `;
 
 export const ImageContainer = styled('img')`
   margin-right: 4px;
-  max-height: 100px;
 `;
 
 export const VideoInfoContainer = styled('div')`
