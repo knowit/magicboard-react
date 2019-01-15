@@ -1,0 +1,40 @@
+
+service: message-handler
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-central-1
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "s3:ListBucket"
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::magicboard-messages/*"
+
+functions:
+  put:
+    handler: handler.put
+    events:
+      - http:
+          path: message
+          method: POST
+
+  get:
+    handler: handler.get
+    events:
+      - http:
+          path: message
+          method: GET
+
+
+resources:
+  Resources:
+    NewResource:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: magicboard-messages
+
