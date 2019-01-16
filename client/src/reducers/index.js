@@ -1,23 +1,38 @@
 // @flow
 
-import {combineReducers} from 'redux';
-import type {Action} from '../actions';
-import {boards} from '../App';
-
+import { combineReducers } from 'redux';
+import type { Action } from '../actions';
+import { boards } from '../App';
 import authReducer from './authReducer';
 
 const NUMBER_OF_BOARDS = boards().length - 1;
+
+const LOCATIONS: number[][] = [
+  [59.916986, 10.762479], // Sundt
+  [59.912771, 10.761277], // Grønland
+  [59.911803, 10.750602], // Jernbanetorget
+  [59.920667, 10.75928], // Schous plass
+  [59.914936, 10.775035], // Tøyen
+];
 
 type ReducerState = {
   noMotionDetected: boolean,
   slideIndex: number,
   googleAction: ?string,
+  boardProps: {
+    location: number[],
+    year: number,
+  },
 };
 
 const initialState = {
   noMotionDetected: false,
   slideIndex: NUMBER_OF_BOARDS === 0 ? NUMBER_OF_BOARDS : 1,
   googleAction: undefined,
+  boardProps: {
+    location: LOCATIONS[0],
+    year: new Date().getFullYear(),
+  },
 };
 
 const rootReducer = (state: ReducerState = initialState, action: Action) => {
@@ -56,12 +71,61 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
         slideIndex: 2,
       };
 
+    case 'NEXT_LOCATION': {
+      const locationIndex = LOCATIONS.indexOf(state.boardProps.location);
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          location:
+            locationIndex < LOCATIONS.length - 1
+              ? LOCATIONS[locationIndex + 1]
+              : LOCATIONS[0],
+        },
+      };
+    }
+
+    case 'LOCATION_SUNDT':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          location: LOCATIONS[0],
+        },
+      };
+
+    case 'LOCATION_GRONLAND':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          location: LOCATIONS[1],
+        },
+      };
+
+    case 'LOCATION_JERNBANETORGET':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          location: LOCATIONS[2],
+        },
+      };
+
+    case 'SET_YEAR':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          year: action.payload,
+        },
+      };
+
     case 'MOTION_DETECTED':
       return {
         ...state,
         noMotionDetected: false,
       };
-
 
     case 'NO_MOTION_DETECTED':
       return {
@@ -76,5 +140,5 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
 
 export default combineReducers({
   root: rootReducer,
-  auth: authReducer
+  auth: authReducer,
 });

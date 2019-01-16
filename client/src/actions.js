@@ -15,6 +15,11 @@ export type Action =
   | { type: 'GENERAL_INFO_BOARD' }
   | { type: 'BUILDING_INFO_BOARD' }
   | { type: 'SALES_INFO_BOARD' }
+  | { type: 'LOCATION_SUNDT' }
+  | { type: 'LOCATION_GRONLAND' }
+  | { type: 'LOCATION_JERNBANETORGET' }
+  | { type: 'NEXT_LOCATION' }
+  | { type: 'SET_YEAR', payload: number }
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number }
 
   // Auth actions
@@ -42,7 +47,7 @@ export const getAuthentication = () => (dispatch: Dispatch) => {
       setInterval(() => {
         getNewAuthToken({ ...config }, tokens.refresh_token).then(token => {
           dispatch(setTokens(token.access_token, tokens.refresh_token));
-          console.log(token.access_token);
+          // console.log(token.access_token);
         });
       }, 1800 * POLL_INTERVAL);
     })
