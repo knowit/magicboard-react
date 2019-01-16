@@ -13,7 +13,7 @@ export const ColContainer = styled('div')`
 export const Grid = styled('div')`
   display: grid;
   grid-gap: 36px 10px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 3fr 1fr;
   grid-auto-rows: 1fr;
   padding: 36px;
   max-width: 100%;
