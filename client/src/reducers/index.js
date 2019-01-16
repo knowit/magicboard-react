@@ -22,6 +22,7 @@ type ReducerState = {
   boardProps: {
     location: number[],
     year: number,
+    sortBy: string,
   },
 };
 
@@ -32,6 +33,7 @@ const initialState = {
   boardProps: {
     location: LOCATIONS[0],
     year: new Date().getFullYear(),
+    sortBy: 'latest',
   },
 };
 
@@ -71,6 +73,18 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
         slideIndex: 2,
       };
 
+    case 'UBW_INFO_BOARD':
+      return {
+        ...state,
+        slideIndex: 3,
+      };
+
+    case 'MEDIA_CONTENT_BOARD':
+      return {
+        ...state,
+        slideIndex: 4,
+      };
+
     case 'NEXT_LOCATION': {
       const locationIndex = LOCATIONS.indexOf(state.boardProps.location);
       return {
@@ -85,39 +99,21 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
       };
     }
 
-    case 'LOCATION_SUNDT':
-      return {
-        ...state,
-        boardProps: {
-          ...state.boardProps,
-          location: LOCATIONS[0],
-        },
-      };
-
-    case 'LOCATION_GRONLAND':
-      return {
-        ...state,
-        boardProps: {
-          ...state.boardProps,
-          location: LOCATIONS[1],
-        },
-      };
-
-    case 'LOCATION_JERNBANETORGET':
-      return {
-        ...state,
-        boardProps: {
-          ...state.boardProps,
-          location: LOCATIONS[2],
-        },
-      };
-
     case 'SET_YEAR':
       return {
         ...state,
         boardProps: {
           ...state.boardProps,
           year: action.payload,
+        },
+      };
+
+    case 'SET_BLOG_SORT':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          sortBy: action.payload,
         },
       };
 

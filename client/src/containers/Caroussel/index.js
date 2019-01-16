@@ -20,10 +20,11 @@ type Props = {
   boardProps: {
     location: number[],
     year: number,
+    sortBy: string,
   },
 };
 
-const REQUEST_INTERVAL = 1000 * 5;
+const REQUEST_INTERVAL = 1000 * 500;
 
 class Caroussel extends React.PureComponent<Props> {
   componentDidMount() {
@@ -56,6 +57,7 @@ class Caroussel extends React.PureComponent<Props> {
           if ('command' in awsData) {
             this.props.executeCommand(awsData.command, awsData.payload);
 
+            //Clears command to avoid repetition
             fetch(config.proxyUrl + config.baseUrl, {
               method: 'POST',
               body: JSON.stringify({}),

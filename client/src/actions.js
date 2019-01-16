@@ -15,9 +15,6 @@ export type Action =
   | { type: 'GENERAL_INFO_BOARD' }
   | { type: 'BUILDING_INFO_BOARD' }
   | { type: 'SALES_INFO_BOARD' }
-  | { type: 'LOCATION_SUNDT' }
-  | { type: 'LOCATION_GRONLAND' }
-  | { type: 'LOCATION_JERNBANETORGET' }
   | { type: 'NEXT_LOCATION' }
   | { type: 'SET_YEAR', payload: number }
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number }
