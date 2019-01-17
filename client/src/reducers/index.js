@@ -57,13 +57,13 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
           state.slideIndex > 0 ? state.slideIndex - 1 : state.slideIndex,
       };
 
-    case 'GENERAL_INFO_BOARD':
+    case 'BUILDING_INFO_BOARD':
       return {
         ...state,
         slideIndex: 0,
       };
 
-    case 'BUILDING_INFO_BOARD':
+    case 'GENERAL_INFO_BOARD':
       return {
         ...state,
         slideIndex: 1,
