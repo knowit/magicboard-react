@@ -6,7 +6,6 @@ export const ColContainer = styled('div')`
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   width: 100%;
   padding: 36px;

@@ -34,6 +34,12 @@ class Blog extends React.Component<Props, State> {
     this.intervalId = setInterval(this.tick, 1000 * 60 * 60);
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.sortBy !== this.props.sortBy) {
+      this.tick();
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
