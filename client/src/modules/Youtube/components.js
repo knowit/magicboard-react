@@ -17,7 +17,8 @@ export const RowContainer = styled('div')`
   justify-content: center;
   align-items: center;
   align-self: center;
-  margin-top: 36px;
+  margin-top: 42px;
+  margin-bottom: 42px;
 `;
 
 export const IconContainer = styled('img')`
@@ -30,12 +31,14 @@ export const Header = styled('div')`
   width: 100%;
   border-bottom: ${props =>
     props.small ? `1px solid ${fontColor.primary}` : ''};
+  margin-top: ${props => (props.small ? '42px' : '')};
 `;
 
 export const SubHeader = styled('div')`
   font-size: ${fontSize.xsmall};
   width: 100%;
   text-align: center;
+  margin-bottom: 42px;
 `;
 
 export const VideoHeader = styled('div')`
