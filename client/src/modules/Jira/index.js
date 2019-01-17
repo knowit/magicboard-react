@@ -30,7 +30,7 @@ class Jira extends React.Component<Props, State> {
     this.rotateInterval = setInterval(this.rotateTick, ROTATE_INTERVAL);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.year !== this.props.year) {
       this.dataTick();
     }

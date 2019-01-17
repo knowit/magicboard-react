@@ -15,8 +15,11 @@ export type Action =
   | { type: 'GENERAL_INFO_BOARD' }
   | { type: 'BUILDING_INFO_BOARD' }
   | { type: 'SALES_INFO_BOARD' }
+  | { type: 'UBW_INFO_BOARD' }
+  | { type: 'MEDIA_CONTENT_BOARD' }
   | { type: 'NEXT_LOCATION' }
   | { type: 'SET_YEAR', payload: number }
+  | { type: 'SET_BLOG_SORT', payload: string }
   | { type: 'FILTER_VIDEOS', payload: string }
   | { type: 'SHOW_ALL_VIDEOS' }
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number }

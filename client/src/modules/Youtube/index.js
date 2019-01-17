@@ -70,7 +70,7 @@ class Youtube extends React.Component<Props, State> {
     this.intervalId = setInterval(this.tick, 1000 * 60 * 60);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.videoFilter !== this.props.videoFilter) {
       this.tick();
     }

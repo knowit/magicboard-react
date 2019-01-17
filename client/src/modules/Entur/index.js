@@ -51,7 +51,7 @@ class Entur extends React.Component<Props, State> {
     this.intervalId = setInterval(this.tick, 1000 * 60);
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps: Props) {
     if (prevProps.location[0] !== this.props.location[0]) {
       this.bbox = generateBBox(this.props);
       this.tick();
