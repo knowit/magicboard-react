@@ -12,6 +12,7 @@ export type Props = {
   channelId: string,
   maxVideos: number,
   minLength: number,
+  videoFilter?: string,
 };
 
 export type State = {
@@ -19,4 +20,5 @@ export type State = {
   totalViews: number,
   totalLikes: number,
   videos: Video[],
+  numVideos: number,
 };

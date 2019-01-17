@@ -23,6 +23,7 @@ type ReducerState = {
     location: number[],
     year: number,
     sortBy: string,
+    videoFilter: string,
   },
 };
 
@@ -34,6 +35,7 @@ const initialState = {
     location: LOCATIONS[0],
     year: new Date().getFullYear(),
     sortBy: 'latest',
+    videoFilter: '',
   },
 };
 
@@ -114,6 +116,24 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
         boardProps: {
           ...state.boardProps,
           sortBy: action.payload,
+        },
+      };
+
+    case 'FILTER_VIDEOS':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          videoFilter: action.payload,
+        },
+      };
+
+    case 'SHOW_ALL_VIDEOS':
+      return {
+        ...state,
+        boardProps: {
+          ...state.boardProps,
+          videoFilter: '',
         },
       };
 

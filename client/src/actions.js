@@ -17,6 +17,8 @@ export type Action =
   | { type: 'SALES_INFO_BOARD' }
   | { type: 'NEXT_LOCATION' }
   | { type: 'SET_YEAR', payload: number }
+  | { type: 'FILTER_VIDEOS', payload: string }
+  | { type: 'SHOW_ALL_VIDEOS' }
   | { type: 'UNKNOWN_BUTTON_PAYLOAD', payload: number }
 
   // Auth actions

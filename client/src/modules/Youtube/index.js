@@ -25,12 +25,17 @@ import youtubeIcon from '../../styles/images/yt_icon_rgb.png';
 declare var gapi: any;
 
 class Youtube extends React.Component<Props, State> {
+  static defaultProps = {
+    videoFilter: '',
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = {
       totalViews: 0,
       totalLikes: 0,
       videos: [],
+      numVideos: 0,
     };
   }
 
@@ -65,6 +70,12 @@ class Youtube extends React.Component<Props, State> {
     this.intervalId = setInterval(this.tick, 1000 * 60 * 60);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.videoFilter !== this.props.videoFilter) {
+      this.tick();
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
@@ -92,17 +103,19 @@ class Youtube extends React.Component<Props, State> {
                 id: response.result.items[i].contentDetails.videoId,
               })
               .then(videoResponse => {
+                // Video is not private
                 if (videoResponse.result.items[0]) {
-                  // Video is not private
+                  // Video has a min duration && title contains filter string
                   if (
                     moment
                       .duration(
                         videoResponse.result.items[0].contentDetails.duration,
                       )
-                      .asMinutes() > this.props.minLength
+                      .asMinutes() > this.props.minLength &&
+                    videoResponse.result.items[0].snippet.title
+                      .toLowerCase()
+                      .includes(this.props.videoFilter.toLowerCase())
                   ) {
-                    // Video has a min duration
-
                     const video: Video = {
                       title: videoResponse.result.items[0].snippet.title,
                       thumbnail:
@@ -126,12 +139,12 @@ class Youtube extends React.Component<Props, State> {
                         .format('HH:mm:ss'),
                     };
 
+                    // Skips duplicates
                     if (
                       !this.state.videos
                         .map(x => this.videosEqual(x, video))
                         .includes(true)
                     ) {
-                      // Skips duplicates
                       this.setState(prevState => ({
                         totalViews:
                           parseInt(prevState.totalViews, 10) +
@@ -151,6 +164,10 @@ class Youtube extends React.Component<Props, State> {
             this.pollPage(gapiClient, response.result.nextPageToken);
           } else {
             this.setState(prevState => ({
+              numVideos: Math.min(
+                prevState.videos.length,
+                this.props.maxVideos,
+              ),
               // Sorts videos by views
               videos: prevState.videos
                 .sort((a, b) => b.views - a.views)
@@ -188,8 +205,10 @@ class Youtube extends React.Component<Props, State> {
 
   render() {
     const videoRows = [];
-    if (this.state.videos[this.props.maxVideos - 1]) {
-      for (let i = 0; i < this.props.maxVideos; i += 1) {
+    console.log(this.state.numVideos);
+    console.log(this.state.videos.length);
+    if (this.state.videos[this.state.numVideos - 1]) {
+      for (let i = 0; i < this.state.numVideos; i += 1) {
         videoRows.push(
           <VideoContainer key={i}>
             <ImageContainer src={this.state.videos[i].thumbnail} alt="" />
@@ -208,6 +227,13 @@ class Youtube extends React.Component<Props, State> {
         );
       }
     } else {
+      if (this.state.numVideos === 0) {
+        return (
+          <Cell row={this.props.row} column={this.props.column}>
+            <div>{`No videos fit search term: ${this.props.videoFilter}`}</div>
+          </Cell>
+        );
+      }
       return (
         <Cell row={this.props.row} column={this.props.column}>
           <div>Loading...</div>
@@ -227,7 +253,7 @@ class Youtube extends React.Component<Props, State> {
             <ViewContainer>{`${this.state.totalViews} views`}</ViewContainer>
             <LikeContainer>{`${this.state.totalLikes} likes`}</LikeContainer>
           </InfoContainer>
-          <Header small>Top videos</Header>
+          <Header small>{`Top ${this.props.videoFilter} videos`}</Header>
           <VideoList>{videoRows}</VideoList>
         </ColContainer>
       </Cell>
