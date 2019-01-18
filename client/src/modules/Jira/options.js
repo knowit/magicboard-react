@@ -1,4 +1,5 @@
 export const options = {
+  responsive: true,
   maintainAspectRatio: false,
   scales: {
     xAxes: [
@@ -16,6 +17,7 @@ export const options = {
         ticks: {
           fontSize: 20,
           fontColor: 'white',
+          beginAtZero: true,
         },
       },
     ],
@@ -25,6 +27,24 @@ export const options = {
       // This more specific font property overrides the global property
       fontColor: 'white',
       fontSize: 18,
+    },
+  },
+  layout: {
+    padding: {
+      left: 10,
+      right: 90,
+      top: 0,
+      bottom: 15,
+    },
+  },
+  elements: {
+    line: {
+      tension: 0.3, // bezier curves
+    },
+  },
+  plugins: {
+    datalabels: {
+      display: false,
     },
   },
 };
