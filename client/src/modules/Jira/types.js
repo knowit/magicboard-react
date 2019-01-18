@@ -1,6 +1,5 @@
 export const Mode = Object.freeze({
-  MONTH: Symbol('month'),
-  WEEK: Symbol('week'),
+  TIME: Symbol('time'),
   STATUS: Symbol('status'),
 });
 export type Issue = {
@@ -31,12 +30,11 @@ export type Props = {
   row?: string,
   column?: string,
   projectKey: string,
-  year: number,
-  modeArray: Mode[],
+  numMonths: number,
+  mode: Mode,
   auth: string,
 };
 
 export type State = {
   data: ?(Object[][]),
-  modeIndex: number,
 };

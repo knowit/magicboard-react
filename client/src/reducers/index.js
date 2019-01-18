@@ -21,7 +21,7 @@ type ReducerState = {
   googleAction: ?string,
   boardProps: {
     location: number[],
-    year: number,
+    numMonths: number,
     sortBy: string,
     videoFilter: string,
   },
@@ -33,7 +33,7 @@ const initialState = {
   googleAction: undefined,
   boardProps: {
     location: LOCATIONS[0],
-    year: new Date().getFullYear(),
+    numMonths: 6,
     sortBy: 'latest',
     videoFilter: '',
   },
@@ -57,13 +57,13 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
           state.slideIndex > 0 ? state.slideIndex - 1 : state.slideIndex,
       };
 
-    case 'GENERAL_INFO_BOARD':
+    case 'BUILDING_INFO_BOARD':
       return {
         ...state,
         slideIndex: 0,
       };
 
-    case 'BUILDING_INFO_BOARD':
+    case 'GENERAL_INFO_BOARD':
       return {
         ...state,
         slideIndex: 1,
@@ -81,7 +81,7 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
         slideIndex: 3,
       };
 
-    case 'MEDIA_CONTENT_BOARD':
+    case 'MEDIA_INFO_BOARD':
       return {
         ...state,
         slideIndex: 4,
@@ -101,12 +101,12 @@ const rootReducer = (state: ReducerState = initialState, action: Action) => {
       };
     }
 
-    case 'SET_YEAR':
+    case 'SET_NUMBER_MONTHS':
       return {
         ...state,
         boardProps: {
           ...state.boardProps,
-          year: action.payload,
+          numMonths: action.payload,
         },
       };
 

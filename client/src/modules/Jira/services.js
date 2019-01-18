@@ -5,29 +5,14 @@ import { Mode } from './types';
 import type { Issue } from './types';
 import config from './config';
 
-const MONTHS = [
-  'Januar',
-  'Februar',
-  'Mars',
-  'April',
-  'Mai',
-  'Juni',
-  'Juli',
-  'August',
-  'September',
-  'Oktober',
-  'November',
-  'Desember',
-];
-
 // Excludes statuses "Rejected" and "Done" from the issues and issues from other years
-const filterIssues = (issues: Issue[], year: number) => {
+const filterIssues = (issues: Issue[], numMonths: number) => {
   const filteredIssues: Issue[] = [];
   for (let i = 0; i < issues.length; i += 1) {
-    const date = new Date(issues[i].fields.created);
+    const date = moment(issues[i].fields.created);
     if (
       !['Rejected', 'Done'].includes(issues[i].fields.status.name) &&
-      date.getFullYear() === year
+      date.isAfter(moment().subtract(numMonths, 'months'))
     ) {
       filteredIssues.push(issues[i]);
     }
@@ -51,35 +36,29 @@ const fetchJiraIssues = (projectKey: string, year: number, auth: string) => {
     .then(data => filterIssues(data.issues, year));
 };
 
-const generateMonthData = (issues: Issue[], year: number) => {
-  const issuesPerMonth: number[] = new Array(12).fill(0);
+const generateTimeData = (issues: Issue[], numMonths: number) => {
+  const startDate = moment(issues[issues.length - 1].fields.created);
+  const endDate = moment(issues[0].fields.created);
 
-  for (let i = 0; i < issues.length; i += 1) {
-    const date = new Date(issues[i].fields.created);
-    issuesPerMonth[date.getMonth()] += 1;
+  const xLabels: string[] = [startDate.format('W')];
+  const issuesPerTime = new Array(endDate.diff(startDate, 'weeks') + 1).fill(0);
+
+  while (startDate.add(1, 'weeks').diff(endDate) < 0) {
+    xLabels.push(startDate.format('W'));
   }
 
-  const monthObj = { ...dataObject };
-  monthObj.label = `Antall anbud i ${year}`;
-  monthObj.data = issuesPerMonth;
-  return monthObj;
-};
-
-const generateWeekData = (issues: Issue[], year: number) => {
-  const issuesPerWeek: number[] = new Array(53).fill(0);
-
   for (let i = 0; i < issues.length; i += 1) {
-    const momentDate = moment(issues[i].fields.created); // moment has to be used to get week number
-    issuesPerWeek[momentDate.week() - 1] += 1;
+    const date = moment(issues[i].fields.created);
+    issuesPerTime[xLabels.indexOf(date.format('W'))] += 1;
   }
 
-  const weekObj = { ...dataObject };
-  weekObj.label = `Antall anbud i ${year}`;
-  weekObj.data = issuesPerWeek;
-  return weekObj;
+  const timeObject = { ...dataObject };
+  timeObject.label = `Antall anbud per uke siste ${numMonths} måneder`;
+  timeObject.data = issuesPerTime;
+  return { xLabels, timeObject };
 };
 
-const generateStatusData = (issues: Issue[], year: number) => {
+const generateStatusData = (issues: Issue[], numMonths: number) => {
   const issuesPerStatus: number[] = [];
   const xLabels: string[] = [];
   for (let i = 0; i < issues.length; i += 1) {
@@ -90,32 +69,30 @@ const generateStatusData = (issues: Issue[], year: number) => {
     issuesPerStatus[xLabels.indexOf(issues[i].fields.status.name)] += 1;
   }
 
-  const statusObj = { ...dataObject };
-  statusObj.label = `Status på anbud i ${year}`;
-  statusObj.data = issuesPerStatus;
-  return { statusObj, xLabels };
+  const statusObject = { ...dataObject };
+  statusObject.label = `Status på anbud siste ${numMonths} måneder`;
+  statusObject.data = issuesPerStatus;
+  return { xLabels, statusObject };
 };
 
 export const generateChartData = (
   projectKey: string,
-  year: number,
+  numMonths: number,
   auth: string,
 ) => {
   const data = {};
 
-  return fetchJiraIssues(projectKey, year, auth).then(issues => {
-    data[Mode.MONTH] = {
-      labels: MONTHS,
-      datasets: [generateMonthData(issues, year)],
+  return fetchJiraIssues(projectKey, numMonths, auth).then(issues => {
+    const timeData = generateTimeData(issues, numMonths);
+    data[Mode.TIME] = {
+      labels: timeData.xLabels,
+      datasets: [timeData.timeObject],
     };
-    data[Mode.WEEK] = {
-      labels: [...Array(54).keys()].slice(1).map(String), // [1...53], week numbers
-      datasets: [generateWeekData(issues, year)],
-    };
-    const statusData = generateStatusData(issues, year);
+
+    const statusData = generateStatusData(issues, numMonths);
     data[Mode.STATUS] = {
       labels: statusData.xLabels,
-      datasets: [statusData.statusObj],
+      datasets: [statusData.statusObject],
     };
 
     return data;
