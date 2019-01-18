@@ -112,9 +112,10 @@ class Youtube extends React.Component<Props, State> {
                         videoResponse.result.items[0].contentDetails.duration,
                       )
                       .asMinutes() > this.props.minLength &&
-                    videoResponse.result.items[0].snippet.title
+                    (videoResponse.result.items[0].snippet.title
                       .toLowerCase()
-                      .includes(this.props.videoFilter.toLowerCase())
+                      .includes(this.props.videoFilter) ||
+                      this.props.videoFilter === 'all')
                   ) {
                     const video: Video = {
                       title: videoResponse.result.items[0].snippet.title,
@@ -205,8 +206,6 @@ class Youtube extends React.Component<Props, State> {
 
   render() {
     const videoRows = [];
-    console.log(this.state.numVideos);
-    console.log(this.state.videos.length);
     if (this.state.videos[this.state.numVideos - 1]) {
       for (let i = 0; i < this.state.numVideos; i += 1) {
         videoRows.push(
