@@ -36,7 +36,6 @@ class Jira extends React.Component<Props, State> {
 
   componentWillUnmount() {
     clearInterval(this.dataInterval);
-    clearInterval(this.rotateInterval);
   }
 
   dataTick = () => {
