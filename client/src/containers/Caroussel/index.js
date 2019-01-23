@@ -24,7 +24,7 @@ type Props = {
   },
 };
 
-const REQUEST_INTERVAL = 1000 * 5;
+const REQUEST_INTERVAL = 1000 * 1;
 
 class Caroussel extends React.PureComponent<Props> {
   componentDidMount() {
