@@ -114,7 +114,7 @@ class Youtube extends React.Component<Props, State> {
                       .asMinutes() > this.props.minLength &&
                     (videoResponse.result.items[0].snippet.title
                       .toLowerCase()
-                      .includes(this.props.videoFilter) ||
+                      .includes(this.props.videoFilter.toLowerCase()) ||
                       this.props.videoFilter === 'all')
                   ) {
                     const video: Video = {
