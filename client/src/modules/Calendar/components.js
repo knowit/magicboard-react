@@ -5,7 +5,6 @@ import { fontSize } from '../../styles/theme';
 export const ColContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   width: 100%;
 `;
@@ -46,6 +45,7 @@ export const Header = styled('div')`
   justify-content: center;
   align-items: center;
   margin-top: 42px;
+  margin-bottom: 42px;
 `;
 
 export const Button = styled('div')`
