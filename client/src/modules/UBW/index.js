@@ -20,7 +20,7 @@ type State = {
   data: ?Object,
 };
 
-const INTERVAL = 60 * 60 * 24;
+const INTERVAL = 1000 * 60 * 60 * 24;
 
 class UBW extends React.Component<Props, State> {
   constructor(props: Props) {
