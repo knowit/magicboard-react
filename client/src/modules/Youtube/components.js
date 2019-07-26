@@ -84,6 +84,7 @@ export const VideoContainer = styled('div')`
 
 export const ImageContainer = styled('img')`
   margin-right: 4px;
+  height: 190px;
 `;
 
 export const VideoInfoContainer = styled('div')`
